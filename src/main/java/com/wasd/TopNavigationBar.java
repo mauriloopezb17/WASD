@@ -20,52 +20,51 @@ public class TopNavigationBar extends JPanel {
         // Button group on the right (EAST)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.setOpaque(false); // match topBar
+        {
+            WindowButton minimizeButton = new WindowButton("/images/minimize.png");
+            minimizeButton.addActionListener(e -> targetFrame.setState(JFrame.ICONIFIED));
+            buttonPanel.add(minimizeButton);
 
-        WindowButton minimizeButton = new WindowButton("/images/minimize.png");
-        minimizeButton.addActionListener(e -> targetFrame.setState(JFrame.ICONIFIED));
-        buttonPanel.add(minimizeButton);
+            WindowButton resizeButton = new WindowButton("/images/maximize.png");
+            final boolean[] isMaximized = {false};
+            final Dimension defaultSize = new Dimension(1280, 720);
 
-        WindowButton resizeButton = new WindowButton("/images/maximize.png");
-        final boolean[] isMaximized = {false};
-        final Dimension defaultSize = new Dimension(1280, 720);
+            resizeButton.addActionListener(e -> {
+                GraphicsConfiguration config = targetFrame.getGraphicsConfiguration();
+                Rectangle screenBounds = config.getBounds();
+                Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
+                System.out.println("TopNavBar size: " + this.getSize());
+                System.out.println("ContentPane size: " + targetFrame.getContentPane().getSize());
 
-        resizeButton.addActionListener(e -> {
-            GraphicsConfiguration config = targetFrame.getGraphicsConfiguration();
-            Rectangle screenBounds = config.getBounds();
-            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
-            System.out.println("TopNavBar size: " + this.getSize());
-            System.out.println("ContentPane size: " + targetFrame.getContentPane().getSize());
+                if (isMaximized[0]) {
+                    // Restore
+                    targetFrame.setSize(defaultSize);
+                    targetFrame.setLocationRelativeTo(null);
+                    isMaximized[0] = false;
 
-            if (isMaximized[0]) {
-                // Restore
-                targetFrame.setSize(defaultSize);
-                targetFrame.setLocationRelativeTo(null);
-                isMaximized[0] = false;
+                    System.out.println("Restored to normal size.");
+                } else {
+                    // Maximize manually
+                    int x = screenBounds.x + insets.left;
+                    int y = screenBounds.y + insets.top;
+                    int width = screenBounds.width - insets.left - insets.right;
+                    int height = screenBounds.height - insets.top - insets.bottom;
 
-                System.out.println("Restored to normal size.");
-            } else {
-                // Maximize manually
-                int x = screenBounds.x + insets.left;
-                int y = screenBounds.y + insets.top;
-                int width = screenBounds.width - insets.left - insets.right;
-                int height = screenBounds.height - insets.top - insets.bottom;
+                    targetFrame.setBounds(x, y, width, height);
+                    isMaximized[0] = true;
 
-                targetFrame.setBounds(x, y, width, height);
-                isMaximized[0] = true;
+                    System.out.printf("Maximized to: %d x %d at (%d, %d)%n", width, height, x, y);
+                }
 
-                System.out.printf("Maximized to: %d x %d at (%d, %d)%n", width, height, x, y);
-            }
+                targetFrame.revalidate();
+                targetFrame.repaint();
+            });
+            buttonPanel.add(resizeButton);
 
-            targetFrame.revalidate();
-            targetFrame.repaint();
-        });
-
-        buttonPanel.add(resizeButton);
-
-        WindowButton closeButton = new WindowButton("/images/close.png");
-        closeButton.addActionListener(e -> targetFrame.dispatchEvent(new WindowEvent(targetFrame, WindowEvent.WINDOW_CLOSING)));
-        buttonPanel.add(closeButton);
-
+            WindowButton closeButton = new WindowButton("/images/close.png");
+            closeButton.addActionListener(e -> targetFrame.dispatchEvent(new WindowEvent(targetFrame, WindowEvent.WINDOW_CLOSING)));
+            buttonPanel.add(closeButton);
+        }
         topBar.add(buttonPanel, BorderLayout.EAST);
 
         // Cyan line under the top bar
