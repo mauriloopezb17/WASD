@@ -1,3 +1,27 @@
-# Ignora esta carpeta Ale
+# Los archivos y carpetas que serán ignoradas al momento de hacer commit en Git
 
+# Archivos comilados
 *.class
+*.jar
+*.war
+*.ear
+
+# Carpetas de salida de Maven
+/target/
+
+# Configuraciones de VSCode personales que las subo para que los ayuden
+!.vscode/
+!.vscode/launch.json        
+!.vscode/settings.json
+
+# Archivos de logs
+*.log
+
+# Archivos temporales de IDE como el de IntelliJ IDEA o Eclipse
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# Archivos de pruebas o caché
+/test-output/
