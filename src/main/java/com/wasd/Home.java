@@ -18,11 +18,26 @@ public class Home extends JFrame implements ActionListener, StyleConfig {
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
         
         TopNavigationBar topBar = new TopNavigationBar(this);
+        topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 53));
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                applyWindowShape();
+            }
+        });
 
         this.add(topBar, BorderLayout.NORTH);
 
         this.setVisible(true);
+        applyWindowShape();
     }
+
+    private void applyWindowShape() {
+    this.setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 10, 10));
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
