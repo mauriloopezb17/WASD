@@ -63,9 +63,15 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.add(spacerLabel, BorderLayout.WEST);
 
         {//Panel central
-            JPanel centralPanel = new JPanel();
+            PanelRound centralPanel = new PanelRound();
+            int rad = 15;
+            centralPanel.setRoundTopLeft(rad);
+            centralPanel.setRoundTopRight(rad);
+            centralPanel.setRoundBottomRight(rad);
+            centralPanel.setRoundBottomLeft(rad);
             centralPanel.setBackground(PANEL_COLOR);
             centralPanel.setLayout(new BorderLayout(10, 10));
+            centralPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
             {
                 JLabel recommendedLabel = new JLabel("    Recommended Games");
                 recommendedLabel.setFont(TITLE_FONT);

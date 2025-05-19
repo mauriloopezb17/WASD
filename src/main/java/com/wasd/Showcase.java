@@ -45,10 +45,17 @@ public class Showcase extends JPanel implements StyleConfig {
                 previews.add(AssetLoader.loadIcon(game.getPictures().get(0), 160, 90));
             }
 
-            JPanel gameCard = new JPanel();
+            PanelRound gameCard = new PanelRound();
+            int rad = 6;
+            gameCard.setRoundTopLeft(rad);
+            gameCard.setRoundTopRight(rad);
+            gameCard.setRoundBottomRight(rad);
+            gameCard.setRoundBottomLeft(rad);
+            gameCard.setBorderColor(PANEL_COLOR);
+            gameCard.setBorderStroke(2);
             gameCard.setOpaque(false);
             gameCard.setLayout(new BoxLayout(gameCard, BoxLayout.Y_AXIS));
-            gameCard.setPreferredSize(new Dimension(640, 405));
+            gameCard.setPreferredSize(new Dimension(640, 415));
             gameCard.setBackground(TOP_BAR_COLOR);
             gameCard.setCursor(new Cursor(Cursor.HAND_CURSOR));
             //gameCard.setBorder(new RoundedBorder(20));
@@ -61,6 +68,7 @@ public class Showcase extends JPanel implements StyleConfig {
                 infoRow.setBackground(TOP_BAR_COLOR);
                 infoRow.setMaximumSize(new Dimension(640, 50)); // fix the row height
                 infoRow.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // padding
+                infoRow.setAlignmentY(Component.CENTER_ALIGNMENT);
 
                 nameLabel = new JLabel(games.get(0).getNameGame());
                 nameLabel.setFont(SUBTITLE_FONT);
@@ -70,21 +78,33 @@ public class Showcase extends JPanel implements StyleConfig {
                 priceContainer.setLayout(new FlowLayout(FlowLayout.RIGHT));;
                 priceContainer.setPreferredSize(new Dimension(230, 60));
                 {
-                    priceLabel = new JLabel("$" + games.get(0).getPrice());
+                    priceLabel = new JLabel("$" + games.get(0).getPrice() + "  ");
                     priceLabel.setFont(SUBTITLE_FONT);
                     priceLabel.setForeground(TEXT_COLOR);
                     priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                     priceContainer.add(priceLabel);
 
+                    PanelRound discountContainer = new PanelRound();
+                    int disRad = 6;
+                    discountContainer.setRoundTopLeft(disRad);
+                    discountContainer.setRoundTopRight(disRad);
+                    discountContainer.setRoundBottomRight(disRad);
+                    discountContainer.setRoundBottomLeft(disRad);
+                    discountContainer.setBorderColor(DISCOUNT_COLOR);
+                    discountContainer.setBorderStroke(2);
+                    discountContainer.setBackground(TOP_BAR_COLOR);
+                    discountContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    discountContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
+                    discountContainer.setPreferredSize(new Dimension(70, 35));
+                    discountContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
+
                     discountLabel = new JLabel();
                     discountLabel.setFont(SUBTITLE2_FONT);
                     discountLabel.setForeground(DISCOUNT_COLOR);
-                    discountLabel.setPreferredSize(new Dimension(70, 30));
                     discountLabel.setHorizontalAlignment(SwingConstants.CENTER);
                     discountLabel.setText("-" + games.get(0).getDiscount() + "%");
-                    Border greenRoundedBorder = new LineBorder(DISCOUNT_COLOR, 2, true);
-                    discountLabel.setBorder(greenRoundedBorder);
-                    priceContainer.add(discountLabel);
+                    discountContainer.add(discountLabel);
+                    priceContainer.add(discountContainer);
                 }
 
                 // Add name and price to info row

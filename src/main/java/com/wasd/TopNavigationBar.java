@@ -104,12 +104,28 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         centerPanel.setBackground(TOP_BAR_COLOR);
         centerPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         {
-            JPanel profileButton = new JPanel();
+            JButton bellButton = new JButton();
+            bellButton.setPreferredSize(new Dimension(40, 30));
+            bellButton.setIcon(AssetLoader.loadIcon("/images/bell.png", 30, 30));
+            bellButton.setBorder(null);
+            bellButton.setFocusable(false);
+            bellButton.setOpaque(false);
+            bellButton.setBackground(TOP_BAR_COLOR);
+            bellButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            bellButton.addActionListener(e -> System.out.println("Bell"));
+            centerPanel.add(bellButton);
+
+            PanelRound profileButton = new PanelRound();
+            int rad = 18;
+            profileButton.setRoundTopLeft(rad);
+            profileButton.setRoundTopRight(rad);
+            profileButton.setRoundBottomRight(rad);
+            profileButton.setRoundBottomLeft(rad);
+            profileButton.setBorderColor(DETAILS_COLOR);
+            profileButton.setBorderStroke(2);
             profileButton.setBackground(TOP_BAR_COLOR);
-            profileButton.setPreferredSize(new Dimension(150, 40));
+            profileButton.setPreferredSize(new Dimension(150, 36));
             profileButton.setLayout(new BorderLayout(10, 10));
-            Border roundedBorder = new LineBorder(DETAILS_COLOR, 1, true);
-            profileButton.setBorder(roundedBorder);
             profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             {
                 JLabel profileLabel = new JLabel();
@@ -127,6 +143,12 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 profileIcon.setHorizontalAlignment(SwingConstants.RIGHT);
                 //profileIcon.setBorder(new RoundedBorder(10));
                 profileButton.add(profileIcon, BorderLayout.WEST);
+
+                JLabel statusDot = new JLabel();
+                statusDot.setPreferredSize(new Dimension(18,15));
+                statusDot.setIcon(AssetLoader.loadCircularIcon("/images/online_dot.png", 15));
+                statusDot.setOpaque(false);
+                profileButton.add(statusDot, BorderLayout.EAST);
             }
             centerPanel.add(profileButton);
         }

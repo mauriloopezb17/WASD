@@ -9,6 +9,8 @@ public interface StyleConfig {
     Color DETAILS_COLOR = new Color(0x44ffd2);
     Color PANEL_COLOR = new Color(0x101010);
     Color DISCOUNT_COLOR = new Color(0x00ff55);
+    Color ONLINE_COLOR = new Color(0x00ff55);
+    Color OFFLINE_COLOR = new Color(0xff0055);
 
     Font BUTTON_LABEL_FONT = new Font("Segoe UI", Font.BOLD, 20);
     Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 30);

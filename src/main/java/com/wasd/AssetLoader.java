@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.geom.RoundRectangle2D;
 
 public class AssetLoader {
     public static ImageIcon loadIcon(String path, int width, int height) {
@@ -35,6 +36,39 @@ public class AssetLoader {
 
             // Apply mask to image
             BufferedImage masked = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
+            g2 = masked.createGraphics();
+            applyQualityRenderingHints(g2);
+            g2.drawImage(scaledBuffered, 0, 0, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.DST_IN));
+            g2.drawImage(mask, 0, 0, null);
+            g2.dispose();
+
+            return new ImageIcon(masked);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ImageIcon loadRoundedIcon(String path, int width, int height, int arcSize) {
+        try {
+            BufferedImage master = ImageIO.read(AssetLoader.class.getResource(path));
+            if (master == null) throw new IOException("Image not found: " + path);
+
+            Image scaled = master.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            BufferedImage scaledBuffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = scaledBuffered.createGraphics();
+            g.drawImage(scaled, 0, 0, null);
+            g.dispose();
+
+            BufferedImage mask = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = mask.createGraphics();
+            applyQualityRenderingHints(g2);
+            g2.fill(new RoundRectangle2D.Float(0, 0, width, height, arcSize, arcSize));
+            g2.dispose();
+
+            BufferedImage masked = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             g2 = masked.createGraphics();
             applyQualityRenderingHints(g2);
             g2.drawImage(scaledBuffered, 0, 0, null);
