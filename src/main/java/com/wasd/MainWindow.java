@@ -63,6 +63,9 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.add(spacerLabel, BorderLayout.WEST);
 
         {//Panel central
+            JPanel wrapperPanel = new JPanel(new GridLayout(0, 1));
+            wrapperPanel.setOpaque(false); // Keep background transparent if desired
+
             PanelRound centralPanel = new PanelRound();
             int rad = 15;
             centralPanel.setRoundTopLeft(rad);
@@ -81,20 +84,44 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                 Showcase galleryPanel = new Showcase(recommendedGames);
                 centralPanel.add(galleryPanel, BorderLayout.CENTER);
 
-                //temporal bottom spacer
+                // temporal bottom spacer
                 JPanel spacer = new JPanel();
                 spacer.setPreferredSize(new Dimension(20, 250));
                 spacer.setOpaque(false);
                 centralPanel.add(spacer, BorderLayout.WEST);
+
+                // by tag
+                JPanel byTagPanel = new JPanel();
+                byTagPanel.setBackground(PANEL_COLOR);
+                byTagPanel.setLayout(new GridLayout(0, 3));
+                byTagPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+                {
+                    for (int i = 0; i < 30; i++) {
+                        //byTagPanel.add(new JButton("Item " + (i + 1)));
+                    }
+                }
+                wrapperPanel.add(centralPanel);
+                wrapperPanel.add(byTagPanel);
             }
 
-            //temporal right spacer
+            // temporal right spacer
             JPanel spacer = new JPanel();
             spacer.setPreferredSize(new Dimension(250, 0));
             spacer.setOpaque(false);
             this.add(spacer, BorderLayout.EAST);
 
-            this.add(centralPanel, BorderLayout.CENTER);
+            ScrollPaneRound scrollPane = new ScrollPaneRound(wrapperPanel);
+            scrollPane.setRoundTopLeft(rad);
+            scrollPane.setRoundTopRight(rad);
+            scrollPane.setRoundBottomRight(rad);
+            scrollPane.setRoundBottomLeft(rad);
+            scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPane.setBorder(null);
+            scrollPane.setOpaque(false);
+            wrapperPanel.setBackground(PANEL_COLOR);
+            scrollPane.setBackground(PANEL_COLOR);
+            this.add(scrollPane, BorderLayout.CENTER);
         }
 
     contentPane.revalidate();

@@ -23,14 +23,14 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         makeDraggable(frame, topBar);
 
         // Button group on the right (EAST)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.setOpaque(false);
         {
-            WindowButton minimizeButton = new WindowButton("/images/minimize.png");
+            WindowButton minimizeButton = new WindowButton("/images/minimize.png", HIGHLIGHT_COLOR);
             minimizeButton.addActionListener(e -> frame.setState(JFrame.ICONIFIED));
             buttonPanel.add(minimizeButton);
 
-            WindowButton resizeButton = new WindowButton("/images/maximize.png");
+            WindowButton resizeButton = new WindowButton("/images/maximize.png", HIGHLIGHT_COLOR);
             final boolean[] isMaximized = {false};
             final Dimension defaultSize = new Dimension(1280, 720);
 
@@ -66,7 +66,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             });
             buttonPanel.add(resizeButton);
 
-            WindowButton closeButton = new WindowButton("/images/close.png");
+            WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
             closeButton.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
             buttonPanel.add(closeButton);
         }
@@ -127,7 +127,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             profileButton.setPreferredSize(new Dimension(150, 36));
             profileButton.setLayout(new BorderLayout(10, 10));
             profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            {
+
                 JLabel profileLabel = new JLabel();
                 profileLabel.setText(player.getName().toUpperCase());
                 profileLabel.setPreferredSize(new Dimension(400, 40));
@@ -145,11 +145,25 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 profileButton.add(profileIcon, BorderLayout.WEST);
 
                 JLabel statusDot = new JLabel();
-                statusDot.setPreferredSize(new Dimension(18,15));
+                statusDot.setPreferredSize(new Dimension(25,15));
                 statusDot.setIcon(AssetLoader.loadCircularIcon("/images/online_dot.png", 15));
                 statusDot.setOpaque(false);
                 profileButton.add(statusDot, BorderLayout.EAST);
-            }
+
+            profileButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    profileButton.setBackground(TEXT_COLOR);
+                    profileLabel.setForeground(TOP_BAR_COLOR);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    profileButton.setBackground(TOP_BAR_COLOR);
+                    profileLabel.setForeground(TEXT_COLOR);
+                }
+            });
+
             centerPanel.add(profileButton);
         }
         topBar.add(centerPanel, BorderLayout.CENTER);

@@ -3,7 +3,6 @@ package com.wasd;
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.geom.*;
@@ -35,7 +34,6 @@ public class Showcase extends JPanel implements StyleConfig {
             previousButton.setFocusPainted(false);
             previousButton.setBorderPainted(false);
             previousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            previousButton.addActionListener(e -> System.out.println("Previous"));
 
             ArrayList<ImageIcon> thumbnails = new ArrayList<>(); //crea una lista de thumbnails y miniaturas
             ArrayList<ImageIcon> previews = new ArrayList<>(); 
@@ -135,7 +133,6 @@ public class Showcase extends JPanel implements StyleConfig {
             nextButton.setFocusPainted(false);
             nextButton.setBorderPainted(false);
             nextButton.addActionListener(e -> System.out.println("Next"));
-            nextButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             previousButton.addActionListener(e -> {
                 this.i--;
@@ -153,6 +150,8 @@ public class Showcase extends JPanel implements StyleConfig {
                 discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
             });
 
+            previousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            nextButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             this.add(previousButton);
             this.add(gameCard);
             this.add(nextButton);

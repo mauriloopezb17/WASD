@@ -6,6 +6,8 @@ public interface StyleConfig {
     Color BG_COLOR = new Color(0x181818);
     Color TOP_BAR_COLOR = new Color(0x000000);
     Color TEXT_COLOR = new Color(0xffffff);
+    Color HIGHLIGHT_COLOR = new Color(0x334455);
+    Color CLOSE_COLOR = new Color(0xCC1155);
     Color DETAILS_COLOR = new Color(0x44ffd2);
     Color PANEL_COLOR = new Color(0x101010);
     Color DISCOUNT_COLOR = new Color(0x00ff55);
