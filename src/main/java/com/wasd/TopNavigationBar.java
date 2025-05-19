@@ -3,17 +3,19 @@ package com.wasd;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
+import java.util.*;
 
-public class TopNavigationBar extends JPanel {
+public class TopNavigationBar extends JPanel implements StyleConfig {
 
-    public TopNavigationBar(JFrame targetFrame) {
+    public TopNavigationBar(MainWindow targetFrame) {
         super(new BorderLayout());
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 53));
 
 
         // Main top bar with BorderLayout
         JPanel topBar = new JPanel(new BorderLayout());
-        topBar.setBackground(Color.BLACK);
+        topBar.setBackground(TOP_BAR_COLOR);
         topBar.setPreferredSize(new Dimension(800, 50));
         makeDraggable(targetFrame, topBar);
 
@@ -75,16 +77,29 @@ public class TopNavigationBar extends JPanel {
             spacerLabel.setPreferredSize(new Dimension(10, 0));
             tabPanel.add(spacerLabel);
             TabButton homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
-            //homeButton.addActionListener(e -> targetFrame.setContentPane(new Home()));
             tabPanel.add(homeButton);
             TabButton libraryButton = new TabButton("LIBRARY", "/images/library_active.png", "/images/library_inactive.png", false);
             tabPanel.add(libraryButton);
+            homeButton.addActionListener(e -> {
+                if (!homeButton.isCurrentTab) {
+                    targetFrame.goHome();
+                    homeButton.toggleActive();
+                    libraryButton.toggleActive();
+                }
+            });
+            libraryButton.addActionListener(e -> {
+                if (!libraryButton.isCurrentTab) {
+                    targetFrame.goLibrary();
+                    homeButton.toggleActive();
+                    libraryButton.toggleActive();
+                }
+            });
         }
         topBar.add(tabPanel, BorderLayout.WEST);
 
         // Cyan line under the top bar
         JPanel cyanLine = new JPanel();
-        cyanLine.setBackground(StyleConfig.DETAILS_COLOR);
+        cyanLine.setBackground(DETAILS_COLOR);
         cyanLine.setPreferredSize(new Dimension(0, 3));
 
         this.add(topBar, BorderLayout.CENTER);

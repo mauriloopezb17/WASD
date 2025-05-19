@@ -2,6 +2,7 @@ package com.wasd;
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.awt.font.*;
 import java.awt.event.*;
@@ -14,6 +15,7 @@ public class TabButton extends JButton implements StyleConfig{
     int width = 35;
     int height = width;
     ImageIcon defaultIcon;
+    boolean isCurrentTab;
 
     TabButton(String text,String activeIconPath, String inactiveIconPath, boolean isCurrentTab) {
         this.iconActive = AssetLoader.loadIcon(activeIconPath, width, height);
@@ -32,10 +34,12 @@ public class TabButton extends JButton implements StyleConfig{
         this.setVerticalTextPosition(JLabel.TOP);
         // inactive state (default)
         if (isCurrentTab) {
+            this.isCurrentTab = true;
             defaultIcon = iconActive;
             this.setIcon(iconActive);
             this.setText(text);
         } else {
+            this.isCurrentTab = false;
             defaultIcon = iconInactive;
             this.setIcon(iconInactive);
             this.setText("");
@@ -54,6 +58,20 @@ public class TabButton extends JButton implements StyleConfig{
         });
     }
     
+    public void toggleActive() {
+        if (isCurrentTab) {
+            this.isCurrentTab = !isCurrentTab;
+            defaultIcon = iconInactive;
+            this.setIcon(iconInactive);
+            this.setText("");
+        } else {
+            this.isCurrentTab = !isCurrentTab;
+            defaultIcon = iconActive;
+            this.setIcon(iconActive);
+            this.setText(text);
+        }
+    }
+
     private Font getBoldUnderlinedFont(Font baseFont) {
         Map<TextAttribute, Object> attributes = new java.util.HashMap<>(baseFont.getAttributes());
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
