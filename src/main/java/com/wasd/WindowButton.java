@@ -8,7 +8,10 @@ public class WindowButton extends JButton {
         int height = width;
         this.setIcon(AssetLoader.loadIcon(path, width, height));
         this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(width+5, height));
+        this.setOpaque(false);
+        this.setFocusable(false);
         this.setBorder(null);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }

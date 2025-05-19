@@ -1,6 +1,9 @@
 package com.wasd;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Array;
@@ -99,16 +102,33 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
 
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(TOP_BAR_COLOR);
-        centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        centerPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         {
             JPanel profileButton = new JPanel();
             profileButton.setBackground(TOP_BAR_COLOR);
-            profileButton.setPreferredSize(new Dimension(100, 40));
+            profileButton.setPreferredSize(new Dimension(150, 40));
             profileButton.setLayout(new BorderLayout(10, 10));
+            Border roundedBorder = new LineBorder(DETAILS_COLOR, 1, true);
+            profileButton.setBorder(roundedBorder);
+            profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             {
                 JLabel profileLabel = new JLabel();
                 profileLabel.setText(player.getName().toUpperCase());
+                profileLabel.setPreferredSize(new Dimension(400, 40));
+                profileLabel.setFont(DESCRPTION_FONT);
+                profileLabel.setForeground(TEXT_COLOR);
+                profileLabel.setOpaque(false);
+                profileButton.add(profileLabel, BorderLayout.CENTER);
+
+                JLabel profileIcon = new JLabel();
+                profileIcon.setIcon(AssetLoader.loadCircularIcon(player.getAvatar(), 30));
+                profileIcon.setPreferredSize(new Dimension(35,30));
+                profileIcon.setOpaque(false);
+                profileIcon.setHorizontalAlignment(SwingConstants.RIGHT);
+                //profileIcon.setBorder(new RoundedBorder(10));
+                profileButton.add(profileIcon, BorderLayout.WEST);
             }
+            centerPanel.add(profileButton);
         }
         topBar.add(centerPanel, BorderLayout.CENTER);
 
@@ -143,5 +163,28 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 frame.setLocation(X, Y);
             }
         });
+    }
+
+    private static class RoundedBorder implements Border {
+        
+        private int radius;
+        
+        RoundedBorder(int radius) {
+            this.radius = radius;
+        }
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return true;
+        }
+
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.drawRoundRect(x,y,width-1,height-1,radius,radius);
+        }
     }
 }
