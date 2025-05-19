@@ -8,7 +8,7 @@ import java.util.*;
 
 public class TopNavigationBar extends JPanel implements StyleConfig {
 
-    public TopNavigationBar(MainWindow targetFrame) {
+    public TopNavigationBar(MainWindow frame) {
         super(new BorderLayout());
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 53));
 
@@ -17,14 +17,14 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setBackground(TOP_BAR_COLOR);
         topBar.setPreferredSize(new Dimension(800, 50));
-        makeDraggable(targetFrame, topBar);
+        makeDraggable(frame, topBar);
 
         // Button group on the right (EAST)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.setOpaque(false);
         {
             WindowButton minimizeButton = new WindowButton("/images/minimize.png");
-            minimizeButton.addActionListener(e -> targetFrame.setState(JFrame.ICONIFIED));
+            minimizeButton.addActionListener(e -> frame.setState(JFrame.ICONIFIED));
             buttonPanel.add(minimizeButton);
 
             WindowButton resizeButton = new WindowButton("/images/maximize.png");
@@ -32,16 +32,16 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             final Dimension defaultSize = new Dimension(1280, 720);
 
             resizeButton.addActionListener(e -> {
-                GraphicsConfiguration config = targetFrame.getGraphicsConfiguration();
+                GraphicsConfiguration config = frame.getGraphicsConfiguration();
                 Rectangle screenBounds = config.getBounds();
                 Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
                 System.out.println("TopNavBar size: " + this.getSize());
-                System.out.println("ContentPane size: " + targetFrame.getContentPane().getSize());
+                System.out.println("ContentPane size: " + frame.getContentPane().getSize());
 
                 if (isMaximized[0]) {
                     // Restore
-                    targetFrame.setSize(defaultSize);
-                    targetFrame.setLocationRelativeTo(null);
+                    frame.setSize(defaultSize);
+                    frame.setLocationRelativeTo(null);
                     isMaximized[0] = false;
 
                     System.out.println("Restored to normal size.");
@@ -52,19 +52,19 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                     int width = screenBounds.width - insets.left - insets.right;
                     int height = screenBounds.height - insets.top - insets.bottom;
 
-                    targetFrame.setBounds(x, y, width, height);
+                    frame.setBounds(x, y, width, height);
                     isMaximized[0] = true;
 
                     System.out.printf("Maximized to: %d x %d at (%d, %d)%n", width, height, x, y);
                 }
 
-                targetFrame.revalidate();
-                targetFrame.repaint();
+                frame.revalidate();
+                frame.repaint();
             });
             buttonPanel.add(resizeButton);
 
             WindowButton closeButton = new WindowButton("/images/close.png");
-            closeButton.addActionListener(e -> targetFrame.dispatchEvent(new WindowEvent(targetFrame, WindowEvent.WINDOW_CLOSING)));
+            closeButton.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
             buttonPanel.add(closeButton);
         }
         topBar.add(buttonPanel, BorderLayout.EAST);
@@ -82,14 +82,14 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             tabPanel.add(libraryButton);
             homeButton.addActionListener(e -> {
                 if (!homeButton.isCurrentTab) {
-                    targetFrame.goHome();
+                    frame.goHome();
                     homeButton.toggleActive();
                     libraryButton.toggleActive();
                 }
             });
             libraryButton.addActionListener(e -> {
                 if (!libraryButton.isCurrentTab) {
-                    targetFrame.goLibrary();
+                    frame.goLibrary();
                     homeButton.toggleActive();
                     libraryButton.toggleActive();
                 }

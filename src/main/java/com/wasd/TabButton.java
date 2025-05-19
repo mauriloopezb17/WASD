@@ -32,6 +32,7 @@ public class TabButton extends JButton implements StyleConfig{
         this.setBorderPainted(false);
         this.setOpaque(false);
         this.setVerticalTextPosition(JLabel.TOP);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         // inactive state (default)
         if (isCurrentTab) {
             this.isCurrentTab = true;

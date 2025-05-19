@@ -31,13 +31,13 @@ public class Game implements Serializable {
         this.pictures = new ArrayList<>();
         this.pictures.add("/images/gameThumbnail_default.jpg");
         this.publisher = new Publisher("Unknown Publisher");
-        this.price = 0.0;
+        this.price = 59.99;
         this.reviews = 0;
         this.positiveReviews = 0;
         this.negativeReviews = 0;
         this.description = "No description available.";
         this.tags = new ArrayList<>();
-        this.discount = 0.0;
+        this.discount = 10.0;
         this.classification = new Classification();
         this.windowsRequirement = new Windows(); // assuming a default constructor exists
         this.linuxRequirement = new Linux();     // assuming a default constructor exists

@@ -72,45 +72,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                 recommendedLabel.setForeground(TEXT_COLOR);
                 centralPanel.add(recommendedLabel, BorderLayout.NORTH);
 
-                JPanel galleryPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-                galleryPanel.setOpaque(false);
-                {
-                    //left arrow button
-                    JButton previousButton = new JButton();
-                    previousButton.setPreferredSize(new Dimension(30, 30));
-                    previousButton.setBorder(null);
-                    previousButton.setFocusable(false);
-                    previousButton.setBackground(PANEL_COLOR);
-                    previousButton.setIcon(AssetLoader.loadIcon("/images/leftArrow.png", 30, 30));
-                    galleryPanel.add(previousButton);
-
-                    ArrayList<ImageIcon> thumbnails = new ArrayList<>(); //crea una lista de thumbnails y miniaturas
-                    ArrayList<ImageIcon> previews = new ArrayList<>(); 
-                    for (Game game : recommendedGames) {
-                        System.out.println(game.getPictures().get(0));
-                        thumbnails.add(AssetLoader.loadIcon(game.getPictures().get(0), 640, 360));
-                        previews.add(AssetLoader.loadIcon(game.getPictures().get(0), 160, 90));
-                    }
-
-                    JButton mainThumbnail = new JButton();
-                    mainThumbnail.setPreferredSize(new Dimension(640, 360+40));
-                    mainThumbnail.setHorizontalAlignment(JLabel.CENTER);
-                    mainThumbnail.setVerticalAlignment(JLabel.TOP);
-                    mainThumbnail.setBorder(null);
-                    mainThumbnail.setFocusable(false);
-                    mainThumbnail.setBackground(TOP_BAR_COLOR);
-                    mainThumbnail.setIcon(thumbnails.get(0));
-                    galleryPanel.add(mainThumbnail);
-
-                    //right arrow button
-                    JButton nextButton = new JButton();
-                    nextButton.setPreferredSize(new Dimension(30, 30));
-                    nextButton.setBorder(null);
-                    nextButton.setFocusable(false);
-                    nextButton.setBackground(PANEL_COLOR);
-                    nextButton.setIcon(AssetLoader.loadIcon("/images/rightArrow.png", 30, 30));
-                    galleryPanel.add(nextButton);
-                }
+                Showcase galleryPanel = new Showcase(recommendedGames);
                 centralPanel.add(galleryPanel, BorderLayout.CENTER);
 
                 //temporal bottom spacer
@@ -119,6 +81,13 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                 spacer.setOpaque(false);
                 centralPanel.add(spacer, BorderLayout.WEST);
             }
+
+            //temporal right spacer
+            JPanel spacer = new JPanel();
+            spacer.setPreferredSize(new Dimension(250, 0));
+            spacer.setOpaque(false);
+            this.add(spacer, BorderLayout.EAST);
+
             this.add(centralPanel, BorderLayout.CENTER);
         }
 
