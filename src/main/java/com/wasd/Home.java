@@ -9,10 +9,10 @@ public class Home extends JFrame implements ActionListener, StyleConfig {
 
     public Home() {
         this.setTitle("WASD");
-        this.setSize(1280, 720);
+        this.setSize(1366, 768);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(20, 20));
         this.getContentPane().setBackground(BG_COLOR);
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
@@ -26,6 +26,11 @@ public class Home extends JFrame implements ActionListener, StyleConfig {
                 applyWindowShape();
             }
         });
+        {
+            JLabel spacerLabel = new JLabel();
+            spacerLabel.setPreferredSize(new Dimension(150, 0));
+            this.add(spacerLabel, BorderLayout.WEST);
+        }
 
         this.add(topBar, BorderLayout.NORTH);
 

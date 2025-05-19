@@ -4,8 +4,11 @@ import java.awt.*;
 
 public class WindowButton extends JButton {
     WindowButton(String path) {
-        this.setIcon(AssetLoader.loadIcon(path, 25, 25));
-        this.setPreferredSize(new Dimension(25, 25));
+        int width = 15;
+        int height = width;
+        this.setIcon(AssetLoader.loadIcon(path, width, height));
+        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(width, height));
         this.setBorder(null);
     }
 }

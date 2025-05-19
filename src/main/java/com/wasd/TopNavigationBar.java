@@ -19,7 +19,7 @@ public class TopNavigationBar extends JPanel {
 
         // Button group on the right (EAST)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-        buttonPanel.setOpaque(false); // match topBar
+        buttonPanel.setOpaque(false);
         {
             WindowButton minimizeButton = new WindowButton("/images/minimize.png");
             minimizeButton.addActionListener(e -> targetFrame.setState(JFrame.ICONIFIED));
@@ -66,6 +66,18 @@ public class TopNavigationBar extends JPanel {
             buttonPanel.add(closeButton);
         }
         topBar.add(buttonPanel, BorderLayout.EAST);
+
+        // Tab buttons
+        JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        tabPanel.setOpaque(false);
+        {
+            TabButton homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
+            //homeButton.addActionListener(e -> targetFrame.setContentPane(new Home()));
+            tabPanel.add(homeButton);
+            TabButton libraryButton = new TabButton("LIBRARY", "/images/library_active.png", "/images/library_inactive.png", false);
+            tabPanel.add(libraryButton);
+        }
+        topBar.add(tabPanel, BorderLayout.WEST);
 
         // Cyan line under the top bar
         JPanel cyanLine = new JPanel();
