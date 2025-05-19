@@ -5,8 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // Ale con esto puedes correr el Main.java con F5
-            // Si quieres correr otra clase donde agregues el main para probar la lógica o lo que hiciste tienes que ejecutarlos con click derecho y Run Java
+            "type": "java",
+            "name": "RoundedBorderTest",
+            "request": "launch",
+            "mainClass": "com.wasd.RoundedBorderTest",
+            "projectName": "wasd"
+        },
+        {
             "type": "java",
             "name": "Main",
             "request": "launch",

@@ -27,7 +27,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
         
-        TopNavigationBar topBar = new TopNavigationBar(this);
+        TopNavigationBar topBar = new TopNavigationBar(this, player);
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 53));
 
         this.addComponentListener(new ComponentAdapter() {
@@ -102,6 +102,15 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         contentPane.removeAll();
         this.setLayout(new BorderLayout(20, 20));
         this.add(topbar, BorderLayout.NORTH);
+
+        //temporarily fill the other borders with empty space
+        JPanel spacer = new JPanel();
+        spacer.setPreferredSize(new Dimension(20, 250));
+        spacer.setOpaque(false);
+        this.add(spacer, BorderLayout.WEST);
+        this.add(spacer, BorderLayout.EAST);
+        this.add(spacer, BorderLayout.SOUTH);
+        this.add(spacer, BorderLayout.CENTER);
     }
 
     @Override

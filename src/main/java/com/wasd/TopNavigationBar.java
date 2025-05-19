@@ -8,7 +8,7 @@ import java.util.*;
 
 public class TopNavigationBar extends JPanel implements StyleConfig {
 
-    public TopNavigationBar(MainWindow frame) {
+    public TopNavigationBar(MainWindow frame, Player player) {
         super(new BorderLayout());
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 53));
 
@@ -96,6 +96,21 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             });
         }
         topBar.add(tabPanel, BorderLayout.WEST);
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(TOP_BAR_COLOR);
+        centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        {
+            JPanel profileButton = new JPanel();
+            profileButton.setBackground(TOP_BAR_COLOR);
+            profileButton.setPreferredSize(new Dimension(100, 40));
+            profileButton.setLayout(new BorderLayout(10, 10));
+            {
+                JLabel profileLabel = new JLabel();
+                profileLabel.setText(player.getName().toUpperCase());
+            }
+        }
+        topBar.add(centerPanel, BorderLayout.CENTER);
 
         // Cyan line under the top bar
         JPanel cyanLine = new JPanel();
