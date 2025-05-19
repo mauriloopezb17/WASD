@@ -1,8 +1,9 @@
 package com.wasd;
 
 import java.util.ArrayList;
+import java.io.*;
 
-public class Game {
+public class Game implements Serializable {
     
     private int idGame;
     private String nameGame;
@@ -22,6 +23,25 @@ public class Game {
     private Windows windowsRequirement;
     private Linux linuxRequirement;
     private Mac macRequirement;
+
+    public Game(String nameGame) {
+        this.idGame = -1;
+        this.nameGame = nameGame;
+        this.banner = "gameBanner_default.png";
+        this.pictures = new ArrayList<>();
+        this.publisher = new Publisher("Unknown Publisher");
+        this.price = 0.0;
+        this.reviews = 0;
+        this.positiveReviews = 0;
+        this.negativeReviews = 0;
+        this.description = "No description available.";
+        this.tags = new ArrayList<>();
+        this.discount = 0.0;
+        this.classification = new Classification();
+        this.windowsRequirement = new Windows(); // assuming a default constructor exists
+        this.linuxRequirement = new Linux();     // assuming a default constructor exists
+        this.macRequirement = new Mac();         // assuming a default constructor exists
+    }
 
     public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
                 int negativeReviews, String description, ArrayList<Tag> tags, double discount, Classification classification, Windows windowsRequirement, 

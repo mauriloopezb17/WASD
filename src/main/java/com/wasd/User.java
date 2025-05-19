@@ -1,6 +1,7 @@
 package com.wasd;
+import java.io.*;
 
-public abstract class User {
+public abstract class User implements Serializable {
 
     protected int idUser;
     protected String name;
@@ -10,6 +11,17 @@ public abstract class User {
     protected String password;
     protected String avatar;
     protected boolean active;
+
+    public User(String name) {
+        this.idUser = -1;
+        this.name = name;
+        this.lastName = "Jones";
+        this.email = "unknown@email.com";
+        this.country = "Unknown Country";
+        this.password = "unknown";
+        this.avatar = "/images/user_default.jpg";
+        this.active = true; // por defecto el usuario estara activo
+    }
 
     public User(int idUser, String name, String lastName, String email, String country, String password, String avatar) {
         this.idUser = idUser;

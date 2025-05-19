@@ -71,6 +71,9 @@ public class TopNavigationBar extends JPanel {
         JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         tabPanel.setOpaque(false);
         {
+            JLabel spacerLabel = new JLabel();
+            spacerLabel.setPreferredSize(new Dimension(10, 0));
+            tabPanel.add(spacerLabel);
             TabButton homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
             //homeButton.addActionListener(e -> targetFrame.setContentPane(new Home()));
             tabPanel.add(homeButton);

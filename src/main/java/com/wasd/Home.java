@@ -26,10 +26,17 @@ public class Home extends JFrame implements ActionListener, StyleConfig {
                 applyWindowShape();
             }
         });
-        {
+
+        {//Espacio a la izquierda
             JLabel spacerLabel = new JLabel();
             spacerLabel.setPreferredSize(new Dimension(150, 0));
             this.add(spacerLabel, BorderLayout.WEST);
+        }
+
+        {//Panel central
+            JPanel centralPanel = new JPanel();
+            centralPanel.setOpaque(false);
+            centralPanel.setLayout(getLayout());
         }
 
         this.add(topBar, BorderLayout.NORTH);

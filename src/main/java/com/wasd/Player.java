@@ -11,6 +11,16 @@ public class Player extends User{
     private ArrayList<Player> friends;
     private ArrayList<Player> requests;
 
+    public Player(String name) {
+        super(name);
+        this.idPlayer = -1;
+        this.library = new ArrayList<>();
+        this.wishlist = new ArrayList<>();
+        this.cart = new ArrayList<>();
+        this.friends = new ArrayList<>();
+        this.requests = new ArrayList<>();
+    }
+
     public Player(int idUser, int idGamer, String name, String lastName, String email, String country, String password, String avatar) {
         super(idUser, name, lastName, email, country, password, avatar);
         this.idPlayer = idGamer;

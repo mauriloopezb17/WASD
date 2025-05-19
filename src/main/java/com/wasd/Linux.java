@@ -5,6 +5,12 @@ public class Linux extends Requirement {
     private String distro;
     private String kernelVersion;
 
+    public Linux() {
+        super();
+        this.distro = "Ubuntu";
+        this.kernelVersion = "5.4.0-62-generic";
+    }
+
     public Linux(String memory, String processor, String graphics, String storage, String additionalNotes, String distro, String kernelVersion) {
         super(memory, processor, graphics, storage, additionalNotes);
         this.distro = distro;

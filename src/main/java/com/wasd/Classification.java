@@ -1,10 +1,17 @@
 package com.wasd;
+import java.io.*;
 
-public class Classification {
+public class Classification implements Serializable {
     
     private String name;
     private String iconPath;
     private String abbreviation;
+
+    public Classification() {
+        this.name = "Rating Pending";
+        this.iconPath = "/images/rating_default.png";
+        this.abbreviation = "UR";
+    }
 
     public Classification(String name, String iconPath, String abbreviation) {
         this.name = name;

@@ -1,8 +1,9 @@
 package com.wasd;
+import java.io.*;
 
 import java.util.ArrayList;
 
-public class Tag {
+public class Tag implements Serializable {
 
     private ArrayList<String> tags;
 

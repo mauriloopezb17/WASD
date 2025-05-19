@@ -7,6 +7,12 @@ public class Publisher extends User {
     private int idPublisher;
     private ArrayList<Game> publishedGames;
     
+    public Publisher(String name){
+        super(name);
+        this.idPublisher = -1;
+        this.publishedGames = new ArrayList<>();
+    }
+
     public Publisher(int idUser, int idPublisher, String name, String lastName, String email, String country, String password, String avatar) {
         super(idUser, name, lastName, email, country, password, avatar);
         this.idPublisher = idPublisher;
