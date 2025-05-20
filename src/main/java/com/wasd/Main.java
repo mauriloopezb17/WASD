@@ -27,5 +27,6 @@ public class Main
         Player player = new Player("Pancake99");
 
         new MainWindow(games, recommendedGames, player);
+        //new SecondaryWindow("Test", null, player);
     }
 }
