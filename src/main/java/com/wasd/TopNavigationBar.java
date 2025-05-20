@@ -131,7 +131,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             profileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 JLabel profileLabel = new JLabel();
-                profileLabel.setText(player.getName().toUpperCase());
+                profileLabel.setText(player.getUsername().toUpperCase());
                 profileLabel.setPreferredSize(new Dimension(400, 40));
                 profileLabel.setFont(DESCRPTION_FONT);
                 profileLabel.setForeground(TEXT_COLOR);
