@@ -102,7 +102,9 @@ public class Showcase extends JPanel implements StyleConfig {
                     discountLabel.setHorizontalAlignment(SwingConstants.CENTER);
                     discountLabel.setText("-" + games.get(0).getDiscount() + "%");
                     discountContainer.add(discountLabel);
-                    priceContainer.add(discountContainer);
+                    if (games.get(0).getDiscount() != 0) {
+                        priceContainer.add(discountContainer);
+                    }
                 }
 
                 // Add name and price to info row
@@ -149,6 +151,14 @@ public class Showcase extends JPanel implements StyleConfig {
                 imageLabel.setIcon(thumbnails.get(i%thumbnails.size()));
                 discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
             });
+            Timer autoScrollTimer = new Timer(3000, e -> {
+                this.i++;
+                priceLabel.setText("$" + games.get(i % games.size()).getPrice());
+                nameLabel.setText(games.get(i % games.size()).getNameGame());
+                imageLabel.setIcon(thumbnails.get(i % thumbnails.size()));
+                discountLabel.setText("-" + games.get(i % games.size()).getDiscount() + "%");
+            });
+            autoScrollTimer.start();
 
             previousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             nextButton.setCursor(new Cursor(Cursor.HAND_CURSOR));

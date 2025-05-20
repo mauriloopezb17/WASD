@@ -15,8 +15,8 @@ public class Game implements Serializable {
     private int positiveReviews;
     private int negativeReviews;
     private String description;
-    private ArrayList<Tag> tags;
-    private double discount;
+    private ArrayList<String> tags;
+    private int discount;
     
     // Requerimientos de cada plataforma y la clasificacion
     private Classification classification;
@@ -37,7 +37,12 @@ public class Game implements Serializable {
         this.negativeReviews = 0;
         this.description = "No description available.";
         this.tags = new ArrayList<>();
-        this.discount = 10.0;
+
+        this.tags.add("Action");
+        this.tags.add("Adventure");
+        this.tags.add("RPG");
+
+        this.discount = 10;
         this.classification = new Classification();
         this.windowsRequirement = new Windows(); // assuming a default constructor exists
         this.linuxRequirement = new Linux();     // assuming a default constructor exists
@@ -45,7 +50,7 @@ public class Game implements Serializable {
     }
 
     public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
-                int negativeReviews, String description, ArrayList<Tag> tags, double discount, Classification classification, Windows windowsRequirement, 
+                int negativeReviews, String description, ArrayList<String> tags, int discount, Classification classification, Windows windowsRequirement, 
                 Linux linuxRequirement, Mac macRequirement) {
         this.idGame = idGame;
         this.nameGame = nameGame;
@@ -135,17 +140,17 @@ public class Game implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<Tag> getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 

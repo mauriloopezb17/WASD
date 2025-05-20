@@ -57,8 +57,6 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
 
                     frame.setBounds(x, y, width, height);
                     isMaximized[0] = true;
-
-                    System.out.printf("Maximized to: %d x %d at (%d, %d)%n", width, height, x, y);
                 }
 
                 frame.revalidate();
@@ -105,7 +103,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         centerPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         {
             JButton bellButton = new JButton();
-            bellButton.setPreferredSize(new Dimension(40, 30));
+            bellButton.setPreferredSize(new Dimension(60, 30));
             bellButton.setIcon(AssetLoader.loadIcon("/images/bell.png", 30, 30));
             bellButton.setBorder(null);
             bellButton.setFocusable(false);
@@ -113,6 +111,10 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             bellButton.setBackground(TOP_BAR_COLOR);
             bellButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             bellButton.addActionListener(e -> System.out.println("Bell"));
+            bellButton.setFocusable(false);
+            bellButton.setContentAreaFilled(false);
+            bellButton.setFocusPainted(false);
+            bellButton.setBorderPainted(false);
             centerPanel.add(bellButton);
 
             PanelRound profileButton = new PanelRound();
@@ -165,6 +167,11 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             });
 
             centerPanel.add(profileButton);
+            //spacer
+            JPanel spacer = new JPanel();
+            spacer.setPreferredSize(new Dimension(30, 0));
+            spacer.setOpaque(false);
+            centerPanel.add(spacer);
         }
         topBar.add(centerPanel, BorderLayout.CENTER);
 

@@ -5,12 +5,13 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.Flow;
 
 public class MainWindow extends JFrame implements ActionListener, StyleConfig {
     ArrayList<Game> allGames = new ArrayList<>();
     ArrayList<Game> recommendedGames = new ArrayList<>();
-    Player player = new Player("Pancake99");
+    Player player;
 
     public MainWindow(ArrayList<Game> allGames, ArrayList<Game> recommendedGames, Player player) {
         this.allGames = allGames;
@@ -54,79 +55,137 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
         System.out.println("removeAll");
         contentPane.removeAll();
-        this.setLayout(new BorderLayout(20, 20));
+        this.setLayout(new BorderLayout());
         this.add(topbar, BorderLayout.NORTH);
+        this.getContentPane().setBackground(BG_COLOR);
 
-        //espacio a la izquierda
+        // Left spacer
         JLabel spacerLabel = new JLabel();
         spacerLabel.setPreferredSize(new Dimension(150, 0));
         this.add(spacerLabel, BorderLayout.WEST);
 
-        {//Panel central
-            JPanel wrapperPanel = new JPanel(new GridLayout(0, 1));
-            wrapperPanel.setOpaque(false); // Keep background transparent if desired
+        // Central layout
+        JPanel wrapperPanel = new JPanel();
+        wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS));
+        wrapperPanel.setOpaque(false);
 
-            PanelRound centralPanel = new PanelRound();
-            int rad = 15;
-            centralPanel.setRoundTopLeft(rad);
-            centralPanel.setRoundTopRight(rad);
-            centralPanel.setRoundBottomRight(rad);
-            centralPanel.setRoundBottomLeft(rad);
-            centralPanel.setBackground(PANEL_COLOR);
-            centralPanel.setLayout(new BorderLayout(10, 10));
-            centralPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-            {
-                JLabel recommendedLabel = new JLabel("    Recommended Games");
-                recommendedLabel.setFont(TITLE_FONT);
-                recommendedLabel.setForeground(TEXT_COLOR);
-                centralPanel.add(recommendedLabel, BorderLayout.NORTH);
+        PanelRound centralPanel = new PanelRound();
+        int rad = 15;
+        centralPanel.setRoundTopLeft(rad);
+        centralPanel.setRoundTopRight(rad);
+        centralPanel.setRoundBottomRight(rad);
+        centralPanel.setRoundBottomLeft(rad);
+        centralPanel.setBackground(PANEL_COLOR);
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
+        centralPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-                Showcase galleryPanel = new Showcase(recommendedGames);
-                centralPanel.add(galleryPanel, BorderLayout.CENTER);
+        // "Recommended Games" Label
+        JLabel recommendedLabel = new JLabel("Recommended Games");
+        recommendedLabel.setFont(TITLE_FONT);
+        recommendedLabel.setForeground(TEXT_COLOR);
+        recommendedLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        centralPanel.add(recommendedLabel);
 
-                // temporal bottom spacer
-                JPanel spacer = new JPanel();
-                spacer.setPreferredSize(new Dimension(20, 250));
-                spacer.setOpaque(false);
-                centralPanel.add(spacer, BorderLayout.WEST);
+        // Gallery Panel
+        Showcase galleryPanel = new Showcase(recommendedGames);
+        galleryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        centralPanel.add(Box.createVerticalStrut(10));
+        centralPanel.add(galleryPanel);
 
-                // by tag
-                JPanel byTagPanel = new JPanel();
-                byTagPanel.setBackground(PANEL_COLOR);
-                byTagPanel.setLayout(new GridLayout(0, 3));
-                byTagPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-                {
-                    for (int i = 0; i < 30; i++) {
-                        //byTagPanel.add(new JButton("Item " + (i + 1)));
-                    }
+        // ComboBox Filter UI
+        Set<String> allTags = new HashSet<>();
+        for (Game g : allGames) allTags.addAll(g.getTags());
+
+        List<String> tagOptions = new ArrayList<>(allTags);
+        Collections.sort(tagOptions);
+        tagOptions.add(0, "All");
+
+        JComboBox<String> tagComboBox = new JComboBox<>(tagOptions.toArray(new String[0]));
+        tagComboBox.setPreferredSize(new Dimension(200, 30));
+        tagComboBox.setFont(DESCRPTION_FONT);
+        tagComboBox.setBackground(PANEL_COLOR);
+        tagComboBox.setForeground(TEXT_COLOR);
+        tagComboBox.setFocusable(false);
+        tagComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        tagComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setFont(DESCRPTION_FONT);
+                label.setBackground(PANEL_COLOR);
+                label.setForeground(TEXT_COLOR);
+
+                if (isSelected) {
+                    label.setBackground(HIGHLIGHT_COLOR);  // background when hovering/selected
+                    label.setForeground(TEXT_COLOR);      // text color when selected
                 }
-                wrapperPanel.add(centralPanel);
-                wrapperPanel.add(byTagPanel);
+
+                return label;
+            }
+        });
+
+        JPanel filterRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        filterRow.setOpaque(false);
+        JLabel filterLabel = new JLabel("Filter by tag: ");
+        filterLabel.setFont(SUBTITLE_FONT);
+        filterLabel.setForeground(TEXT_COLOR);
+
+        filterRow.add(filterLabel);
+        filterRow.add(tagComboBox);
+        filterRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+        centralPanel.add(Box.createVerticalStrut(15));
+        centralPanel.add(filterRow);
+
+        JPanel byTagPanel = new JPanel();
+        byTagPanel.setBackground(PANEL_COLOR);
+        byTagPanel.setLayout(new GridLayout(0, 1, 0, 10));
+        byTagPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        Runnable updateByTagPanel = () -> {
+            byTagPanel.removeAll();
+            String selectedTag = (String) tagComboBox.getSelectedItem();
+
+            for (Game game : allGames) {
+                if ("All".equals(selectedTag) || game.getTags().contains(selectedTag)) {
+                    byTagPanel.add(new GameMediumContainer(game));
+                }
             }
 
-            // temporal right spacer
-            JPanel spacer = new JPanel();
-            spacer.setPreferredSize(new Dimension(250, 0));
-            spacer.setOpaque(false);
-            this.add(spacer, BorderLayout.EAST);
+            byTagPanel.revalidate();
+            byTagPanel.repaint();
+        };
 
-            ScrollPaneRound scrollPane = new ScrollPaneRound(wrapperPanel);
-            scrollPane.setRoundTopLeft(rad);
-            scrollPane.setRoundTopRight(rad);
-            scrollPane.setRoundBottomRight(rad);
-            scrollPane.setRoundBottomLeft(rad);
-            scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            scrollPane.setBorder(null);
-            scrollPane.setOpaque(false);
-            wrapperPanel.setBackground(PANEL_COLOR);
-            scrollPane.setBackground(PANEL_COLOR);
-            this.add(scrollPane, BorderLayout.CENTER);
-        }
+        tagComboBox.addActionListener(e -> updateByTagPanel.run());
+        updateByTagPanel.run(); // Initial population
 
-    contentPane.revalidate();
-    contentPane.repaint();
+        centralPanel.add(Box.createVerticalStrut(10));
+        centralPanel.add(byTagPanel);
+        wrapperPanel.add(centralPanel);
+
+        // Right spacer
+        JPanel spacer = new JPanel();
+        spacer.setPreferredSize(new Dimension(250, 0));
+        spacer.setOpaque(false);
+        this.add(spacer, BorderLayout.EAST);
+
+        // Scroll pane
+        ScrollPaneRound scrollPane = new ScrollPaneRound(wrapperPanel);
+        scrollPane.setRoundTopLeft(rad);
+        scrollPane.setRoundTopRight(rad);
+        scrollPane.setRoundBottomRight(rad);
+        scrollPane.setRoundBottomLeft(rad);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(null);
+        scrollPane.setOpaque(false);
+        wrapperPanel.setBackground(PANEL_COLOR);
+        scrollPane.setBackground(PANEL_COLOR);
+        this.add(scrollPane, BorderLayout.CENTER);
+
+        contentPane.revalidate();
+        contentPane.repaint();
     }
+
 
     public void goLibrary() {
         Container contentPane = this.getContentPane();
