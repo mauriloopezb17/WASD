@@ -25,6 +25,7 @@ public class Main
         recommendedGames.add(new Game("Portal"));
 
         Player player = new Player("Pancake99");
+        player.setLibrary(recommendedGames);
 
         new MainWindow(games, recommendedGames, player);
         //new SecondaryWindow("Test", null, player);

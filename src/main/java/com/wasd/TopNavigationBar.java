@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class TopNavigationBar extends JPanel implements StyleConfig {
+    private ProfileWindow profileWindow = null;
 
     public TopNavigationBar(MainWindow frame, Player player) {
         super(new BorderLayout());
@@ -164,6 +165,16 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                     profileButton.setBackground(TOP_BAR_COLOR);
                     profileLabel.setForeground(TEXT_COLOR);
                 }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (profileWindow == null || !profileWindow.isDisplayable()) {
+                        profileWindow = new ProfileWindow(frame, player);
+                    } else {
+                        profileWindow.toFront();
+                        profileWindow.requestFocus();
+                    }
+                }
             });
 
             centerPanel.add(profileButton);
@@ -206,28 +217,5 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 frame.setLocation(X, Y);
             }
         });
-    }
-
-    private static class RoundedBorder implements Border {
-        
-        private int radius;
-        
-        RoundedBorder(int radius) {
-            this.radius = radius;
-        }
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.drawRoundRect(x,y,width-1,height-1,radius,radius);
-        }
     }
 }
