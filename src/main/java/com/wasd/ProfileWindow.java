@@ -3,6 +3,7 @@ package com.wasd;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.concurrent.Flow;
 
 public class ProfileWindow extends SecondaryWindow{
 
@@ -92,11 +93,23 @@ public class ProfileWindow extends SecondaryWindow{
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+            
+            JPanel namesPanel = new JPanel();
+            namesPanel.setOpaque(false);
+            namesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+            
             JLabel usernameLabel = new JLabel(player.getUsername());
             usernameLabel.setFont(SUBTITLE_FONT);
             usernameLabel.setForeground(TEXT_COLOR);
-            infoPanel.add(usernameLabel, BorderLayout.NORTH);
+            namesPanel.add(usernameLabel);
+
+            JLabel namePanel = new JLabel(player.getName() + " " + player.getLastName());
+            namePanel.setFont(DESCRPTION_FONT);
+            namePanel.setForeground(SECONDARY_TEXT_COLOR);
+            namesPanel.add(namePanel);
+
+            infoPanel.add(namesPanel, BorderLayout.NORTH);
+            //infoPanel.add(usernameLabel, BorderLayout.NORTH);
 
             JTextArea descriptionTextArea = new JTextArea(player.getDescription());
             descriptionTextArea.setFont(DESCRPTION_FONT);
@@ -131,19 +144,50 @@ public class ProfileWindow extends SecondaryWindow{
                     gamesRow.add(new GameSmallContainer(player.getLibrary().get(i)));
                 }
                 gamesPanel.add(gamesRow, BorderLayout.CENTER);
-
-                //temporary bottom spacer
-                JPanel spacer = new JPanel();
-                spacer.setOpaque(false);
-                spacer.setPreferredSize(new Dimension(0,290));
-                gamesPanel.add(spacer, BorderLayout.SOUTH);
             }
+            
+            JPanel lowerPanel = new JPanel();
+            lowerPanel.setOpaque(false);
+            lowerPanel.setLayout(new BorderLayout());
+            lowerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            //friends container
+            JPanel friendsPanel = new JPanel();
+            friendsPanel.setOpaque(false);
+            friendsPanel.setLayout(new BorderLayout(5,5));
+            friendsPanel.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
+            {
+                JLabel friendsLabel = new JLabel("Friends");
+                friendsLabel.setFont(SUBTITLE_FONT);
+                friendsLabel.setForeground(TEXT_COLOR);
+                friendsPanel.add(friendsLabel, BorderLayout.NORTH);
+
+                JPanel friendsContainer = new JPanel();
+                friendsContainer.setOpaque(false);
+                friendsContainer.setLayout(new BoxLayout(friendsContainer, BoxLayout.Y_AXIS));
+                for(int i = 0; i < player.getFriends().size(); i++) {
+                    friendsContainer.add(new ProfileSmallContainer(player.getFriends().get(i)));
+                    //add gap
+                    friendsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+                }
+                friendsPanel.add(friendsContainer, BorderLayout.CENTER);
+            }
+            lowerPanel.add(friendsPanel, BorderLayout.CENTER);
+
+            //temporary bottom spacer
+            JPanel spacer = new JPanel();
+            spacer.setOpaque(false);
+            spacer.setPreferredSize(new Dimension(0,200));
+            //lowerPanel.add(spacer, BorderLayout.SOUTH);
+            
+            lowerPanel.add(gamesPanel, BorderLayout.NORTH);
 
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
-        wrapperPanel.add(gamesPanel, BorderLayout.SOUTH);
+        wrapperPanel.add(lowerPanel, BorderLayout.SOUTH);
 
         this.add(wrapperPanel, BorderLayout.CENTER);
-
+        
+        this.pack();
         this.setVisible(true);
     }
     

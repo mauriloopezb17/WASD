@@ -15,8 +15,8 @@ public abstract class User implements Serializable {
 
     public User(String username) {
         this.idUser = -1;
-        this.name = "Jonesy";
-        this.lastName = "Jones";
+        this.name = "Ale";
+        this.lastName = "Bobarin :)";
         this.email = "unknown@email.com";
         this.country = "Unknown Country";
         this.password = "unknown";

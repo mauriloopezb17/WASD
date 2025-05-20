@@ -26,7 +26,9 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        buttonPanel.setOpaque(false);
+        //buttonPanel.setOpaque(false);
+        buttonPanel.setPreferredSize(new Dimension(0, 30));
+        buttonPanel.setBackground(PANEL_COLOR);
         makeDraggable(this, buttonPanel);
 
             WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
