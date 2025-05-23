@@ -18,7 +18,7 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
 
         this.setTitle("WASD");
         this.setSize(300, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(20, 20));
         this.getContentPane().setBackground(BG_COLOR);
@@ -26,17 +26,19 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        buttonPanel.setOpaque(false);
+        //buttonPanel.setOpaque(false);
+        buttonPanel.setPreferredSize(new Dimension(0, 30));
+        buttonPanel.setBackground(PANEL_COLOR);
         makeDraggable(this, buttonPanel);
 
             WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
-            closeButton.addActionListener(e -> this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
+            closeButton.addActionListener(e -> this.dispose());
             buttonPanel.add(closeButton);
 
         this.add(buttonPanel, BorderLayout.NORTH);
         
 
-        this.setVisible(true);
+        //this.setVisible(true);
     }
     
     private void makeDraggable(JFrame frame, JComponent component) {

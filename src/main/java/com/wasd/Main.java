@@ -3,10 +3,6 @@ package com.wasd;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Hello world!
- *
- */
 public class Main 
 {
     public static void main( String[] args )
@@ -25,6 +21,14 @@ public class Main
         recommendedGames.add(new Game("Portal"));
 
         Player player = new Player("Pancake99");
+        player.setLibrary(recommendedGames);
+        
+        ArrayList<Player> friends = new ArrayList<>();
+        friends.add(new Player("CoBine17"));
+        friends.add(new Player("Tommy999"));
+        friends.add(new Player("Willirex"));
+
+        player.setFriends(friends);
 
         new MainWindow(games, recommendedGames, player);
         //new SecondaryWindow("Test", null, player);

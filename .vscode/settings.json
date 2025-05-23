@@ -7,7 +7,7 @@
             "server": "100.76.173.106",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "WASD",
+            "name": "WASD server",
             "database": "wasd",
             "username": "postgres"
         }

@@ -82,12 +82,13 @@ public class PanelRound extends JPanel {
 
     @Override
     protected void paintChildren(Graphics g) {
-        // ensure children are clipped too
         Graphics2D g2 = (Graphics2D) g.create();
+        applyQualityHints(g2); // ADD THIS LINE
         g2.setClip(createRoundedPath(getWidth(), getHeight()));
         super.paintChildren(g2);
         g2.dispose();
     }
+
 
     // ─────────────── helper: build rounded shape ───────────────
     private Path2D createRoundedPath(int w, int h) {
