@@ -1,4 +1,15 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "100.76.173.106",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "WASD",
+            "database": "wasd",
+            "username": "postgres"
+        }
+    ]
 }

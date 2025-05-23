@@ -19,7 +19,7 @@ public class Game implements Serializable {
     private int discount;
     
     // Requerimientos de cada plataforma y la clasificacion
-    private Classification classification;
+    private Rating classification;
     private Windows windowsRequirement;
     private Linux linuxRequirement;
     private Mac macRequirement;
@@ -43,14 +43,14 @@ public class Game implements Serializable {
         this.tags.add("RPG");
 
         this.discount = 10;
-        this.classification = new Classification();
+        this.classification = new Rating();
         this.windowsRequirement = new Windows(); // assuming a default constructor exists
         this.linuxRequirement = new Linux();     // assuming a default constructor exists
         this.macRequirement = new Mac();         // assuming a default constructor exists
     }
 
     public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
-                int negativeReviews, String description, ArrayList<String> tags, int discount, Classification classification, Windows windowsRequirement, 
+                int negativeReviews, String description, ArrayList<String> tags, int discount, Rating classification, Windows windowsRequirement, 
                 Linux linuxRequirement, Mac macRequirement) {
         this.idGame = idGame;
         this.nameGame = nameGame;
@@ -154,10 +154,10 @@ public class Game implements Serializable {
         this.discount = discount;
     }
 
-    public Classification getClassification() {
+    public Rating getClassification() {
         return classification;
     }
-    public void setClassification(Classification classification) {
+    public void setClassification(Rating classification) {
         this.classification = classification;
     }
 

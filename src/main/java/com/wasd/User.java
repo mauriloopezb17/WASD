@@ -6,11 +6,14 @@ public abstract class User implements Serializable {
     protected int idUser;
     protected String name;
     protected String lastName;
+    protected String username;
     protected String email;
     protected String country;
     protected String password;
     protected String avatar;
     protected boolean active;
+    protected Role role;
+    
 
     public User(String name) {
         this.idUser = -1;
@@ -23,15 +26,18 @@ public abstract class User implements Serializable {
         this.active = true; // por defecto el usuario estara activo
     }
 
-    public User(int idUser, String name, String lastName, String email, String country, String password, String avatar) {
+    public User(int idUser, String name, String lastName, String username, String email, String country, String password, 
+                String avatar, Role role) {
         this.idUser = idUser;
         this.name = name;
         this.lastName = lastName;
+        this.username = username;
         this.email = email;
         this.country = country;
         this.password = password;
         this.avatar = avatar;
         this.active = true; // por defecto el usuario estara activo
+        this.role = role;
     }
 
     public int getIdUser() {
@@ -53,6 +59,13 @@ public abstract class User implements Serializable {
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -90,21 +103,26 @@ public abstract class User implements Serializable {
         this.active = active;
     }
 
+    public Role getRole() {
+        return role;
+    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User:" +
                 "\nidUser=" + idUser +
                 "\nname=" + name +
                 "\nlast name=" + lastName +
+                "\nusername=" + username +
                 "\nemail=" + email +
                 "\ncountry=" + country +
                 "\npassword=" + password +
                 "\navatar=" + avatar +
-                "\nactive=" + active;
-    }
-
-    public void login(String emailOrUsername, String password){
-
+                "\nactive=" + active +
+                "\nrol=" + role;
     }
 
     public void logOut() {
@@ -115,7 +133,7 @@ public abstract class User implements Serializable {
 
     }
 
-    /* la funcion actualizarContrasena sera una clase abstracta porque para algunos usuarios como admin podran
+    /* la funcion actualizarContrasena sera un método abstracto porque para algunos usuarios como admin podran
     cambiar la contrasena sin ninguna verificacion a diferencia de los usuarios jugadores y publishers
     */
     public abstract void updatePassword(String newPassword);

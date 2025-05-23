@@ -25,3 +25,6 @@
 
 # Archivos de pruebas o caché
 /test-output/
+
+#Ya que las bases de datos ya están en cada compu las conexiones no los subiré
+*.sql
