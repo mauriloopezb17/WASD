@@ -5,12 +5,15 @@ import java.util.ArrayList;
 public class Player extends User {
 
     private int idPlayer;
-    private String description; // ← added
     private ArrayList<Game> library;
     private ArrayList<Game> wishlist;
     private ArrayList<Game> cart;
     private ArrayList<Player> friends;
     private ArrayList<Player> requests;
+
+    public Player() {
+        super();
+    }
 
     public Player(String name) {
         super(name);

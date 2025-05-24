@@ -13,7 +13,11 @@ public abstract class User implements Serializable {
     protected String avatar;
     protected boolean active;
     protected Role role;
-    
+    protected String description;
+
+    public User() {
+        
+    }
 
     public User(String username) {
         this.idUser = -1;
@@ -28,7 +32,7 @@ public abstract class User implements Serializable {
     }
 
     public User(int idUser, String name, String lastName, String username, String email, String country, String password, 
-                String avatar, Role role) {
+                String avatar, Role role ) {
         this.idUser = idUser;
         this.name = name;
         this.lastName = lastName;
@@ -39,6 +43,7 @@ public abstract class User implements Serializable {
         this.avatar = avatar;
         this.active = true; // por defecto el usuario estara activo
         this.role = role;
+        this.description = "";
     }
 
     public int getIdUser() {
@@ -117,6 +122,13 @@ public abstract class User implements Serializable {
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

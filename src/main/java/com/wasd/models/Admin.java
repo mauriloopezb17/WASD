@@ -4,6 +4,10 @@ public class Admin extends User {
 
     private int idAdmin;
 
+    public Admin() {
+        super();
+    }
+
     public Admin(String name){
         super(name);
         this.idAdmin = -1;

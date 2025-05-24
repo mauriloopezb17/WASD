@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ConnectionDB",
+            "request": "launch",
+            "mainClass": "com.wasd.database.ConnectionDB",
+            "projectName": "wasd"
+        },
+        {
+            "type": "java",
             "name": "RoundedBorderTest",
             "request": "launch",
             "mainClass": "com.wasd.RoundedBorderTest",

@@ -1,9 +1,6 @@
 package com.wasd.models;
 
 import java.util.ArrayList;
-
-import com.wasd.gui.Windows;
-
 import java.io.*;
 import java.time.LocalDate;
 
