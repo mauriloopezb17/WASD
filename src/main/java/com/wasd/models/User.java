@@ -1,4 +1,4 @@
-package com.wasd;
+package com.wasd.models;
 import java.io.*;
 
 public abstract class User implements Serializable {
@@ -19,11 +19,11 @@ public abstract class User implements Serializable {
         this.idUser = -1;
         this.name = "Ale";
         this.lastName = "Bobarin :)";
+        this.username = username;
         this.email = "unknown@email.com";
         this.country = "Unknown Country";
         this.password = "unknown";
         this.avatar = "/images/user_default.jpg";
-        this.username = username;
         this.active = true;
     }
 

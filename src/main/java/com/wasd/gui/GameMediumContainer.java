@@ -1,6 +1,8 @@
-package com.wasd;
+package com.wasd.gui;
+import com.wasd.models.Game;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 

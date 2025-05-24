@@ -1,4 +1,4 @@
-package com.wasd;
+package com.wasd.gui;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import javax.swing.border.*;
 import java.awt.geom.*;
 
 import org.w3c.dom.events.MouseEvent;
+
+import com.wasd.models.Game;
 
 public class Showcase extends JPanel implements StyleConfig {
     ArrayList<Game> Games = new ArrayList<>();

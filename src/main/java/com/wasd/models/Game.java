@@ -1,7 +1,11 @@
-package com.wasd;
+package com.wasd.models;
 
 import java.util.ArrayList;
+
+import com.wasd.gui.Windows;
+
 import java.io.*;
+import java.time.LocalDate;
 
 public class Game implements Serializable {
     
@@ -16,7 +20,10 @@ public class Game implements Serializable {
     private int negativeReviews;
     private String description;
     private ArrayList<String> tags;
-    private int discount;
+    private double discount;
+    private LocalDate releaseDate;
+    private boolean recommended;
+    private int status;
     
     // Requerimientos de cada plataforma y la clasificacion
     private Rating classification;
@@ -50,7 +57,7 @@ public class Game implements Serializable {
     }
 
     public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
-                int negativeReviews, String description, ArrayList<String> tags, int discount, Rating classification, Windows windowsRequirement, 
+                int negativeReviews, String description, ArrayList<String> tags, double discount, LocalDate releaseDate, boolean recommended, int status, Rating classification, Windows windowsRequirement, 
                 Linux linuxRequirement, Mac macRequirement) {
         this.idGame = idGame;
         this.nameGame = nameGame;
@@ -64,6 +71,9 @@ public class Game implements Serializable {
         this.description = description;
         this.tags = tags;
         this.discount = discount;
+        this.releaseDate = releaseDate;
+        this.recommended = recommended;
+        this.status = status;
         this.classification = classification;
         this.windowsRequirement = windowsRequirement;
         this.linuxRequirement = linuxRequirement;
@@ -147,11 +157,32 @@ public class Game implements Serializable {
         this.tags = tags;
     }
 
-    public int getDiscount() {
+    public double getDiscount() {
         return discount;
     }
-    public void setDiscount(int discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public boolean isRecommended() {
+        return recommended;
+    }
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Rating getClassification() {

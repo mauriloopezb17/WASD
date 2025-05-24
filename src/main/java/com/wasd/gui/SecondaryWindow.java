@@ -1,5 +1,8 @@
-package com.wasd;
+package com.wasd.gui;
 import javax.swing.*;
+
+import com.wasd.models.Player;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;

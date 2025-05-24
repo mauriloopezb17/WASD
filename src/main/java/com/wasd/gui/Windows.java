@@ -1,4 +1,6 @@
-package com.wasd;
+package com.wasd.gui;
+
+import com.wasd.models.Requirement;
 
 public class Windows extends Requirement {
     

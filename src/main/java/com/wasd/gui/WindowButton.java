@@ -1,5 +1,6 @@
-package com.wasd;
+package com.wasd.gui;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 

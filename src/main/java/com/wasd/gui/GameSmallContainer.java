@@ -1,7 +1,10 @@
-package com.wasd;
+package com.wasd.gui;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.wasd.models.Game;
+
 import java.awt.event.*;
 
 public class GameSmallContainer extends PanelRound implements StyleConfig {

@@ -1,4 +1,4 @@
-package com.wasd;
+package com.wasd.models;
 import java.io.*;
 
 public class Rating implements Serializable {

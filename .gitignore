@@ -28,3 +28,6 @@
 
 #Ya que las bases de datos ya están en cada compu las conexiones no los subiré
 *.sql
+
+# Archivos temporales de drawio
+*.drawio.bkp

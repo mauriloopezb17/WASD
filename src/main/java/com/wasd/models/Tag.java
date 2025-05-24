@@ -1,4 +1,4 @@
-package com.wasd;
+package com.wasd.models;
 import java.io.*;
 
 import java.util.ArrayList;

@@ -3,6 +3,10 @@ package com.wasd;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.wasd.gui.MainWindow;
+import com.wasd.models.Game;
+import com.wasd.models.Player;
+
 public class Main 
 {
     public static void main( String[] args )

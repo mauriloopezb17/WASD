@@ -1,7 +1,9 @@
-package com.wasd;
+package com.wasd.gui;
+import com.wasd.models.*;
 
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.util.concurrent.Flow;
 

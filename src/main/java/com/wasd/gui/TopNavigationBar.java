@@ -1,8 +1,11 @@
-package com.wasd;
+package com.wasd.gui;
+import com.wasd.models.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import com.wasd.models.Player;
 
 import java.awt.*;
 import java.awt.event.*;

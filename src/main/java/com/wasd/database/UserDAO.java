@@ -1,4 +1,4 @@
-package com.wasd;
+package com.wasd.database;
 
 public class UserDAO {
     
