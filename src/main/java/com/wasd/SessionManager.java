@@ -1,6 +1,9 @@
 package com.wasd;
 
 import com.wasd.models.User;
+import com.wasd.models.Player;
+import com.wasd.models.Publisher;
+import com.wasd.models.Admin;
 
 // Esta clase guarda la sesion del usuario hasta que se cierre la aplicacion o se cierre la sesion
 public class SessionManager {
@@ -14,6 +17,9 @@ public class SessionManager {
      */
 
     private static User currentUser;
+    private static Player currentPlayer;
+    private static Publisher currentPublisher;
+    private static Admin currentAdmin;
 
     // Función que obtiene al usuario actual
     public static User getCurrentUser() {
@@ -23,6 +29,18 @@ public class SessionManager {
     // Función para guarda la sesión iniciada del usuario y establecerla como la activa
     public static void loginSession(User user) {
         currentUser = user;
+    }
+
+    public static void loginSessionPlayer(Player player){
+        currentPlayer = player;
+    }
+
+    public static void loginSessionPublisher(Publisher publisher){
+        currentPublisher = publisher;
+    }
+
+    public static void loginSessionAdmin(Admin admin){
+        currentAdmin = admin;
     }
 
     // Función que verifica si hay una sesión activa
