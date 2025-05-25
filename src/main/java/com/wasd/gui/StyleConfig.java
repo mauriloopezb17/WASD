@@ -26,5 +26,6 @@ public interface StyleConfig {
     Font SUBTITLE2_FONT = new Font("Segoe UI", Font.BOLD, 17);
     Font DESCRPTION_FONT = new Font("Segoe UI", Font.BOLD, 12);
     Font SECONDARY_DESCRIPTION_FONT = new Font("Segoe UI", Font.BOLD, 10);
+    Font WINDOW_TITLE_FONT = new Font("Segoe UI", Font.PLAIN, 12);
     
 }

@@ -33,7 +33,7 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         makeDraggable(this, upperPanel);
 
             JLabel titleLabel = new JLabel("    " + title);
-            titleLabel.setFont(DESCRPTION_FONT);
+            titleLabel.setFont(WINDOW_TITLE_FONT);
             titleLabel.setForeground(TEXT_COLOR);
             titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
             titleLabel.setOpaque(false);
@@ -64,7 +64,7 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         makeDraggable(this, upperPanel);
 
             JLabel titleLabel = new JLabel("    " + title);
-            titleLabel.setFont(DESCRPTION_FONT);
+            titleLabel.setFont(WINDOW_TITLE_FONT);
             titleLabel.setForeground(TEXT_COLOR);
             titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
             titleLabel.setOpaque(false);

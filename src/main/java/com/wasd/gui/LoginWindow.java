@@ -22,7 +22,7 @@ import javax.swing.border.AbstractBorder;
 public class LoginWindow extends SecondaryWindow implements StyleConfig {
 
     public LoginWindow(ArrayList<Game> games, ArrayList<Game> recommendedGames) {
-        super("Login");
+        super("WASD - Login");
 
         //logo
         JLabel logoLabel = new JLabel();
