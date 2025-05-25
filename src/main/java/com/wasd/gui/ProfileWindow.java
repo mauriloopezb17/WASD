@@ -190,6 +190,7 @@ public class ProfileWindow extends SecondaryWindow{
         this.add(wrapperPanel, BorderLayout.CENTER);
         
         this.pack();
+        this.setLocation(MouseInfo.getPointerInfo().getLocation());
         this.setVisible(true);
     }
     

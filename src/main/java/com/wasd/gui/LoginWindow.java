@@ -19,6 +19,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.border.LineBorder;
 import javax.swing.border.AbstractBorder;
 
+import com.wasd.SessionManager;
+
 public class LoginWindow extends SecondaryWindow implements StyleConfig {
 
     public LoginWindow(ArrayList<Game> games, ArrayList<Game> recommendedGames) {
@@ -228,6 +230,9 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
         this.pack();
         this.setSize(700, this.getHeight());
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
+
+        this.setLocation((1980-this.getWidth())/2, (1080-this.getHeight())/2);
+
         this.setVisible(true);
     }
 }
