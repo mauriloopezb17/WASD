@@ -4,9 +4,46 @@ import java.sql.*;
 
 import com.wasd.database.ConnectionDB;
 import com.wasd.models.Admin;
+import com.wasd.models.Player;
 import com.wasd.models.Role;
 
 public class AdminDAO {
+
+    // Funcion "Create" para SQL, pero para admin
+    public boolean createPlayer(Admin admin) {
+        
+        String sql ="INSERT INTO users(name, lastName, userName, email, password, country, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql2 = "INSERT INTO admins(idAdmin) VALUES (?)";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql); 
+            PreparedStatement stmt2 = con.prepareStatement(sql2)){
+
+            // Consulta para Users
+            stmt.setString(1, admin.getName());
+            stmt.setString(2, admin.getLastName());
+            stmt.setString(3, admin.getUsername());
+            stmt.setString(4, admin.getEmail());
+            stmt.setString(5, admin.getPassword());
+            stmt.setString(6, admin.getCountry());
+            stmt.setString(7, admin.getAvatar());
+            stmt.setBoolean(8, admin.isActive());
+            stmt.setString(9, admin.getRole().name());
+            stmt.setString(10, admin.getDescription());
+
+            // Consulta para PLayers;
+            stmt2.setInt(1, admin.getIdAdmin());
+
+            // Ejecutar la consulta
+            int updatedUser = stmt.executeUpdate();
+            int updatedAdmin = stmt2.executeUpdate();
+            return updatedUser > 0 && updatedAdmin > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // Usa la logica del READ para SQL, pero busca al admin desde su id y construye al objeto Admin correspondiente
     public Admin searchAdmin(int idUser) {

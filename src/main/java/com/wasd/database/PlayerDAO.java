@@ -5,8 +5,45 @@ import java.sql.*;
 import com.wasd.database.ConnectionDB;
 import com.wasd.models.Player;
 import com.wasd.models.Role;
+import com.wasd.models.User;
 
 public class PlayerDAO {
+
+    // Funcion "Create" para SQL, pero para player
+    public boolean createPlayer(Player player) {
+        
+        String sql ="INSERT INTO users(name, lastName, userName, email, password, country, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql2 = "INSERT INTO players(idPlayer) VALUES (?)";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql); 
+            PreparedStatement stmt2 = con.prepareStatement(sql2)){
+
+            // Consulta para Users
+            stmt.setString(1, player.getName());
+            stmt.setString(2, player.getLastName());
+            stmt.setString(3, player.getUsername());
+            stmt.setString(4, player.getEmail());
+            stmt.setString(5, player.getPassword());
+            stmt.setString(6, player.getCountry());
+            stmt.setString(7, player.getAvatar());
+            stmt.setBoolean(8, player.isActive());
+            stmt.setString(9, player.getRole().name());
+            stmt.setString(10, player.getDescription());
+
+            // Consulta para PLayers;
+            stmt2.setInt(1, player.getIdPlayer());
+
+            // Ejecutar la consulta
+            int updatedUser = stmt.executeUpdate();
+            int updatedPlayer = stmt2.executeUpdate();
+            return updatedUser > 0 && updatedPlayer > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // Usa la logica del READ para SQL, pero busca al jugador desde su id y construye al objeto Player correspondiente
     public Player searchPlayer(int idUser) {

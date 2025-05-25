@@ -3,10 +3,48 @@ package com.wasd.database;
 import java.sql.*;
 
 import com.wasd.database.ConnectionDB;
+import com.wasd.models.Player;
 import com.wasd.models.Publisher;
 import com.wasd.models.Role;
 
 public class PublisherDAO {
+
+    // Funcion "Create" para SQL, pero para publisher
+    public boolean createPlayer(Publisher publisher) {
+        
+        String sql ="INSERT INTO users(name, lastName, userName, email, password, country, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql2 = "INSERT INTO publishers(idPublisher) VALUES (?)";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql); 
+            PreparedStatement stmt2 = con.prepareStatement(sql2)){
+
+            // Consulta para Users
+            stmt.setString(1, publisher.getName());
+            stmt.setString(2, publisher.getLastName());
+            stmt.setString(3, publisher.getUsername());
+            stmt.setString(4, publisher.getEmail());
+            stmt.setString(5, publisher.getPassword());
+            stmt.setString(6, publisher.getCountry());
+            stmt.setString(7, publisher.getAvatar());
+            stmt.setBoolean(8, publisher.isActive());
+            stmt.setString(9, publisher.getRole().name());
+            stmt.setString(10, publisher.getDescription());
+
+            // Consulta para PLayers;
+            stmt2.setInt(1, publisher.getIdPublisher());
+
+            // Ejecutar la consulta
+            int updatedUser = stmt.executeUpdate();
+            int updatedPublisher = stmt2.executeUpdate();
+            return updatedUser > 0 && updatedPublisher > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     // Usa la logica del READ para SQL, pero busca al publisher desde su id y construye al objeto Publiser correspondiente
     public Publisher searchPublisher(int idUser) {
