@@ -44,7 +44,7 @@ public class UserDAO {
     public User searchUser(String input) {
         String sql;
 
-        boolean isEmail = input.contains("@");
+        boolean isEmail = input.contains("@gmail") || input.contains("@hotmail") || input.contains("@outlook") || input.contains("@yahoo") || input.contains("@ucb");
         if (isEmail) {
             sql = "SELECT * FROM users WHERE email = ?";
         } else {
@@ -74,6 +74,42 @@ public class UserDAO {
         }
 
         return null;
+    }
+
+    // funcion para buscar si el correo usado ya existe en la base de datos
+    public boolean repetitiveEmail(String email) {
+
+        String sql = "SELECT 1 FROM users WHERE email = ?";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // funcion para buscar si el nombre de usuario ya existe en la base de datos
+    public boolean repetitiveUserName(String username) {
+        
+        String sql = "SELECT 1 FROM users WHERE userName = ?";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
