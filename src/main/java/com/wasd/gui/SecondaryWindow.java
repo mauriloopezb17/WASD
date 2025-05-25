@@ -18,6 +18,36 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
     public SecondaryWindow(String title, MainWindow frame, Player player) {
         this.player = player;
 
+        this.setTitle("WASD");
+        this.setSize(300, 600);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setLayout(new BorderLayout(20, 20));
+        this.getContentPane().setBackground(BG_COLOR);
+        this.setUndecorated(true);
+        this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
+
+        JPanel upperPanel = new JPanel(new BorderLayout());
+        upperPanel.setPreferredSize(new Dimension(0, 25));
+        upperPanel.setBackground(PANEL_COLOR);
+        makeDraggable(this, upperPanel);
+
+            JLabel titleLabel = new JLabel("    " + title);
+            titleLabel.setFont(DESCRPTION_FONT);
+            titleLabel.setForeground(TEXT_COLOR);
+            titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            titleLabel.setOpaque(false);
+            upperPanel.add(titleLabel, BorderLayout.WEST);
+
+            WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
+            closeButton.addActionListener(e -> this.dispose());
+
+            upperPanel.add(closeButton, BorderLayout.EAST);
+
+        this.add(upperPanel, BorderLayout.NORTH);
+    }
+    
+    public SecondaryWindow(String title) {
 
         this.setTitle("WASD");
         this.setSize(300, 600);
@@ -28,20 +58,24 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        //buttonPanel.setOpaque(false);
-        buttonPanel.setPreferredSize(new Dimension(0, 30));
-        buttonPanel.setBackground(PANEL_COLOR);
-        makeDraggable(this, buttonPanel);
+        JPanel upperPanel = new JPanel(new BorderLayout());
+        upperPanel.setPreferredSize(new Dimension(0, 25));
+        upperPanel.setBackground(PANEL_COLOR);
+        makeDraggable(this, upperPanel);
+
+            JLabel titleLabel = new JLabel("    " + title);
+            titleLabel.setFont(DESCRPTION_FONT);
+            titleLabel.setForeground(TEXT_COLOR);
+            titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            titleLabel.setOpaque(false);
+            upperPanel.add(titleLabel, BorderLayout.WEST);
 
             WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
             closeButton.addActionListener(e -> this.dispose());
-            buttonPanel.add(closeButton);
 
-        this.add(buttonPanel, BorderLayout.NORTH);
-        
+            upperPanel.add(closeButton, BorderLayout.EAST);
 
-        //this.setVisible(true);
+        this.add(upperPanel, BorderLayout.NORTH);
     }
     
     private void makeDraggable(JFrame frame, JComponent component) {
@@ -66,5 +100,5 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
                 frame.setLocation(X, Y);
             }
         });
-    }   
+    }
 }

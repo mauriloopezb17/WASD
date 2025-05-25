@@ -18,7 +18,7 @@ public class Player extends User {
     public Player(String name) {
         super(name);
         this.idPlayer = -1;
-        this.description = "Gaming Gaming Gaming :)"; // ← default description
+        this.description = "Gaming Gaming Gaming :)"; // default description
         this.library = new ArrayList<>();
         this.wishlist = new ArrayList<>();
         this.cart = new ArrayList<>();

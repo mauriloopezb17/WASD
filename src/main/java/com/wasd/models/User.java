@@ -27,7 +27,7 @@ public abstract class User implements Serializable {
         this.email = "unknown@email.com";
         this.country = "Unknown Country";
         this.password = "unknown";
-        this.avatar = "/images/user_default.jpg";
+        this.avatar = "/images/user_default.png";
         this.active = true;
     }
 

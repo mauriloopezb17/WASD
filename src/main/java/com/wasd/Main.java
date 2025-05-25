@@ -3,6 +3,9 @@ package com.wasd;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
+import com.wasd.gui.LoginWindow;
 import com.wasd.gui.MainWindow;
 import com.wasd.models.Game;
 import com.wasd.models.Player;
@@ -30,11 +33,12 @@ public class Main
         ArrayList<Player> friends = new ArrayList<>();
         friends.add(new Player("CoBine17"));
         friends.add(new Player("Tommy999"));
-        friends.add(new Player("Willirex"));
+        friends.add(new Player("SergioA2"));
 
         player.setFriends(friends);
 
-        new MainWindow(games, recommendedGames, player);
+        //new MainWindow(games, recommendedGames, player);
+        new LoginWindow(games, recommendedGames);
         //new SecondaryWindow("Test", null, player);
     }
 }

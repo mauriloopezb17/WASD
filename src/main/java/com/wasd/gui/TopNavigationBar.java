@@ -75,12 +75,17 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         topBar.add(buttonPanel, BorderLayout.EAST);
 
         // Tab buttons
-        JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 2));
         tabPanel.setOpaque(false);
         {
-            JLabel spacerLabel = new JLabel();
-            spacerLabel.setPreferredSize(new Dimension(10, 0));
-            tabPanel.add(spacerLabel);
+
+            //logo
+            JLabel logoLabel = new JLabel();
+            logoLabel.setIcon(AssetLoader.loadIcon("/images/logo.png", 50, 50));
+            logoLabel.setPreferredSize(new Dimension(50, 50));
+            logoLabel.setOpaque(false);
+            tabPanel.add(logoLabel);
+
             TabButton homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
             tabPanel.add(homeButton);
             TabButton libraryButton = new TabButton("LIBRARY", "/images/library_active.png", "/images/library_inactive.png", false);

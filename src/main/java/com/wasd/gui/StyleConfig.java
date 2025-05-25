@@ -4,12 +4,17 @@ import java.awt.*;
 
 public interface StyleConfig {
     Color BG_COLOR = new Color(0x181818);
+    //Color BG_COLOR = new Color(0x0f012a);
     Color TOP_BAR_COLOR = new Color(0x000000);
+    //Color TOP_BAR_COLOR = new Color(0x181413);
     Color TEXT_COLOR = new Color(0xffffff);
     Color HIGHLIGHT_COLOR = new Color(0x333333);
     Color CLOSE_COLOR = new Color(0xCC1155);
     Color DETAILS_COLOR = new Color(0x44ffd2);
+    //Color DETAILS_COLOR = new Color(0x3e9cbf);
+    Color DETAILS2_COLOR = new Color(0xd33b7d);
     Color PANEL_COLOR = new Color(0x101010);
+    //Color PANEL_COLOR = new Color(0x0f012a);
     Color DISCOUNT_COLOR = new Color(0x00ff55);
     Color ONLINE_COLOR = new Color(0x00ff55);
     Color OFFLINE_COLOR = new Color(0xff0055);
