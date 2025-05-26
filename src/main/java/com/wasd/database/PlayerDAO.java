@@ -86,7 +86,7 @@ public class PlayerDAO {
     // Usa la logica del READ para SQL, pero busca al jugador desde su id y construye al objeto Player correspondiente
     public Player searchPlayer(int idUser) {
         
-        String sql = "SELECT u.*, p.*, c.countryName FROM USERS u JOIN PLAYERS p ON u.idUser = p.idUser JOIN u.idCountry = c.idCountry WHERE u.idUser = ?";
+        String sql = "SELECT u.*, p.*, c.countryName FROM USERS u JOIN PLAYERS p ON u.idUser = p.idUser JOIN COUNTRIES c ON u.idCountry = c.idCountry WHERE u.idUser = ?";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
