@@ -380,6 +380,7 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                                     }
                                     else {
                                         emailValid = true;
+                                        emailLabel.setText("Email");
                                     }
                                 }
 
