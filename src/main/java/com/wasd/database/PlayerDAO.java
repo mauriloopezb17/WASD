@@ -14,7 +14,7 @@ public class PlayerDAO {
         
         String sql ="INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String sql2 = "INSERT INTO players(idPlayer) VALUES (?)";
-        String sql3 = "INSERT INTO COUNTRY(countryName) VALUES (?)";
+        String sql3 = "INSERT INTO countries(countryName) VALUES (?)";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql); 
@@ -27,10 +27,10 @@ public class PlayerDAO {
             stmt.setString(3, player.getUsername());
             stmt.setString(4, player.getEmail());
             stmt.setString(5, player.getPassword());
-            stmt.setString(7, player.getAvatar());
-            stmt.setBoolean(8, player.isActive());
-            stmt.setString(9, player.getRole().name());
-            stmt.setString(10, player.getDescription());
+            stmt.setString(6, player.getAvatar());
+            stmt.setBoolean(7, player.isActive());
+            stmt.setString(8, player.getRole().name());
+            stmt.setString(9, player.getDescription());
 
             // Consulta para PLayers;
             stmt2.setInt(1, player.getIdPlayer());
