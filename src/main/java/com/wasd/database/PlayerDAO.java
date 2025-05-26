@@ -95,13 +95,12 @@ public class PlayerDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Player player = new Player();
+                Player player = new Player(rs.getString("userName"));
 
                 // Datos desde la tabla USERS
                 player.setIdUser(rs.getInt("idUser"));
                 player.setName(rs.getString("name"));
                 player.setLastName(rs.getString("lastName"));
-                player.setUsername(rs.getString("userName"));
                 player.setEmail(rs.getString("email"));
                 player.setPassword(rs.getString("password"));
                 player.setCountry(rs.getString("countryName"));

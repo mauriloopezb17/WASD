@@ -19,33 +19,33 @@ public class Player extends User {
         super(name);
         this.idPlayer = -1;
         this.description = "Gaming Gaming Gaming :)"; // default description
-        this.library = new ArrayList<>();
-        this.wishlist = new ArrayList<>();
-        this.cart = new ArrayList<>();
-        this.friends = new ArrayList<>();
-        this.requests = new ArrayList<>();
+        this.library = new ArrayList<Game>();
+        this.wishlist = new ArrayList<Game>();
+        this.cart = new ArrayList<Game>();
+        this.friends = new ArrayList<Player>();
+        this.requests = new ArrayList<Player>();
     }
 
     public Player(int idUser, int idGamer, String name, String lastName, String username, String email, String country, 
                     String password, String avatar) {
         super(idUser, name, lastName, username, email, country, password, avatar, Role.PLAYER);
         this.idPlayer = idGamer;
-        this.library = new ArrayList<>();
-        this.wishlist = new ArrayList<>();
-        this.cart = new ArrayList<>();
-        this.friends = new ArrayList<>();
-        this.requests = new ArrayList<>();
+        this.library = new ArrayList<Game>();
+        this.wishlist = new ArrayList<Game>();
+        this.cart = new ArrayList<Game>();
+        this.friends = new ArrayList<Player>();
+        this.requests = new ArrayList<Player>();
     }
 
     // constructor based on registerWindow
     public Player(String email, String username, String password, String name, String lastName, String country) {
         super(email, username, password, name, lastName, country, Role.PLAYER);
         this.idPlayer = -1;
-        this.library = new ArrayList<>();
-        this.wishlist = new ArrayList<>();
-        this.cart = new ArrayList<>();
-        this.friends = new ArrayList<>();
-        this.requests = new ArrayList<>();
+        this.library = new ArrayList<Game>();
+        this.wishlist = new ArrayList<Game>();
+        this.cart = new ArrayList<Game>();
+        this.friends = new ArrayList<Player>();
+        this.requests = new ArrayList<Player>();
     }
 
     public String getDescription() {

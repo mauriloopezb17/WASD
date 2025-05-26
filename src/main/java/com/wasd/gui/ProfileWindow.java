@@ -114,6 +114,11 @@ public class ProfileWindow extends SecondaryWindow{
             //infoPanel.add(usernameLabel, BorderLayout.NORTH);
 
             JTextArea descriptionTextArea = new JTextArea(player.getDescription());
+
+            if (player.getDescription() == "" || player.getDescription() == null) {
+                descriptionTextArea.setText("No description available.");
+            }
+
             descriptionTextArea.setFont(DESCRPTION_FONT);
             descriptionTextArea.setForeground(TEXT_COLOR);
             descriptionTextArea.setLineWrap(true);
@@ -142,8 +147,21 @@ public class ProfileWindow extends SecondaryWindow{
                 gamesRow.setOpaque(false);
                 gamesRow.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 2));
 
-                for(int i = 0; i < 3; i++) {
-                    gamesRow.add(new GameSmallContainer(player.getLibrary().get(i)));
+                try{
+                    int minGames = Math.min(3, player.getLibrary().size());
+                    for(int i = 0; i < minGames; i++) {
+                        gamesRow.add(new GameSmallContainer(player.getLibrary().get(i)));
+                    }
+                    if (player.getLibrary().size() == 0) {
+                        //no games label
+                        JLabel noGamesLabel = new JLabel("No games yet...");
+                        noGamesLabel.setFont(DESCRPTION_FONT);
+                        noGamesLabel.setForeground(TEXT_COLOR);
+                        gamesRow.add(noGamesLabel);
+                    }
+                }
+                catch(Exception NullPointerException){
+                    System.out.println("Error al mostrar jugador");
                 }
                 gamesPanel.add(gamesRow, BorderLayout.CENTER);
             }
@@ -167,10 +185,23 @@ public class ProfileWindow extends SecondaryWindow{
                 JPanel friendsContainer = new JPanel();
                 friendsContainer.setOpaque(false);
                 friendsContainer.setLayout(new BoxLayout(friendsContainer, BoxLayout.Y_AXIS));
-                for(int i = 0; i < player.getFriends().size(); i++) {
-                    friendsContainer.add(new ProfileSmallContainer(player.getFriends().get(i)));
-                    //add gap
-                    friendsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+                try{
+                    int minFriends = Math.min(5, player.getFriends().size());
+                    for(int i = 0; i < minFriends; i++) {
+                        friendsContainer.add(new ProfileSmallContainer(player.getFriends().get(i)));
+                        //add gap
+                        friendsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
+                    }
+                    if (player.getFriends().size() == 0) {
+                        //no friends label
+                        JLabel noFriendsLabel = new JLabel("No friends yet...");
+                        noFriendsLabel.setFont(DESCRPTION_FONT);
+                        noFriendsLabel.setForeground(TEXT_COLOR);
+                        noFriendsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        friendsContainer.add(noFriendsLabel);
+                    }
+                }catch(Exception NullPointerException){
+                    System.out.println("Error al mostrar amigos");
                 }
                 friendsPanel.add(friendsContainer, BorderLayout.CENTER);
             }

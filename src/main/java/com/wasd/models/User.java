@@ -29,6 +29,7 @@ public abstract class User implements Serializable {
         this.password = "unknown";
         this.avatar = "/images/user_default.png";
         this.active = true;
+        this.description = "No description provided";
     }
 
     public User(int idUser, String name, String lastName, String username, String email, String country, String password, 
@@ -43,7 +44,7 @@ public abstract class User implements Serializable {
         this.avatar = avatar;
         this.active = true; // por defecto el usuario estara activo
         this.role = role;
-        this.description = "";
+        this.description = "No description provided";
     }
 
     // constructor based on registerWindow
@@ -58,7 +59,7 @@ public abstract class User implements Serializable {
         this.avatar = "/images/user_default.png";
         this.active = true; // por defecto el usuario estara activo
         this.role = role;
-        this.description = "";
+        this.description = "No description provided";
     }
     public int getIdUser() {
         return idUser;

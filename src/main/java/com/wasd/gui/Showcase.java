@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.geom.*;
+import java.lang.reflect.Array;
 
 import org.w3c.dom.events.MouseEvent;
 
@@ -14,10 +15,12 @@ import com.wasd.models.Game;
 public class Showcase extends JPanel implements StyleConfig {
     ArrayList<Game> Games = new ArrayList<>();
     int i;
+    int slideshowIndex = 0;
     JLabel priceLabel;
     JLabel nameLabel;
     JLabel imageLabel;
     JLabel discountLabel;
+    PanelRound discountContainer;
 
     public Showcase(ArrayList<Game> games) {
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -37,12 +40,15 @@ public class Showcase extends JPanel implements StyleConfig {
             previousButton.setBorderPainted(false);
             previousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-            ArrayList<ImageIcon> thumbnails = new ArrayList<>(); //crea una lista de thumbnails y miniaturas
-            ArrayList<ImageIcon> previews = new ArrayList<>(); 
-            for (Game game : games) {
-                System.out.println(game.getPictures().get(0));
-                thumbnails.add(AssetLoader.loadIcon(game.getPictures().get(0), 640, 360));
-                previews.add(AssetLoader.loadIcon(game.getPictures().get(0), 160, 90));
+            ArrayList<ArrayList<ImageIcon>> thumbnails = new ArrayList<>(); //crea una lista de thumbnails y miniaturas
+            ArrayList<ArrayList<ImageIcon>> previews = new ArrayList<>();
+            for (int gameIndex = 0; gameIndex < games.size(); gameIndex++) {
+                thumbnails.add(new ArrayList<ImageIcon>());
+                previews.add(new ArrayList<ImageIcon>());
+                for (int thumbnaiIndex = 0; thumbnaiIndex < games.get(gameIndex).getPictures().size(); thumbnaiIndex++) {
+                    thumbnails.get(gameIndex).add(AssetLoader.loadIconFromUrl(games.get(gameIndex).getPictures().get(thumbnaiIndex), 640, 360));
+                    previews.get(gameIndex).add(AssetLoader.loadIconFromUrl(games.get(gameIndex).getPictures().get(thumbnaiIndex), 160, 90));
+                }
             }
 
             PanelRound gameCard = new PanelRound();
@@ -61,7 +67,7 @@ public class Showcase extends JPanel implements StyleConfig {
             //gameCard.setBorder(new RoundedBorder(20));
             {
                 imageLabel = new JLabel();
-                imageLabel.setIcon(thumbnails.get(0));
+                imageLabel.setIcon(thumbnails.get(0).get(0));
                 imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 JPanel infoRow = new JPanel(new BorderLayout());
@@ -78,13 +84,18 @@ public class Showcase extends JPanel implements StyleConfig {
                 priceContainer.setLayout(new FlowLayout(FlowLayout.RIGHT));;
                 priceContainer.setPreferredSize(new Dimension(230, 60));
                 {
-                    priceLabel = new JLabel("$" + games.get(0).getPrice() + "  ");
+                    if (games.get(0).getPrice() != 0) {
+                        priceLabel = new JLabel("$" + games.get(0).getPrice() + "  ");
+                    }
+                    else {
+                        priceLabel = new JLabel("Free");
+                    }
                     priceLabel.setFont(SUBTITLE_FONT);
                     priceLabel.setForeground(TEXT_COLOR);
                     priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                     priceContainer.add(priceLabel);
 
-                    PanelRound discountContainer = new PanelRound();
+                    discountContainer = new PanelRound();
                     int disRad = 6;
                     discountContainer.setRoundTopLeft(disRad);
                     discountContainer.setRoundTopRight(disRad);
@@ -103,10 +114,16 @@ public class Showcase extends JPanel implements StyleConfig {
                     discountLabel.setForeground(DISCOUNT_COLOR);
                     discountLabel.setHorizontalAlignment(SwingConstants.CENTER);
                     discountLabel.setText("-" + games.get(0).getDiscount() + "%");
-                    discountContainer.add(discountLabel);
+
                     if (games.get(0).getDiscount() != 0) {
-                        priceContainer.add(discountContainer);
+                        discountContainer.setVisible(true);
                     }
+                    else {
+                        discountContainer.setVisible(false);
+                    }
+
+                    discountContainer.add(discountLabel);
+                    priceContainer.add(discountContainer);
                 }
 
                 // Add name and price to info row
@@ -141,24 +158,45 @@ public class Showcase extends JPanel implements StyleConfig {
             previousButton.addActionListener(e -> {
                 this.i--;
                 if(this.i < 0) this.i = games.size()-1;
-                priceLabel.setText("$" + games.get(i%games.size()).getPrice());
+                if (games.get(i%games.size()).getPrice() != 0) {
+                    priceLabel.setText("$" + games.get(i%games.size()).getPrice());
+                }
+                else {
+                    priceLabel.setText("Free");
+                }
                 nameLabel.setText(games.get(i%games.size()).getNameGame());
-                imageLabel.setIcon(thumbnails.get(i%thumbnails.size()));
-                discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
+                imageLabel.setIcon(thumbnails.get(i%thumbnails.size()).get(0));
+
+                if (games.get(i%games.size()).getDiscount() != 0) {
+                    discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
+                    discountContainer.setVisible(true);
+                }
+                else {
+                    discountContainer.setVisible(false);
+                }
             });
             nextButton.addActionListener(e -> {
                 this.i++;
-                priceLabel.setText("$" + games.get(i%games.size()).getPrice());
+                if (games.get(i%games.size()).getPrice() != 0) {
+                    priceLabel.setText("$" + games.get(i%games.size()).getPrice());
+                }
+                else {
+                    priceLabel.setText("Free");
+                }
                 nameLabel.setText(games.get(i%games.size()).getNameGame());
-                imageLabel.setIcon(thumbnails.get(i%thumbnails.size()));
-                discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
+                imageLabel.setIcon(thumbnails.get(i%thumbnails.size()).get(0));
+                
+                if (games.get(i%games.size()).getDiscount() != 0) {
+                    discountLabel.setText("-" + games.get(i%games.size()).getDiscount() + "%");
+                    discountContainer.setVisible(true);
+                }
+                else {
+                    discountContainer.setVisible(false);
+                }
             });
-            Timer autoScrollTimer = new Timer(3000, e -> {
-                this.i++;
-                priceLabel.setText("$" + games.get(i % games.size()).getPrice());
-                nameLabel.setText(games.get(i % games.size()).getNameGame());
-                imageLabel.setIcon(thumbnails.get(i % thumbnails.size()));
-                discountLabel.setText("-" + games.get(i % games.size()).getDiscount() + "%");
+            Timer autoScrollTimer = new Timer(2500, e -> {
+                this.slideshowIndex++;
+                imageLabel.setIcon(thumbnails.get(i % thumbnails.size()).get(slideshowIndex % thumbnails.get(i % thumbnails.size()).size()));
             });
             autoScrollTimer.start();
 

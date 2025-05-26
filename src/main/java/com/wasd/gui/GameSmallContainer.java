@@ -22,7 +22,7 @@ public class GameSmallContainer extends PanelRound implements StyleConfig {
         this.setBackground(PANEL_COLOR);
 
         JLabel bannerLabel = new JLabel();
-        bannerLabel.setIcon(AssetLoader.loadIcon(game.getBanner(), width, height));
+        bannerLabel.setIcon(AssetLoader.loadIconFromUrl(game.getBanner(), width, height));
         bannerLabel.setPreferredSize(new Dimension(width, height));
 
         this.add(bannerLabel, BorderLayout.CENTER);

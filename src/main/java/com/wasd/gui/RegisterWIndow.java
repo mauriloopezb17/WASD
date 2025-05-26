@@ -31,7 +31,7 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
 
     public RegisterWindow(ArrayList<Game> games, ArrayList<Game> recommendedGames) {
         super("WASD - Register");
-        this.setSize(new Dimension(300, 900));
+        this.setSize(new Dimension(500, 900));
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
 
         //big Container
@@ -276,7 +276,7 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                 //button panel
                 JPanel buttonPanel = new JPanel();
                 buttonPanel.setOpaque(false);
-                buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 10));
+                buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 10));
                 buttonPanel.setPreferredSize(new Dimension(200, 30));
 
                     PanelRound LoginButton = new PanelRound();

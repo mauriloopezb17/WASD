@@ -31,7 +31,7 @@ public class Game implements Serializable {
     public Game(String nameGame) {
         this.idGame = -1;
         this.nameGame = nameGame;
-        this.banner = "/images/gameBanner_default.jpg";
+        this.banner = "https://100.76.173.106:8443/resources/gameBanner_default.jpg";
         this.pictures = new ArrayList<>();
         this.pictures.add("/images/gameThumbnail_default.jpg");
         this.publisher = new Publisher("Unknown Publisher");

@@ -35,7 +35,7 @@ public class GameMediumContainer extends PanelRound implements StyleConfig {
         bannerContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JLabel bannerLabel = new JLabel();
-        bannerLabel.setIcon(AssetLoader.loadIcon(game.getBanner(), width+9, height+8));
+        bannerLabel.setIcon(AssetLoader.loadIconFromUrl(game.getBanner(), width+9, height+8));
         bannerLabel.setPreferredSize(new Dimension(width, height));
         bannerContainer.add(bannerLabel);
         this.add(bannerContainer, BorderLayout.WEST);
@@ -69,7 +69,13 @@ public class GameMediumContainer extends PanelRound implements StyleConfig {
         priceContainer.setOpaque(false);
         priceContainer.setLayout(new FlowLayout(FlowLayout.RIGHT,10,37));
         priceContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
-            JLabel priceLabel = new JLabel("$" + game.getPrice());
+            JLabel priceLabel = new JLabel();
+            if (game.getPrice() != 0) {
+                priceLabel.setText("$" + game.getPrice());
+            }
+            else {
+                priceLabel.setText("Free");
+            }
             priceLabel.setFont(SUBTITLE_FONT);
             priceLabel.setForeground(TEXT_COLOR);
             priceContainer.add(priceLabel);

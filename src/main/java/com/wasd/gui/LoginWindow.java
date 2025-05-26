@@ -214,6 +214,7 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
                 if (user != null && user.getRole() == Role.PLAYER) {
                     Player player = userService.loginPlayer(username, password);
                     new MainWindow(games, recommendedGames, player);
+                    LoginWindow.this.dispose();
                 } else {
                     errorLabel.setText("Invalid username or password");
                 }
