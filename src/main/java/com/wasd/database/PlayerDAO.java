@@ -11,38 +11,71 @@ public class PlayerDAO {
 
     // Funcion "Create" para SQL, pero para player
     public boolean createPlayer(Player player) {
-        
-        String sql ="INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String sql2 = "INSERT INTO players(idPlayer) VALUES (?)";
-        String sql3 = "INSERT INTO COUNTRY(countryName) VALUES (?)";
 
-        try (Connection con = ConnectionDB.connect();
-            PreparedStatement stmt = con.prepareStatement(sql); 
-            PreparedStatement stmt2 = con.prepareStatement(sql2);
-            PreparedStatement stmt3 = con.prepareStatement(sql3)){
+        String sqlCountryCheck = "SELECT idCountry FROM countries WHERE countryName = ?";
+        String sqlInsertCountry = "INSERT INTO countries(countryName) VALUES (?) RETURNING idCountry";
+        String sqlInsertUser = "INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description, idCountry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING idUser";
+        String sqlInsertPlayer = "INSERT INTO players(idUser) VALUES (?) RETURNING idPlayer";
 
-            // Consulta para Users
-            stmt.setString(1, player.getName());
-            stmt.setString(2, player.getLastName());
-            stmt.setString(3, player.getUsername());
-            stmt.setString(4, player.getEmail());
-            stmt.setString(5, player.getPassword());
-            stmt.setString(7, player.getAvatar());
-            stmt.setBoolean(8, player.isActive());
-            stmt.setString(9, player.getRole().name());
-            stmt.setString(10, player.getDescription());
+        try (Connection con = ConnectionDB.connect()) {
 
-            // Consulta para PLayers;
-            stmt2.setInt(1, player.getIdPlayer());
+            int idCountry = 0;
 
-            // Consulta para Country;
-            stmt3.setString(1, player.getCountry());
+            // Verificacion si el país ya existe
+            try (PreparedStatement checkCountryStmt = con.prepareStatement(sqlCountryCheck)) {
+                checkCountryStmt.setString(1, player.getCountry());
+                ResultSet rs = checkCountryStmt.executeQuery();
+                if (rs.next()) {
+                    idCountry = rs.getInt("idCountry");
+                }
+            }
 
-            // Ejecutar la consulta
-            int updatedUser = stmt.executeUpdate();
-            int updatedPlayer = stmt2.executeUpdate();
-            int updatedCountry = stmt3.executeUpdate();
-            return updatedUser > 0 && updatedPlayer > 0 && updatedCountry > 0;
+            // Si no existe, se inserta
+            if (idCountry == 0) {
+                try (PreparedStatement insertCountryStmt = con.prepareStatement(sqlInsertCountry)) {
+                    insertCountryStmt.setString(1, player.getCountry());
+                    ResultSet rs = insertCountryStmt.executeQuery();
+                    if (rs.next()) {
+                        idCountry = rs.getInt("idCountry");
+                    } else {
+                        throw new SQLException("No se pudo obtener el idCountry recién insertado");
+                    }
+                }
+            }
+
+            int idUser = 0;
+
+            // Insertar en USERS
+            try (PreparedStatement insertUserStmt = con.prepareStatement(sqlInsertUser)) {
+                insertUserStmt.setString(1, player.getName());
+                insertUserStmt.setString(2, player.getLastName());
+                insertUserStmt.setString(3, player.getUsername());
+                insertUserStmt.setString(4, player.getEmail());
+                insertUserStmt.setString(5, player.getPassword());
+                insertUserStmt.setString(6, player.getAvatar());
+                insertUserStmt.setBoolean(7, player.isActive());
+                insertUserStmt.setString(8, player.getRole().name());
+                insertUserStmt.setString(9, player.getDescription());
+                insertUserStmt.setInt(10, idCountry);
+                ResultSet rs = insertUserStmt.executeQuery();
+                if (rs.next()) {
+                    idUser = rs.getInt("idUser");
+                } else {
+                    throw new SQLException("No se pudo obtener el idUser recién insertado");
+                }
+            }
+
+            // Insertar en PLAYERS
+            try (PreparedStatement insertPlayerStmt = con.prepareStatement(sqlInsertPlayer)) {
+                insertPlayerStmt.setInt(1, idUser);
+                ResultSet rs = insertPlayerStmt.executeQuery();
+                if (rs.next()) {
+                    int idPlayer = rs.getInt("idPlayer");
+                    player.setIdPlayer(idPlayer); // Guardar el ID en el objeto
+                }
+            }
+
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
