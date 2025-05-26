@@ -371,12 +371,14 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                                 if (!(email.contains("@gmail") || email.contains("@hotmail") || email.contains("@outlook") || email.contains("@yahoo") || email.contains("@ucb"))) {
                                     emailLabel.setText("Invalid email");
                                     emailLabel.setForeground(CLOSE_COLOR);
+                                    emailValid = false;
                                 }
                                 else {
                                     //repeated email
                                     if (userDAO.repetitiveEmail(email)) {
                                         emailLabel.setText("Email already registered");
                                         emailLabel.setForeground(CLOSE_COLOR);
+                                        emailValid = false;
                                     }
                                     else {
                                         emailValid = true;
@@ -389,15 +391,18 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                                 if (username.length() < 5) {
                                     usernameLabel.setText("Username must be at least 5 characters");
                                     usernameLabel.setForeground(CLOSE_COLOR);
+                                    usernameValid = false;
                                 }
                                 else {
                                     //repeated username
                                     if (userDAO.repetitiveUserName(username)) {
                                         usernameLabel.setText("Username already registered");
                                         usernameLabel.setForeground(CLOSE_COLOR);
+                                        usernameValid = false;
                                     }
                                     else {
                                         usernameValid = true;
+                                        usernameLabel.setText("Username");
                                     }
                                 }
 
@@ -408,23 +413,41 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                                 if (!password.equals(confirmPassword)){
                                     passwordLabel.setText("Passwords don't match");
                                     passwordLabel.setForeground(CLOSE_COLOR);
+                                    passwordValid = false;
                                 }
                                 else {
                                     if (password.length() < 8) {
                                         passwordLabel.setText("Password must be at least 8 characters");
                                         passwordLabel.setForeground(CLOSE_COLOR);
+                                        passwordValid = false;
                                     }
                                     else {
                                         passwordValid = true;
+                                        passwordLabel.setText("Password");
                                     }
                                 }
 
                                 if(passwordValid && emailValid && usernameValid && nameTextField.getText().length() > 0 && lastNameTextField.getText().length() > 0 && countryTextField.getText().length() > 0) {
+                                    email = emailTextField.getText().toLowerCase();
                                     PasswordHashUtil passwordHashUtil = new PasswordHashUtil();
                                     String hashedPassword = passwordHashUtil.hashPassword(password);
                                     Player player = new Player(email, username, hashedPassword, nameTextField.getText(), lastNameTextField.getText(), countryTextField.getText());
                                     PlayerDAO playerDAO = new PlayerDAO();
                                     playerDAO.createPlayer(player);
+
+                                    createAccountLabel.setText("Registered!");
+                                    createAccountLabel.setForeground(TEXT_COLOR);
+                                    createAccountButton.setBackground(DETAILS_COLOR);
+                                    
+                                    //set timer for 1 second
+                                    try {
+                                        Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
+                                    } catch (InterruptedException ex) {
+                                        ex.printStackTrace(); // Handle if the sleep is interrupted
+                                    }
+
+                                    new LoginWindow(games, recommendedGames);
+                                    RegisterWindow.this.dispose();
                                 }
                             }
                         });
