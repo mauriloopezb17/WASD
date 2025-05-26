@@ -12,12 +12,14 @@ public class PlayerDAO {
     // Funcion "Create" para SQL, pero para player
     public boolean createPlayer(Player player) {
         
-        String sql ="INSERT INTO users(name, lastName, userName, email, password, country, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql ="INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String sql2 = "INSERT INTO players(idPlayer) VALUES (?)";
+        String sql3 = "INSERT INTO COUNTRY(countryName) VALUES (?)";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql); 
-            PreparedStatement stmt2 = con.prepareStatement(sql2)){
+            PreparedStatement stmt2 = con.prepareStatement(sql2);
+            PreparedStatement stmt3 = con.prepareStatement(sql2)){
 
             // Consulta para Users
             stmt.setString(1, player.getName());
@@ -25,7 +27,6 @@ public class PlayerDAO {
             stmt.setString(3, player.getUsername());
             stmt.setString(4, player.getEmail());
             stmt.setString(5, player.getPassword());
-            stmt.setString(6, player.getCountry());
             stmt.setString(7, player.getAvatar());
             stmt.setBoolean(8, player.isActive());
             stmt.setString(9, player.getRole().name());
@@ -34,10 +35,14 @@ public class PlayerDAO {
             // Consulta para PLayers;
             stmt2.setInt(1, player.getIdPlayer());
 
+            // Consulta para Country;
+            stmt3.setString(1, player.getCountry());
+
             // Ejecutar la consulta
             int updatedUser = stmt.executeUpdate();
             int updatedPlayer = stmt2.executeUpdate();
-            return updatedUser > 0 && updatedPlayer > 0;
+            int updatedCountry = stmt3.executeUpdate();
+            return updatedUser > 0 && updatedPlayer > 0 && updatedCountry > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +52,8 @@ public class PlayerDAO {
 
     // Usa la logica del READ para SQL, pero busca al jugador desde su id y construye al objeto Player correspondiente
     public Player searchPlayer(int idUser) {
-        String sql = "SELECT u.*, p.* FROM USERS u JOIN PLAYERS p ON u.idUser = p.idUser WHERE u.idUser = ?";
+        
+        String sql = "SELECT u.*, p.*, c.countryName FROM USERS u JOIN PLAYERS p ON u.idUser = p.idUser JOIN u.idCountry = c.idCountry WHERE u.idUser = ?";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -65,7 +71,7 @@ public class PlayerDAO {
                 player.setUsername(rs.getString("userName"));
                 player.setEmail(rs.getString("email"));
                 player.setPassword(rs.getString("password"));
-                player.setCountry(rs.getString("idCountry"));
+                player.setCountry(rs.getString("countryName"));
                 player.setAvatar(rs.getString("avatar"));
                 player.setActive(rs.getBoolean("active"));
                 player.setRole(Role.PLAYER); // Rol Player default al ser clase Player
