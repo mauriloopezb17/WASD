@@ -59,7 +59,7 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
         usernameContainer.setLayout(new BorderLayout(0,4));
         usernameContainer.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         //username
-        JLabel usernameLabel = new JLabel("Username");
+        JLabel usernameLabel = new JLabel("Username or Email");
         usernameLabel.setFont(DESCRPTION_FONT);
         usernameLabel.setForeground(TEXT_COLOR);
         usernameLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -112,104 +112,114 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 7));
+
+            JLabel errorLabel = new JLabel();
+            errorLabel.setFont(DESCRPTION_FONT);
+            errorLabel.setForeground(CLOSE_COLOR);
+            errorLabel.setPreferredSize(new Dimension(180, 30));
+            errorLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            errorLabel.setVerticalAlignment(SwingConstants.CENTER); 
+            buttonPanel.add(errorLabel);
         
             PanelRound createAccountButton = new PanelRound();
-                int br = 5;
-                createAccountButton.setRoundTopLeft(br);
-                createAccountButton.setRoundTopRight(br);
-                createAccountButton.setRoundBottomRight(br);
-                createAccountButton.setRoundBottomLeft(br);
-                createAccountButton.setBorderColor(DETAILS_COLOR);
-                createAccountButton.setBorderStroke(2);
-                createAccountButton.setBackground(PANEL_COLOR);
-                createAccountButton.setPreferredSize(new Dimension(150, 30));
-                createAccountButton.setLayout(new BorderLayout());
-                createAccountButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                createAccountButton.setBorder(null);
-                createAccountButton.setOpaque(false);
+            int br = 5;
+            createAccountButton.setRoundTopLeft(br);
+            createAccountButton.setRoundTopRight(br);
+            createAccountButton.setRoundBottomRight(br);
+            createAccountButton.setRoundBottomLeft(br);
+            createAccountButton.setBorderColor(DETAILS_COLOR);
+            createAccountButton.setBorderStroke(2);
+            createAccountButton.setBackground(PANEL_COLOR);
+            createAccountButton.setPreferredSize(new Dimension(150, 30));
+            createAccountButton.setLayout(new BorderLayout());
+            createAccountButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            createAccountButton.setBorder(null);
+            createAccountButton.setOpaque(false);
 
-                JLabel createAccountLabel = new JLabel("Create Account");
-                createAccountLabel.setFont(SUBTITLE2_FONT);
-                createAccountLabel.setForeground(TEXT_COLOR);
-                createAccountLabel.setPreferredSize(new Dimension(150, 30));
-                createAccountLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                createAccountLabel.setVerticalAlignment(SwingConstants.CENTER); 
-                createAccountButton.add(createAccountLabel, BorderLayout.CENTER);
-            
-                createAccountButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        createAccountButton.setBackground(TEXT_COLOR);
-                        createAccountLabel.setForeground(PANEL_COLOR);
-                    }
+            JLabel createAccountLabel = new JLabel("New to WASD?");
+            createAccountLabel.setFont(SUBTITLE2_FONT);
+            createAccountLabel.setForeground(TEXT_COLOR);
+            createAccountLabel.setPreferredSize(new Dimension(150, 30));
+            createAccountLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            createAccountLabel.setVerticalAlignment(SwingConstants.CENTER); 
+            createAccountButton.add(createAccountLabel, BorderLayout.CENTER);
+        
+            createAccountButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    createAccountButton.setBackground(TEXT_COLOR);
+                    createAccountLabel.setForeground(PANEL_COLOR);
+                    createAccountLabel.setText("Create Account!");
+                }
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        createAccountButton.setBackground(PANEL_COLOR);
-                        createAccountLabel.setForeground(TEXT_COLOR);
-                    }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    createAccountButton.setBackground(PANEL_COLOR);
+                    createAccountLabel.setForeground(TEXT_COLOR);
+                    createAccountLabel.setText("New to WASD?");
+                }
 
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        //todo
-                    }
-                });
-            buttonPanel.add(createAccountButton);
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    new RegisterWindow(games, recommendedGames);
+                    LoginWindow.this.dispose();
+                }
+            });
+        buttonPanel.add(createAccountButton);
 
-            PanelRound loginButton = new PanelRound();
-                loginButton.setRoundTopLeft(br);
-                loginButton.setRoundTopRight(br);
-                loginButton.setRoundBottomRight(br);
-                loginButton.setRoundBottomLeft(br);
-                loginButton.setBorderColor(DETAILS_COLOR);
-                loginButton.setBorderStroke(2);
+        PanelRound loginButton = new PanelRound();
+        loginButton.setRoundTopLeft(br);
+        loginButton.setRoundTopRight(br);
+        loginButton.setRoundBottomRight(br);
+        loginButton.setRoundBottomLeft(br);
+        loginButton.setBorderColor(DETAILS_COLOR);
+        loginButton.setBorderStroke(2);
+        loginButton.setBackground(PANEL_COLOR);
+        loginButton.setPreferredSize(new Dimension(70, 30));
+        loginButton.setLayout(new BorderLayout());
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setBorder(null);
+        loginButton.setOpaque(false);
+
+        JLabel loginLabel = new JLabel("Log In");
+        loginLabel.setFont(SUBTITLE2_FONT);
+        loginLabel.setForeground(TEXT_COLOR);
+        loginLabel.setPreferredSize(new Dimension(50, 30));
+        loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loginLabel.setVerticalAlignment(SwingConstants.CENTER); 
+        loginButton.add(loginLabel, BorderLayout.CENTER);
+
+        loginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginButton.setBackground(TEXT_COLOR);
+                loginLabel.setForeground(PANEL_COLOR);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
                 loginButton.setBackground(PANEL_COLOR);
-                loginButton.setPreferredSize(new Dimension(70, 30));
-                loginButton.setLayout(new BorderLayout());
-                loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                loginButton.setBorder(null);
-                loginButton.setOpaque(false);
-
-                JLabel loginLabel = new JLabel("Log In");
-                loginLabel.setFont(SUBTITLE2_FONT);
                 loginLabel.setForeground(TEXT_COLOR);
-                loginLabel.setPreferredSize(new Dimension(50, 30));
-                loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                loginLabel.setVerticalAlignment(SwingConstants.CENTER); 
-                loginButton.add(loginLabel, BorderLayout.CENTER);
+            }
 
-                loginButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        loginButton.setBackground(TEXT_COLOR);
-                        loginLabel.setForeground(PANEL_COLOR);
-                    }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String username = usernameTextField.getText();
+                String password = new String(passwordTextField.getPassword());
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        loginButton.setBackground(PANEL_COLOR);
-                        loginLabel.setForeground(TEXT_COLOR);
-                    }
-
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        String username = usernameTextField.getText();
-                        String password = new String(passwordTextField.getPassword());
-
-                        UserService userService = new UserService();
-                        User user = userService.login(username, password);
-                        if (user != null && user.getRole() == Role.PLAYER) {
-                            //todo
-                            //new MainWindow(games, recommendedGames, user);
-                        } else {
-                            //todo
-                            JOptionPane.showMessageDialog(null, "Invalid username or password");
-                        }
-                    }
-                });
-            buttonPanel.add(loginButton);
+                UserService userService = new UserService();
+                User user = userService.login(username, password);
+                if (user != null && user.getRole() == Role.PLAYER) {
+                    Player player = userService.loginPlayer(username, password);
+                    new MainWindow(games, recommendedGames, player);
+                } else {
+                    errorLabel.setText("Invalid username or password");
+                }
+            }
+        });
+        buttonPanel.add(loginButton);
 
         loginPanel.add(buttonPanel);
 
@@ -228,8 +238,8 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
         this.add(spacer2, BorderLayout.SOUTH);
 
         this.pack();
-        this.setSize(700, this.getHeight());
-        this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
+        this.setSize(700, this.getHeight()+25);
+        this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight()+25, 10, 10));
 
         this.setLocation((1980-this.getWidth())/2, (1080-this.getHeight())/2);
 

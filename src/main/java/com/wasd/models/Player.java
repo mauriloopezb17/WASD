@@ -37,6 +37,17 @@ public class Player extends User {
         this.requests = new ArrayList<>();
     }
 
+    // constructor based on registerWindow
+    public Player(String email, String username, String password, String name, String lastName, String country) {
+        super(email, username, password, name, lastName, country, Role.PLAYER);
+        this.idPlayer = -1;
+        this.library = new ArrayList<>();
+        this.wishlist = new ArrayList<>();
+        this.cart = new ArrayList<>();
+        this.friends = new ArrayList<>();
+        this.requests = new ArrayList<>();
+    }
+
     public String getDescription() {
         return description;
     }

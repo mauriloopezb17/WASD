@@ -46,6 +46,20 @@ public abstract class User implements Serializable {
         this.description = "";
     }
 
+    // constructor based on registerWindow
+    public User(String email, String username, String password, String name, String lastName, String country, Role role) {
+        this.idUser = -1;
+        this.name = name;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.country = country;
+        this.password = password;
+        this.avatar = "/images/user_default.png";
+        this.active = true; // por defecto el usuario estara activo
+        this.role = role;
+        this.description = "";
+    }
     public int getIdUser() {
         return idUser;
     }
