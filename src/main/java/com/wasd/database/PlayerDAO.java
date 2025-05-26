@@ -19,7 +19,7 @@ public class PlayerDAO {
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql); 
             PreparedStatement stmt2 = con.prepareStatement(sql2);
-            PreparedStatement stmt3 = con.prepareStatement(sql2)){
+            PreparedStatement stmt3 = con.prepareStatement(sql3)){
 
             // Consulta para Users
             stmt.setString(1, player.getName());
