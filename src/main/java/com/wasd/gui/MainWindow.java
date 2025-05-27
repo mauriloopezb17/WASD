@@ -16,8 +16,19 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
     ArrayList<Game> allGames = new ArrayList<>();
     ArrayList<Game> recommendedGames = new ArrayList<>();
     Player player;
+    TopNavigationBar topBar;
+
+    JLabel wSpacer, eSpacer;
 
     public MainWindow(ArrayList<Game> allGames, ArrayList<Game> recommendedGames, Player player) {
+
+        wSpacer = new JLabel();
+        eSpacer = new JLabel();
+        wSpacer.setOpaque(false);
+        eSpacer.setOpaque(false);
+        //wSpacer.setPreferredSize(new Dimension(this.getWidth() / 7, 0));
+        //eSpacer.setPreferredSize(new Dimension(this.getWidth() / 7, 0));
+
         this.allGames = allGames;
         this.recommendedGames = recommendedGames;
         this.player = player;
@@ -33,7 +44,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
         this.setIconImage(AssetLoader.loadIcon("/images/logo.png", 150, 150).getImage());
         
-        TopNavigationBar topBar = new TopNavigationBar(this, player);
+        topBar = new TopNavigationBar(this, player);
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 53));
 
         this.addComponentListener(new ComponentAdapter() {
@@ -45,7 +56,8 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
         this.add(topBar, BorderLayout.NORTH);
 
-        this.goHome();
+        //this.goHome();
+        this.goGame(allGames.get(0));
 
         this.setVisible(true);
         applyWindowShape();
@@ -57,11 +69,11 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
     public void goHome() {
         Container contentPane = this.getContentPane();
-        Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
+        //Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
         System.out.println("removeAll");
         contentPane.removeAll();
         this.setLayout(new BorderLayout());
-        this.add(topbar, BorderLayout.NORTH);
+        this.add(topBar, BorderLayout.NORTH);
         this.getContentPane().setBackground(BG_COLOR);
 
         // Left spacer
@@ -201,11 +213,11 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
     public void goLibrary() {
         Container contentPane = this.getContentPane();
-        Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
+        //Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
         System.out.println("removeAll");
         contentPane.removeAll();
         this.setLayout(new BorderLayout(20, 20));
-        this.add(topbar, BorderLayout.NORTH);
+        this.add(topBar, BorderLayout.NORTH);
 
         //temporarily fill the other borders with empty space
         JPanel spacer = new JPanel();
@@ -222,25 +234,17 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
     public void goGame(Game game) {
         Container contentPane = this.getContentPane();
-        Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
+        //Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
         System.out.println("removeAll");
         contentPane.removeAll();
+        topBar.tabsToInactive();
         this.setLayout(new BorderLayout(20, 20));
-        this.add(topbar, BorderLayout.NORTH);
-
-        //temporarily fill the other borders with empty space
-        JPanel spacer = new JPanel();
-        spacer.setPreferredSize(new Dimension(20, 250));
-        spacer.setOpaque(false);
-        this.add(spacer, BorderLayout.WEST);
-        this.add(spacer, BorderLayout.EAST);
-        this.add(spacer, BorderLayout.SOUTH);
-        this.add(spacer, BorderLayout.CENTER);
+        this.add(topBar, BorderLayout.NORTH);
 
         //center container (left images and description, right banner, price and everything else)
         JPanel centerContainer = new JPanel();
         centerContainer.setOpaque(false);
-        centerContainer.setLayout(new BorderLayout(0,4));
+        centerContainer.setLayout(new BorderLayout(4,4));
         centerContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             //left container
@@ -401,28 +405,162 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         releaseDateContainer.add(releaseDateValue);
 
                     row.add(releaseDateContainer);
-
-                    // Add row to content
                     content.add(row);
-
-
-
                 leftContainer.add(content, BorderLayout.EAST);
             centerContainer.add(leftContainer, BorderLayout.WEST);
+
+            //right container
+            PanelRound rightContainer = new PanelRound();
+            int rr = 15;
+            rightContainer.setRoundTopLeft(rr);
+            rightContainer.setRoundTopRight(rr);
+            rightContainer.setRoundBottomRight(rr);
+            rightContainer.setRoundBottomLeft(rr);
+
+            rightContainer.setBackground(PANEL_COLOR);
+            rightContainer.setOpaque(false);
+            rightContainer.setLayout(new BoxLayout(rightContainer, BoxLayout.Y_AXIS));
+            rightContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+            rightContainer.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
+
+                //label row
+                JPanel labelRow = new JPanel();
+                labelRow.setOpaque(false);
+                labelRow.setLayout(new FlowLayout( FlowLayout.RIGHT, 8, 12));
+
+                    for (int i = 0; i < game.getTags().size(); i++) {
+                        String tag = game.getTags().get(i);
+                        TagContainer tagContainer = new TagContainer(tag);
+                        labelRow.add(tagContainer);
+                        if(labelRow.getPreferredSize().width > (int) (230*1.2)){
+                            labelRow.remove(tagContainer);
+                        }
+                    }
+                
+                rightContainer.add(labelRow);
+
+                //banner
+                JPanel bannerContainer = new JPanel();
+                bannerContainer.setOpaque(false);
+                bannerContainer.setLayout(new BorderLayout(0,4));
+                bannerContainer.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                bannerContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+                bannerContainer.setBackground(PANEL_COLOR);
+                    
+                    JLabel bannerLabel = new JLabel();
+                    bannerLabel.setIcon(AssetLoader.loadIconFromUrl(game.getBanner(), ((int) (230*1.2)), ((int) (107*1.35))));
+                    bannerLabel.setPreferredSize(new Dimension(((int) (230*1.2)), ((int) (107*1.35))));
+                    bannerContainer.add(bannerLabel, BorderLayout.CENTER);
+
+                rightContainer.add(bannerContainer);
+
+                //User Score Label Container
+                JPanel userScoreContainer = new JPanel();
+                userScoreContainer.setOpaque(false);
+                userScoreContainer.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
+                userScoreContainer.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                userScoreContainer.setBackground(PANEL_COLOR);
+                    
+                    //user score icon
+                    JLabel userScoreIcon = new JLabel();
+                    userScoreIcon.setIcon(AssetLoader.loadIcon("/images/user.png", 25, 25));
+                    userScoreIcon.setOpaque(false);
+                    userScoreIcon.setHorizontalAlignment(SwingConstants.CENTER);
+                    userScoreIcon.setVerticalAlignment(SwingConstants.CENTER);
+                    userScoreIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                    userScoreIcon.setBackground(PANEL_COLOR);
+                    userScoreContainer.add(userScoreIcon);
+
+                    //user score label
+                    JLabel userScoreLabel = new JLabel();
+                    userScoreLabel.setText("USER SCORE:");
+                    userScoreLabel.setFont(SUBTITLE_FONT);
+                    userScoreLabel.setForeground(TEXT_COLOR);
+                    userScoreLabel.setOpaque(false);
+                    userScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                    userScoreLabel.setVerticalAlignment(SwingConstants.CENTER);
+                    userScoreLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                    userScoreLabel.setBackground(PANEL_COLOR);
+                    userScoreContainer.add(userScoreLabel);
+
+                    //percentage label
+                    JLabel percentageLabel = new JLabel();
+                    percentageLabel.setText(game.getPositiveReviews()*100/game.getReviews() + "%");
+                    percentageLabel.setFont(DESCRPTION_FONT_PLAIN);
+                    percentageLabel.setForeground(TEXT_COLOR);
+                    percentageLabel.setOpaque(false);
+                    percentageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                    percentageLabel.setVerticalAlignment(SwingConstants.CENTER);
+                    percentageLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                    percentageLabel.setBackground(PANEL_COLOR);
+                    userScoreContainer.add(percentageLabel);
+
+                rightContainer.add(userScoreContainer);
+
+                //user score bar (container)
+                PanelRound userScoreBar = new PanelRound();
+                int urbRad = 2;
+                userScoreBar.setRoundTopLeft(urbRad);
+                userScoreBar.setRoundTopRight(urbRad);
+                userScoreBar.setRoundBottomRight(urbRad);
+                userScoreBar.setRoundBottomLeft(urbRad);
+
+                userScoreBar.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+                userScoreBar.setBackground(CLOSE_COLOR);
+                userScoreBar.setPreferredSize(new Dimension(((int) (230*1.2)), 4));
+
+                    //user score bar (progress bar)
+                    
+                    JLabel possitiveProgress = new JLabel("");
+                    possitiveProgress.setBackground(DETAILS_COLOR);
+                    possitiveProgress.setOpaque(true);
+                    possitiveProgress.setPreferredSize(new Dimension((int) (((double) (game.getPositiveReviews()* 230 * 1.2) / game.getReviews())), 4));
+                    userScoreBar.add(possitiveProgress);
+
+                    System.out.println("User score: " + (int) (((double) (game.getPositiveReviews()* 230 * 1.2) / game.getReviews())));
+                
+                rightContainer.add(userScoreBar);
+
+
+
+                //temporary bottom spacer
+                JPanel spacer = new JPanel();
+                spacer.setPreferredSize(new Dimension(0,400));
+                spacer.setOpaque(false);
+                rightContainer.add(spacer);
+                //lowerPanel.add(spacer, BorderLayout.SOUTH);
+
+            centerContainer.add(rightContainer, BorderLayout.EAST);
+
 
 
         this.add(centerContainer, BorderLayout.CENTER);
 
-        //left, right and bottom spacers
-        JPanel spacer2 = new JPanel();
-        spacer2.setPreferredSize(new Dimension(100,100));
-        spacer2.setOpaque(false);        
-        //this.add(spacer2, BorderLayout.SOUTH);  
-        this.add(spacer2, BorderLayout.EAST);
-        this.add(spacer2, BorderLayout.WEST);
+        //left spacer
+        wSpacer.setPreferredSize(new Dimension(168, 0));
+        this.add(wSpacer, BorderLayout.WEST);
+
+        //right spacer
+        eSpacer.setPreferredSize(new Dimension(168, 0));
+        this.add(eSpacer, BorderLayout.EAST);
 
         contentPane.revalidate();
         contentPane.repaint();
+
+
+        this.addComponentListener(new ComponentAdapter() {
+        @Override
+        public void componentResized(ComponentEvent e) {
+            applyWindowShape();
+
+            int spacerWidth = getWidth() / 7;
+            //if (wSpacer != null) wSpacer.setPreferredSize(new Dimension(spacerWidth, 0));
+            //if (eSpacer != null) eSpacer.setPreferredSize(new Dimension(spacerWidth, 0));
+
+            getContentPane().revalidate();
+            getContentPane().repaint();
+        }
+    });
     }
 
     @Override

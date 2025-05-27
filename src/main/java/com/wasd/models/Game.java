@@ -12,7 +12,6 @@ public class Game implements Serializable {
     private ArrayList<String> pictures;
     private Publisher publisher;
     private double price;
-    private int reviews;
     private int positiveReviews;
     private int negativeReviews;
     private String description;
@@ -42,9 +41,8 @@ public class Game implements Serializable {
             this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_95930b9074962300c643468587ad4c7a1a64abe0.600x338.jpg?t=1747409289");
         this.publisher = new Publisher("Unknown Publisher");
         this.price = 59.99;
-        this.reviews = 0;
-        this.positiveReviews = 0;
-        this.negativeReviews = 0;
+        this.positiveReviews = 94;
+        this.negativeReviews = 6;
         this.description = "No description available.";
         this.tags = new ArrayList<>();
 
@@ -62,7 +60,7 @@ public class Game implements Serializable {
         this.macRequirement = new Mac();         // assuming a default constructor exists
     }
 
-    public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
+    public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int positiveReviews, 
                 int negativeReviews, String description, ArrayList<String> tags, double discount, LocalDate releaseDate, boolean recommended, int status, Rating classification, Windows windowsRequirement, 
                 Linux linuxRequirement, Mac macRequirement) {
         this.idGame = idGame;
@@ -71,7 +69,6 @@ public class Game implements Serializable {
         this.pictures = pictures;
         this.publisher = publisher;
         this.price = price;
-        this.reviews = reviews;
         this.positiveReviews = positiveReviews;
         this.negativeReviews = negativeReviews;
         this.description = description;
@@ -129,10 +126,7 @@ public class Game implements Serializable {
     }
 
     public int getReviews() {
-        return reviews;
-    }
-    public void setReviews(int reviews) {
-        this.reviews = reviews;
+        return this.positiveReviews + this.negativeReviews;
     }
 
     public int getPositiveReviews() {
@@ -228,7 +222,6 @@ public class Game implements Serializable {
                 "\npictures=" + pictures +
                 "\npublisher=" + publisher +
                 "\nprice=" + price +
-                "\nreviews=" + reviews +
                 "\npositiveReviews=" + positiveReviews +
                 "\nnegativeReviews=" + negativeReviews +
                 "\ndescription='" + description +

@@ -73,6 +73,20 @@ public class TabButton extends JButton implements StyleConfig{
         }
     }
 
+    public void setActive(boolean isActive) {
+        if (isActive) {
+            this.isCurrentTab = true;
+            defaultIcon = iconActive;
+            this.setIcon(iconActive);
+            this.setText(text);
+        } else {
+            this.isCurrentTab = false;
+            defaultIcon = iconInactive;
+            this.setIcon(iconInactive);
+            this.setText("");
+        }
+    }
+
     private Font getBoldUnderlinedFont(Font baseFont) {
         Map<TextAttribute, Object> attributes = new java.util.HashMap<>(baseFont.getAttributes());
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
