@@ -11,10 +11,6 @@ public class Player extends User {
     private ArrayList<Player> friends;
     private ArrayList<Player> requests;
 
-    public Player() {
-        super();
-    }
-
     public Player(String name) {
         super(name);
         this.idPlayer = -1;

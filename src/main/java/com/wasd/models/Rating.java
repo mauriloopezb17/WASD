@@ -3,6 +3,7 @@ import java.io.*;
 
 public class Rating implements Serializable {
     
+    private int idRating;
     private String name;
     private String iconPath;
     private String abbreviation;
@@ -13,10 +14,18 @@ public class Rating implements Serializable {
         this.abbreviation = "UR";
     }
 
-    public Rating(String name, String iconPath, String abbreviation) {
+    public Rating(int idRating, String name, String iconPath, String abbreviation) {
+        this.idRating = idRating;
         this.name = name;
         this.iconPath = iconPath;
         this.abbreviation = abbreviation;
+    }
+
+    public int getIdRating() {
+        return idRating;
+    }
+    public void setIdRating(int idRating) {
+        this.idRating = idRating;
     }
 
     public String getName() {

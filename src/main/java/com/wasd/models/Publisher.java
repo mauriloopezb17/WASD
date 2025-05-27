@@ -6,10 +6,6 @@ public class Publisher extends User {
     
     private int idPublisher;
     private ArrayList<Game> publishedGames;
-    
-    public Publisher() {
-        super();
-    }
 
     public Publisher(String name){
         super(name);

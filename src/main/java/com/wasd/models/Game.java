@@ -16,11 +16,12 @@ public class Game implements Serializable {
     private int positiveReviews;
     private int negativeReviews;
     private String description;
-    private ArrayList<String> tags;
+    private ArrayList<Tag> tags;
     private double discount;
     private LocalDate releaseDate;
     private boolean recommended;
     private int status;
+    private String developer;
     
     // Requerimientos de cada plataforma y la clasificacion
     private Rating classification;
@@ -42,10 +43,6 @@ public class Game implements Serializable {
         this.description = "No description available.";
         this.tags = new ArrayList<>();
 
-        this.tags.add("Action");
-        this.tags.add("Adventure");
-        this.tags.add("RPG");
-
         this.discount = 10;
         this.classification = new Rating();
         this.windowsRequirement = new Windows(); // assuming a default constructor exists
@@ -54,7 +51,7 @@ public class Game implements Serializable {
     }
 
     public Game(int idGame, String nameGame, String banner, ArrayList<String> pictures, Publisher publisher, double price, int reviews, int positiveReviews, 
-                int negativeReviews, String description, ArrayList<String> tags, double discount, LocalDate releaseDate, boolean recommended, int status, Rating classification, Windows windowsRequirement, 
+                int negativeReviews, String description, ArrayList<Tag> tags, double discount, LocalDate releaseDate, boolean recommended, int status, String developer, Rating classification, Windows windowsRequirement, 
                 Linux linuxRequirement, Mac macRequirement) {
         this.idGame = idGame;
         this.nameGame = nameGame;
@@ -147,10 +144,10 @@ public class Game implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<String> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
 
@@ -180,6 +177,13 @@ public class Game implements Serializable {
     }
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDeveloper() {
+        return developer;
+    }
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 
     public Rating getClassification() {
@@ -225,6 +229,10 @@ public class Game implements Serializable {
                 "\ndescription='" + description +
                 "\ntags=" + tags +
                 "\ndiscount=" + discount +
+                "\nreleaseDate=" + releaseDate +
+                "\nrecommended=" + recommended +
+                "\nstatus=" + status +
+                "\ndeveloper='" + developer +
                 "\nclassification=" + classification +
                 "\nwindowsRequirement=" + windowsRequirement +
                 "\nlinuxRequirement=" + linuxRequirement +

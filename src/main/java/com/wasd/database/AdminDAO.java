@@ -12,32 +12,70 @@ public class AdminDAO {
     // Funcion "Create" para SQL, pero para admin
     public boolean createPlayer(Admin admin) {
         
-        String sql ="INSERT INTO users(name, lastName, userName, email, password, country, avatar, active, role, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String sql2 = "INSERT INTO admins(idAdmin) VALUES (?)";
+        String sqlCountryCheck = "SELECT idCountry FROM countries WHERE countryName = ?";
+        String sqlInsertCountry = "INSERT INTO countries(countryName) VALUES (?) RETURNING idCountry";
+        String sqlInsertUser = "INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description, idCountry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING idUser";
+        String sqlInsertAdmin = "INSERT INTO admins(idUser) VALUES (?) RETURNING idAdmin";
 
-        try (Connection con = ConnectionDB.connect();
-            PreparedStatement stmt = con.prepareStatement(sql); 
-            PreparedStatement stmt2 = con.prepareStatement(sql2)){
+        try (Connection con = ConnectionDB.connect()) {
 
-            // Consulta para Users
-            stmt.setString(1, admin.getName());
-            stmt.setString(2, admin.getLastName());
-            stmt.setString(3, admin.getUsername());
-            stmt.setString(4, admin.getEmail());
-            stmt.setString(5, admin.getPassword());
-            stmt.setString(6, admin.getCountry());
-            stmt.setString(7, admin.getAvatar());
-            stmt.setBoolean(8, admin.isActive());
-            stmt.setString(9, admin.getRole().name());
-            stmt.setString(10, admin.getDescription());
+            int idCountry = 0;
 
-            // Consulta para PLayers;
-            stmt2.setInt(1, admin.getIdAdmin());
+            // Verificacion si el país ya existe
+            try (PreparedStatement checkCountryStmt = con.prepareStatement(sqlCountryCheck)) {
+                checkCountryStmt.setString(1, admin.getCountry());
+                ResultSet rs = checkCountryStmt.executeQuery();
+                if (rs.next()) {
+                    idCountry = rs.getInt("idCountry");
+                }
+            }
 
-            // Ejecutar la consulta
-            int updatedUser = stmt.executeUpdate();
-            int updatedAdmin = stmt2.executeUpdate();
-            return updatedUser > 0 && updatedAdmin > 0;
+            // Si no existe, se inserta
+            if (idCountry == 0) {
+                try (PreparedStatement insertCountryStmt = con.prepareStatement(sqlInsertCountry)) {
+                    insertCountryStmt.setString(1, admin.getCountry());
+                    ResultSet rs = insertCountryStmt.executeQuery();
+                    if (rs.next()) {
+                        idCountry = rs.getInt("idCountry");
+                    } else {
+                        throw new SQLException("No se pudo obtener el idCountry recién insertado");
+                    }
+                }
+            }
+
+            int idUser = 0;
+
+            // Insertar en USERS
+            try (PreparedStatement insertUserStmt = con.prepareStatement(sqlInsertUser)) {
+                insertUserStmt.setString(1, admin.getName());
+                insertUserStmt.setString(2, admin.getLastName());
+                insertUserStmt.setString(3, admin.getUsername());
+                insertUserStmt.setString(4, admin.getEmail());
+                insertUserStmt.setString(5, admin.getPassword());
+                insertUserStmt.setString(6, admin.getAvatar());
+                insertUserStmt.setBoolean(7, admin.isActive());
+                insertUserStmt.setString(8, admin.getRole().name());
+                insertUserStmt.setString(9, admin.getDescription());
+                insertUserStmt.setInt(10, idCountry);
+                ResultSet rs = insertUserStmt.executeQuery();
+                if (rs.next()) {
+                    idUser = rs.getInt("idUser");
+                } else {
+                    throw new SQLException("No se pudo obtener el idUser recién insertado");
+                }
+            }
+
+            // Insertar en PLAYERS
+            try (PreparedStatement insertAdminStmt = con.prepareStatement(sqlInsertAdmin)) {
+                insertAdminStmt.setInt(1, idUser);
+                ResultSet rs = insertAdminStmt.executeQuery();
+                if (rs.next()) {
+                    int idAdmin = rs.getInt("idAdmin");
+                    admin.setIdAdmin(idAdmin); // Guardar el ID en el objeto
+                }
+            }
+
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +85,7 @@ public class AdminDAO {
 
     // Usa la logica del READ para SQL, pero busca al admin desde su id y construye al objeto Admin correspondiente
     public Admin searchAdmin(int idUser) {
-        String sql = "SELECT u.*, a.* FROM USERS u JOIN ADMINS a ON u.idUser = a.idUser WHERE u.idUser = ?";
+        String sql = "SELECT u.*, a.*, c.countryName FROM USERS u JOIN Admin a ON u.idUser = a.idUser JOIN COUNTRIES c ON u.idCountry = c.idCountry WHERE u.idUser = ?";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -56,19 +94,18 @@ public class AdminDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Admin admin = new Admin();
+                Admin admin = new Admin(rs.getString("userName"));
 
                 // Datos desde la tabla USERS
                 admin.setIdUser(rs.getInt("idUser"));
                 admin.setName(rs.getString("name"));
                 admin.setLastName(rs.getString("lastName"));
-                admin.setUsername(rs.getString("userName"));
                 admin.setEmail(rs.getString("email"));
                 admin.setPassword(rs.getString("password"));
                 admin.setCountry(rs.getString("idCountry"));
                 admin.setAvatar(rs.getString("avatar"));
                 admin.setActive(rs.getBoolean("active"));
-                admin.setRole(Role.PUBLISHER); // Rol PUBLISHER default al ser clase Publisher
+                admin.setRole(Role.PUBLISHER); // Rol Admin default al ser clase Publisher
                 admin.setDescription(rs.getString("description"));
 
                 // Datos desde la tabla ADMINS
@@ -86,34 +123,77 @@ public class AdminDAO {
     }
 
     // Usa la logica del UPDATE para SQL, actualizando el registro en las tablas USERS y ADMINS
-    public boolean updatePublisher(Admin admin) {
+    public boolean updateAdmin(Admin admin) {
+
+        String sqlCountryCheck = "SELECT idCountry FROM countries WHERE countryName = ?";
+        String sqlUpdateCountry = "UPDATE countries SET countryName = ? WHERE idCountry = ?";
+        String sqlInsertCountry = "INSERT INTO countries(countryName) VALUES (?) RETURNING idCountry";
         String sqlUser = "UPDATE USERS SET name = ?, lastName = ?, userName = ?, email = ?, password = ?, idCountry = ?, avatar = ?, description = ? WHERE idUser = ?";
 
-        String sqlAdmin = "UPDATE ADMINS SET ";       // en el caso que anadamos algun atributo propio a Player y tengamos que actualizarlo
+        //String sqlAdmin = "UPDATE ADMINS SET ";       // en el caso que anadamos algun atributo propio a Admin y tengamos que actualizarlo
 
-        try (Connection con = ConnectionDB.connect();
-            PreparedStatement stmtUser = con.prepareStatement(sqlUser);
-            PreparedStatement stmtAdmin = con.prepareStatement(sqlAdmin)) {
+        try (Connection con = ConnectionDB.connect()) {
 
-            // Actualizacion de los atributos de la tabla USERS
-            stmtUser.setString(1, admin.getName());
-            stmtUser.setString(2, admin.getLastName());
-            stmtUser.setString(3, admin.getUsername());
-            stmtUser.setString(4, admin.getEmail());
-            stmtUser.setString(5, admin.getPassword());
-            stmtUser.setString(6, admin.getCountry());
-            stmtUser.setString(7, admin.getAvatar());
-            stmtUser.setString(8, admin.getDescription());
-            stmtUser.setInt(9, admin.getIdUser());
+            int idCountry = 0;
 
-            // Actualizacion de los atributos de la tabla PLAYERS
-            // Como no hay ningun atributo propio que se pueda actualizar este campo lo dejo vacio por el momento
+            // Verificacion si el país ya existe
+            try (PreparedStatement checkCountryStmt = con.prepareStatement(sqlCountryCheck)) {
+                checkCountryStmt.setString(1, admin.getCountry());
+                ResultSet rs = checkCountryStmt.executeQuery();
+                if (rs.next()) {
+                    idCountry = rs.getInt("idCountry");
+                }
+            }
 
-            // Ejecucion de la actualizacion tanto en USERS como en PLAYERS
-            int updatedUser = stmtUser.executeUpdate();
-            int updatedAdmin = stmtAdmin.executeUpdate();
-            return updatedUser > 0 && updatedAdmin > 0;
-        } catch (SQLException e) {
+            // Si no existe, se inserta
+            if (idCountry == 0) {
+                try (PreparedStatement insertCountryStmt = con.prepareStatement(sqlInsertCountry)) {
+                    insertCountryStmt.setString(1, admin.getCountry());
+                    ResultSet rs = insertCountryStmt.executeQuery();
+                    if (rs.next()) {
+                        idCountry = rs.getInt("idCountry");
+                    } else {
+                        throw new SQLException("No se pudo obtener el idCountry recién insertado");
+                    }
+                }
+            }
+            else {
+                // Si ya existe, se actualiza
+                try (PreparedStatement updateCountryStmt = con.prepareStatement(sqlUpdateCountry)) {
+                    updateCountryStmt.setString(1, admin.getCountry());
+                    updateCountryStmt.setInt(2, idCountry);
+                    int rowsAffected = updateCountryStmt.executeUpdate();
+                    if (rowsAffected == 0) {
+                        throw new SQLException("No se pudo actualizar el país existente");
+                    }
+                }
+            }
+
+            // Actualizar los demas atributos en la tabla USERS y ADMINS
+            try (PreparedStatement stmtUser = con.prepareStatement(sqlUser);
+                    /*PreparedStatement stmtAdmin = con.prepareStatement(sqlAdmin)*/) {
+
+                    // Actualizacion de los atributos de la tabla USERS
+                    stmtUser.setString(1, admin.getName());
+                    stmtUser.setString(2, admin.getLastName());
+                    stmtUser.setString(3, admin.getUsername());
+                    stmtUser.setString(4, admin.getEmail());
+                    stmtUser.setString(5, admin.getPassword());
+                    stmtUser.setInt(6, idCountry);
+                    stmtUser.setString(7, admin.getAvatar());
+                    stmtUser.setString(8, admin.getDescription());
+                    stmtUser.setInt(9, admin.getIdUser());
+
+                    // Actualizacion de los atributos de la tabla ADMINS
+                    // Como no hay ningun atributo propio que se pueda actualizar este campo lo dejo vacio por el momento
+
+                    // Ejecucion de la actualizacion tanto en USERS como en ADMINS
+                    int updatedUser = stmtUser.executeUpdate();
+                    //int updatedAdmin = stmtPlayer.executeUpdate();
+                    return updatedUser > 0 /*&& updatedAdmin > 0*/;
+                } 
+                
+        }catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
