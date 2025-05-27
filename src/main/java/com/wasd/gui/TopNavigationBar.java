@@ -15,6 +15,9 @@ import java.util.*;
 public class TopNavigationBar extends JPanel implements StyleConfig {
     private ProfileWindow profileWindow = null;
 
+    TabButton homeButton;
+    TabButton libraryButton;
+
     public TopNavigationBar(MainWindow frame, Player player) {
         super(new BorderLayout());
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 53));
@@ -86,10 +89,12 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             logoLabel.setOpaque(false);
             tabPanel.add(logoLabel);
 
-            TabButton homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
+            homeButton = new TabButton("HOME", "/images/home_active.png", "/images/home_inactive.png", true);
             tabPanel.add(homeButton);
-            TabButton libraryButton = new TabButton("LIBRARY", "/images/library_active.png", "/images/library_inactive.png", false);
+
+            libraryButton = new TabButton("LIBRARY", "/images/library_active.png", "/images/library_inactive.png", false);
             tabPanel.add(libraryButton);
+
             homeButton.addActionListener(e -> {
                 if (!homeButton.isCurrentTab) {
                     frame.goHome();
@@ -225,5 +230,11 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 frame.setLocation(X, Y);
             }
         });
+    }
+
+    public void tabsToInactive() {
+        homeButton.setActive(false);
+        libraryButton.setActive(false);
+        System.out.println("Tabs to inactive");
     }
 }

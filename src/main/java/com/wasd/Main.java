@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.LocalDate;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+
 
 import com.wasd.gui.LoginWindow;
 import com.wasd.gui.MainWindow;
+import com.wasd.gui.Showcase;
+import com.wasd.gui.MainShowcase;
 import com.wasd.models.Game;
 import com.wasd.models.Linux;
 import com.wasd.models.Player;
@@ -37,15 +41,6 @@ public class Main
         recommendedGames.add(new Game("Portal"));
         */
 
-        /*Player player = new Player("Pancake99");
-        player.setLibrary(recommendedGames);
-        
-        ArrayList<Player> friends = new ArrayList<>();
-        friends.add(new Player("CoBine17"));
-        friends.add(new Player("Tommy999"));
-        friends.add(new Player("SergioA2"));
-
-        player.setFriends(friends); */
 
         //new MainWindow(games, recommendedGames, player);
 
@@ -71,12 +66,12 @@ public class Main
         this.linuxRequirement = linuxRequirement;
         this.macRequirement = macRequirement;*/
 
-
+        /*
         Game cs2 = new Game("Counter-Strike 2"); {
             cs2.setIdGame(0);
             cs2.setBanner("https://100.76.173.106:8443/resources/banners/cs2.jpg");
             ArrayList<String> cs2_promos = new ArrayList<>();
-            for(int i = 0; i < 4; i++) {
+            for(int i = 0; i < 5; i++) {
                 cs2_promos.add("https://100.76.173.106:8443/resources/promos/cs2_" + i + ".jpg");
             }
             cs2.setPictures(cs2_promos);
@@ -97,7 +92,7 @@ public class Main
             balatro.setIdGame(1);
             balatro.setBanner("https://100.76.173.106:8443/resources/banners/balatro.jpg");
             ArrayList<String> balatro_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 balatro_promos.add("https://100.76.173.106:8443/resources/promos/balatro_" + i + ".jpg");
             }
             balatro.setPictures(balatro_promos);
@@ -118,7 +113,7 @@ public class Main
             cp2077.setIdGame(2);
             cp2077.setBanner("https://100.76.173.106:8443/resources/banners/cp2077.jpg");
             ArrayList<String> cp2077_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 cp2077_promos.add("https://100.76.173.106:8443/resources/promos/cp2077_" + i + ".jpg");
             }
             cp2077.setPictures(cp2077_promos);
@@ -139,7 +134,7 @@ public class Main
             dtda.setIdGame(3);
             dtda.setBanner("https://100.76.173.106:8443/resources/banners/dtda.jpg");
             ArrayList<String> dtda_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 dtda_promos.add("https://100.76.173.106:8443/resources/promos/dtda_" + i + ".jpg");
             }
             dtda.setPictures(dtda_promos);
@@ -160,7 +155,7 @@ public class Main
             hk.setIdGame(4);
             hk.setBanner("https://100.76.173.106:8443/resources/banners/hk.jpg");
             ArrayList<String> hk_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 hk_promos.add("https://100.76.173.106:8443/resources/promos/hk_" + i + ".jpg");
             }
             hk.setPictures(hk_promos);
@@ -180,7 +175,7 @@ public class Main
             hl2.setIdGame(5);
             hl2.setBanner("https://100.76.173.106:8443/resources/banners/hl2.jpg");
             ArrayList<String> hl2_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 hl2_promos.add("https://100.76.173.106:8443/resources/promos/hl2_" + i + ".jpg");
             }
             hl2.setPictures(hl2_promos);
@@ -201,7 +196,7 @@ public class Main
             R6S.setIdGame(6);
             R6S.setBanner("https://100.76.173.106:8443/resources/banners/R6S.jpg");
             ArrayList<String> R6S_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 R6S_promos.add("https://100.76.173.106:8443/resources/promos/R6S_" + i + ".jpg");
             }
             R6S.setPictures(R6S_promos);
@@ -222,7 +217,7 @@ public class Main
             repo.setIdGame(7);
             repo.setBanner("https://100.76.173.106:8443/resources/banners/repo.jpg");
             ArrayList<String> repo_promos = new ArrayList<>();
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < 5; i++) {
                 repo_promos.add("https://100.76.173.106:8443/resources/promos/repo_" + i + ".jpg");
             }
             repo.setPictures(repo_promos);
@@ -252,8 +247,39 @@ public class Main
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
         recommendedGames.add(cp2077);
+        */
 
-        new LoginWindow(games, recommendedGames);
-        //new SecondaryWindow("Test", null, player);
+        for(int i = 0; i < 5; i++) {
+            games.add(new Game("DOOM: The Dark Ages"));
+            recommendedGames.add(new Game("DOOM: The Dark Ages"));
+        }
+
+        Player player = new Player("Pancake99");
+        player.setLibrary(recommendedGames);
+        
+        ArrayList<Player> friends = new ArrayList<>();
+        friends.add(new Player("CoBine17"));
+        friends.add(new Player("Tommy999"));
+        friends.add(new Player("SergioA2"));
+
+        player.setFriends(friends);
+
+        //new LoginWindow(games, recommendedGames);
+        MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
+        //mainWindow.goGame(balatro);
+
+        //temporary frame to test the showcase
+        /*
+        JFrame myFrame = new JFrame();
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.setLayout(new BorderLayout());
+        myFrame.getContentPane().setBackground(new Color(0x181818));
+
+        MainShowcase showcase = new MainShowcase(dtda);
+        myFrame.add(showcase);
+        myFrame.pack();
+        myFrame.setVisible(true);
+        */
+
     }
 }

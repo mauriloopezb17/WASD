@@ -150,7 +150,7 @@ public class ProfileWindow extends SecondaryWindow{
                 try{
                     int minGames = Math.min(3, player.getLibrary().size());
                     for(int i = 0; i < minGames; i++) {
-                        gamesRow.add(new GameSmallContainer(player.getLibrary().get(i)));
+                        gamesRow.add(new GameSmallContainer(player.getLibrary().get(i), frame));
                     }
                     if (player.getLibrary().size() == 0) {
                         //no games label

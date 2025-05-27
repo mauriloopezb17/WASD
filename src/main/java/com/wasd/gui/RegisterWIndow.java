@@ -438,13 +438,6 @@ public class RegisterWindow extends SecondaryWindow implements StyleConfig {
                                     createAccountLabel.setText("Registered!");
                                     createAccountLabel.setForeground(TEXT_COLOR);
                                     createAccountButton.setBackground(DETAILS_COLOR);
-                                    
-                                    //set timer for 1 second
-                                    try {
-                                        Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
-                                    } catch (InterruptedException ex) {
-                                        ex.printStackTrace(); // Handle if the sleep is interrupted
-                                    }
 
                                     new LoginWindow(games, recommendedGames);
                                     RegisterWindow.this.dispose();

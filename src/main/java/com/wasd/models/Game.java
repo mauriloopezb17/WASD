@@ -12,7 +12,6 @@ public class Game implements Serializable {
     private ArrayList<String> pictures;
     private Publisher publisher;
     private double price;
-    private int reviews;
     private int positiveReviews;
     private int negativeReviews;
     private String description;
@@ -32,18 +31,26 @@ public class Game implements Serializable {
     public Game(String nameGame) {
         this.idGame = -1;
         this.nameGame = nameGame;
-        this.banner = "https://100.76.173.106:8443/resources/gameBanner_default.jpg";
+        //this.banner = "https://100.76.173.106:8443/resources/gameBanner_default.jpg";
+        this.banner = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/header.jpg?t=1747409289";
         this.pictures = new ArrayList<>();
-        this.pictures.add("/images/gameThumbnail_default.jpg");
+        //this.pictures.add("/images/gameThumbnail_default.jpg");
+            this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_ba66d42e3d1ea78e5b085682484210b390eb9ccc.600x338.jpg?t=1747409289");
+            this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_bbb5ead71b9321c6ba9bfc8941917136f9961fdb.600x338.jpg?t=1747409289");
+            this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_3c894cfd44c1c12a539d2dbcb93cbecfbdbbb383.600x338.jpg?t=1747409289");
+            this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_4b9b93f38fb65007e7a6410264b2f7fdac0d3586.600x338.jpg?t=1747409289");
+            this.pictures.add("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/ss_95930b9074962300c643468587ad4c7a1a64abe0.600x338.jpg?t=1747409289");
         this.publisher = new Publisher("Unknown Publisher");
         this.price = 59.99;
-        this.reviews = 0;
-        this.positiveReviews = 0;
-        this.negativeReviews = 0;
+        this.positiveReviews = 94;
+        this.negativeReviews = 6;
         this.description = "No description available.";
         this.tags = new ArrayList<>();
 
         this.discount = 10;
+        this.releaseDate = LocalDate.of(2025,5,14);
+        this.recommended = true;
+        this.status = 1;
         this.classification = new Rating();
         this.windowsRequirement = new Windows(); // assuming a default constructor exists
         this.linuxRequirement = new Linux();     // assuming a default constructor exists
@@ -59,7 +66,6 @@ public class Game implements Serializable {
         this.pictures = pictures;
         this.publisher = publisher;
         this.price = price;
-        this.reviews = reviews;
         this.positiveReviews = positiveReviews;
         this.negativeReviews = negativeReviews;
         this.description = description;
@@ -117,10 +123,7 @@ public class Game implements Serializable {
     }
 
     public int getReviews() {
-        return reviews;
-    }
-    public void setReviews(int reviews) {
-        this.reviews = reviews;
+        return this.positiveReviews + this.negativeReviews;
     }
 
     public int getPositiveReviews() {
@@ -223,7 +226,6 @@ public class Game implements Serializable {
                 "\npictures=" + pictures +
                 "\npublisher=" + publisher +
                 "\nprice=" + price +
-                "\nreviews=" + reviews +
                 "\npositiveReviews=" + positiveReviews +
                 "\nnegativeReviews=" + negativeReviews +
                 "\ndescription='" + description +

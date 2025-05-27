@@ -8,7 +8,7 @@ import com.wasd.models.Game;
 import java.awt.event.*;
 
 public class GameSmallContainer extends PanelRound implements StyleConfig {
-    GameSmallContainer(Game game) {
+    GameSmallContainer(Game game, MainWindow frame) {
         super();
         int width = 85;
         int height = 40;
@@ -26,5 +26,14 @@ public class GameSmallContainer extends PanelRound implements StyleConfig {
         bannerLabel.setPreferredSize(new Dimension(width, height));
 
         this.add(bannerLabel, BorderLayout.CENTER);
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.goGame(game);
+            }
+        });
+
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }
