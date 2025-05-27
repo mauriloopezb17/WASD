@@ -26,6 +26,7 @@ public class SecondaryWindow extends JFrame implements StyleConfig {
         this.getContentPane().setBackground(BG_COLOR);
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
+        this.setIconImage(AssetLoader.loadIcon("/images/logo.png", 150, 150).getImage());
 
         JPanel upperPanel = new JPanel(new BorderLayout());
         upperPanel.setPreferredSize(new Dimension(0, 25));

@@ -66,7 +66,7 @@ public class Main
         this.linuxRequirement = linuxRequirement;
         this.macRequirement = macRequirement;*/
 
-
+        /*
         Game cs2 = new Game("Counter-Strike 2"); {
             cs2.setIdGame(0);
             cs2.setBanner("https://100.76.173.106:8443/resources/banners/cs2.jpg");
@@ -247,6 +247,12 @@ public class Main
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
         recommendedGames.add(cp2077);
+        */
+
+        for(int i = 0; i < 5; i++) {
+            games.add(new Game("DOOM: The Dark Ages"));
+            recommendedGames.add(new Game("DOOM: The Dark Ages"));
+        }
 
         Player player = new Player("Pancake99");
         player.setLibrary(recommendedGames);

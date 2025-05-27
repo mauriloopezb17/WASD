@@ -31,6 +31,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.getContentPane().setBackground(BG_COLOR);
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 10, 10));
+        this.setIconImage(AssetLoader.loadIcon("/images/logo.png", 150, 150).getImage());
         
         TopNavigationBar topBar = new TopNavigationBar(this, player);
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 53));
@@ -151,7 +152,14 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
             for (Game game : allGames) {
                 if ("All".equals(selectedTag) || game.getTags().contains(selectedTag)) {
-                    byTagPanel.add(new GameMediumContainer(game));
+                    GameMediumContainer mediumContainer = new GameMediumContainer(game);
+                    mediumContainer.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            MainWindow.this.goGame(game);
+                        }
+                    });
+                    byTagPanel.add(mediumContainer);
                 }
             }
 
@@ -276,25 +284,27 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     content.add(detailLine);
 
                     //Description TextArea
-                    JTextArea descriptionTextArea = new JTextArea();
-                    descriptionTextArea.setFont(SECONDARY_DESCRIPTION_FONT);
+                    JTextArea descriptionTextArea = new JTextArea(game.getDescription());
+                    descriptionTextArea.setFont(DESCRPTION_FONT_PLAIN);
                     descriptionTextArea.setForeground(TEXT_COLOR);
                     descriptionTextArea.setLineWrap(true);
                     descriptionTextArea.setWrapStyleWord(true);
-                    descriptionTextArea.setOpaque(false);
                     descriptionTextArea.setEditable(false);
-                    descriptionTextArea.setText(game.getDescription());
-                    descriptionTextArea.setBorder(null); // optional: removes internal padding/border
+                    descriptionTextArea.setRows(4); //important?
+                    descriptionTextArea.setBackground(PANEL_COLOR);
+                    descriptionTextArea.setOpaque(false);
+                    descriptionTextArea.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-                    // Wrap it in a JScrollPane
                     ScrollPaneRound scrollPane = new ScrollPaneRound(descriptionTextArea);
-                    scrollPane.setPreferredSize(new Dimension(showcase.getWidth(), 100)); // or adjust height
-                    scrollPane.setMaximumSize(new Dimension(showcase.getWidth(), 100));
-                    scrollPane.setBorder(null); // optional: removes border
-                    scrollPane.setOpaque(false);
-                    scrollPane.getViewport().setOpaque(false);
+                    scrollPane.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
                     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
                     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                    scrollPane.setBackground(PANEL_COLOR);
+                    scrollPane.setOpaque(false);
+                    scrollPane.getViewport().setOpaque(false);
+
+                    int prefH = scrollPane.getPreferredSize().height;  // this comes from the 4 rows we set
+                    scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, prefH));
 
                     content.add(scrollPane);
 
@@ -310,92 +320,91 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     detailLine2.setAlignmentX(CENTER_ALIGNMENT);
                     content.add(detailLine2);
 
-                    //row that contains publisher, developer, rating and release date
                     JPanel row = new JPanel();
                     row.setOpaque(false);
                     row.setLayout(new GridLayout(1, 4));
-                    row.setAlignmentX(CENTER_ALIGNMENT);
+                    row.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                        //publisher container
+                        // --- Publisher Container ---
                         JPanel publisherContainer = new JPanel();
                         publisherContainer.setOpaque(false);
-                        publisherContainer.setLayout(new BorderLayout(0,0));
-                        publisherContainer.setAlignmentX(CENTER_ALIGNMENT);
+                        publisherContainer.setLayout(new BoxLayout(publisherContainer, BoxLayout.Y_AXIS));
+                        publisherContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                            JLabel publisherLabel = new JLabel("PUBLISHER");
-                            publisherLabel.setFont(SUBTITLE_FONT);
-                            publisherLabel.setForeground(TEXT_COLOR);
-                            publisherLabel.setAlignmentX(CENTER_ALIGNMENT);
-                            publisherContainer.add(publisherLabel, BorderLayout.NORTH);
+                        JLabel publisherLabel = new JLabel("PUBLISHER");
+                        publisherLabel.setFont(SUBTITLE_FONT);
+                        publisherLabel.setForeground(TEXT_COLOR);
+                        publisherLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        publisherContainer.add(publisherLabel);
 
-                            JLabel publisherValue = new JLabel(game.getPublisher().getName());
-                            publisherValue.setFont(DESCRPTION_FONT);
-                            publisherValue.setForeground(TEXT_COLOR);
-                            publisherValue.setAlignmentX(CENTER_ALIGNMENT);
-                            publisherContainer.add(publisherValue, BorderLayout.SOUTH);
+                        JLabel publisherValue = new JLabel(game.getPublisher().getUsername());
+                        publisherValue.setFont(DESCRPTION_FONT);
+                        publisherValue.setForeground(TEXT_COLOR);
+                        publisherValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        publisherContainer.add(publisherValue);
 
                         row.add(publisherContainer);
-                        
-                        //developer container
+
+                        // --- Developer Container ---
                         JPanel developerContainer = new JPanel();
                         developerContainer.setOpaque(false);
-                        developerContainer.setLayout(new BorderLayout(0,0));
-                        developerContainer.setAlignmentX(CENTER_ALIGNMENT);
+                        developerContainer.setLayout(new BoxLayout(developerContainer, BoxLayout.Y_AXIS));
+                        developerContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                            JLabel developerLabel = new JLabel("DEVELOPER");
-                            developerLabel.setFont(SUBTITLE_FONT);
-                            developerLabel.setForeground(TEXT_COLOR);
-                            developerLabel.setAlignmentX(CENTER_ALIGNMENT);
-                            developerContainer.add(developerLabel, BorderLayout.NORTH);
+                        JLabel developerLabel = new JLabel("DEVELOPER");
+                        developerLabel.setFont(SUBTITLE_FONT);
+                        developerLabel.setForeground(TEXT_COLOR);
+                        developerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        developerContainer.add(developerLabel);
 
-                            //JLabel developerValue = new JLabel(game.getDeveloper().getName());
-                            JLabel developerValue = new JLabel("TO DO");
-                            developerValue.setFont(DESCRPTION_FONT);
-                            developerValue.setForeground(TEXT_COLOR);
-                            developerValue.setAlignmentX(CENTER_ALIGNMENT);
-                            developerContainer.add(developerValue, BorderLayout.SOUTH);
+                        JLabel developerValue = new JLabel("TO DO"); // or game.getDeveloper().getName()
+                        developerValue.setFont(DESCRPTION_FONT);
+                        developerValue.setForeground(TEXT_COLOR);
+                        developerValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        developerContainer.add(developerValue);
 
                         row.add(developerContainer);
-                        
-                        //rating container (just image)
+
+                        // --- Rating Panel ---
                         JPanel ratingPanel = new JPanel();
                         ratingPanel.setOpaque(false);
-                        ratingPanel.setLayout(new BorderLayout(0,0));
-                        ratingPanel.setAlignmentX(CENTER_ALIGNMENT);
+                        ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.Y_AXIS));
+                        ratingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                            JLabel ratingLabel = new JLabel();
-                            ratingLabel.setIcon(AssetLoader.loadIcon("/images/rating_default.png", 18*2, 28*2));
-                            ratingLabel.setAlignmentX(CENTER_ALIGNMENT);
-                            ratingLabel.setAlignmentY(CENTER_ALIGNMENT);
-                            ratingLabel.setPreferredSize(new Dimension(18*2, 28*2));
-                            ratingLabel.setOpaque(false);
-                            ratingPanel.add(ratingLabel, BorderLayout.CENTER);
+                        JLabel ratingLabel = new JLabel();
+                        ratingLabel.setIcon(AssetLoader.loadIcon("/images/rating_default.png", 18 * 2, 28 * 2));
+                        ratingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        ratingLabel.setPreferredSize(new Dimension(18 * 2, 28 * 2));
+                        ratingLabel.setOpaque(false);
+                        ratingPanel.add(Box.createVerticalGlue()); // Optional: adds spacing before
+                        ratingPanel.add(ratingLabel);
+                        ratingPanel.add(Box.createVerticalGlue()); // Optional: adds spacing after
 
                         row.add(ratingPanel);
 
-                        //release date container
+                        // --- Release Date Container ---
                         JPanel releaseDateContainer = new JPanel();
                         releaseDateContainer.setOpaque(false);
-                        releaseDateContainer.setLayout(new BorderLayout(0,0));
-                        releaseDateContainer.setAlignmentX(CENTER_ALIGNMENT);
+                        releaseDateContainer.setLayout(new BoxLayout(releaseDateContainer, BoxLayout.Y_AXIS));
+                        releaseDateContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                            JLabel releaseDateLabel = new JLabel("RELEASE DATE");
-                            releaseDateLabel.setFont(SUBTITLE_FONT);
-                            releaseDateLabel.setForeground(TEXT_COLOR);
-                            releaseDateLabel.setAlignmentX(CENTER_ALIGNMENT);
-                            releaseDateContainer.add(releaseDateLabel, BorderLayout.NORTH);
+                        JLabel releaseDateLabel = new JLabel("RELEASE DATE");
+                        releaseDateLabel.setFont(SUBTITLE_FONT);
+                        releaseDateLabel.setForeground(TEXT_COLOR);
+                        releaseDateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        releaseDateContainer.add(releaseDateLabel);
 
-                            JLabel releaseDateValue = new JLabel(game.getReleaseDate().toString());
-                            releaseDateValue.setFont(DESCRPTION_FONT);
-                            releaseDateValue.setForeground(TEXT_COLOR);
-                            releaseDateValue.setAlignmentX(CENTER_ALIGNMENT);
-                            releaseDateContainer.add(releaseDateValue, BorderLayout.SOUTH);
+                        JLabel releaseDateValue = new JLabel(game.getReleaseDate().toString());
+                        releaseDateValue.setFont(DESCRPTION_FONT);
+                        releaseDateValue.setForeground(TEXT_COLOR);
+                        releaseDateValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        releaseDateContainer.add(releaseDateValue);
 
-                        row.add(releaseDateContainer);
+                    row.add(releaseDateContainer);
 
-                    //row.setAlignmentX(CENTER_ALIGNMENT);
-                    //content.setPreferredSize(new Dimension(showcase.getWidth(), 0));
+                    // Add row to content
                     content.add(row);
+
 
 
                 leftContainer.add(content, BorderLayout.EAST);
