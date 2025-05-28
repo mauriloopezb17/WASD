@@ -57,8 +57,8 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
         this.add(topBar, BorderLayout.NORTH);
 
-        //this.goHome();
-        this.goGame(allGames.get(0));
+        this.goHome();
+        //this.goGame(allGames.get(0));
 
         this.setVisible(true);
         applyWindowShape();

@@ -66,7 +66,7 @@ public class Main
         this.linuxRequirement = linuxRequirement;
         this.macRequirement = macRequirement;*/
 
-        /*
+        
         Game cs2 = new Game("Counter-Strike 2"); {
             cs2.setIdGame(0);
             cs2.setBanner("https://100.76.173.106:8443/resources/banners/cs2.jpg");
@@ -77,11 +77,11 @@ public class Main
             cs2.setPictures(cs2_promos);
             cs2.setPublisher(new Publisher("Valve"));
             cs2.setPrice(0);
-            cs2.setReviews(100);
+            //cs2.setReviews(100);
             cs2.setPositiveReviews(95);
             cs2.setNegativeReviews(5);
             cs2.setDescription("For over two decades, Counter-Strike has offered an elite competitive experience, one shaped by millions of players from across the globe. And now the next chapter in the CS story is about to begin. This is Counter-Strike 2.");
-            cs2.setTags(new ArrayList<>(Arrays.asList("FPS", "Shooter", "Multiplayer", "Competitive", "Action")));
+            //cs2.setTags(new ArrayList<>(Arrays.asList("FPS", "Shooter", "Multiplayer", "Competitive", "Action")));
             cs2.setDiscount(0);
             cs2.setReleaseDate(LocalDate.of(2012,8,21));
             cs2.setRecommended(true);
@@ -98,11 +98,11 @@ public class Main
             balatro.setPictures(balatro_promos);
             balatro.setPublisher(new Publisher("PlayStack"));
             balatro.setPrice(7.99);
-            balatro.setReviews(100);
+            //balatro.setReviews(100);
             balatro.setPositiveReviews(95);
             balatro.setNegativeReviews(5);
             balatro.setDescription("The poker roguelike. Balatro is a hypnotically satisfying deckbuilder where you play illegal poker hands, discover game-changing jokers, and trigger adrenaline-pumping, outrageous combos.");
-            balatro.setTags(new ArrayList<>(Arrays.asList("Cards", "Poker", "Roguelike", "Multiplayer", "Singleplayer")));
+            ///balatro.setTags(new ArrayList<>(Arrays.asList("Cards", "Poker", "Roguelike", "Multiplayer", "Singleplayer")));
             balatro.setDiscount(10);
             balatro.setReleaseDate(LocalDate.of(2024,2,20));
             balatro.setRecommended(true);
@@ -119,11 +119,11 @@ public class Main
             cp2077.setPictures(cp2077_promos);
             cp2077.setPublisher(new Publisher("CD Projekt Red"));
             cp2077.setPrice(59.99);
-            cp2077.setReviews(100);
+            //cp2077.setReviews(100);
             cp2077.setPositiveReviews(95);
             cp2077.setNegativeReviews(5);
             cp2077.setDescription("Cyberpunk 2077 is an open-world, action-adventure RPG set in the dark future of Night City — a dangerous megalopolis obsessed with power, glamor, and ceaseless body modification.");
-            cp2077.setTags(new ArrayList<>(Arrays.asList("Cyberpunk", "Role-Playing", "Open-World", "Singleplayer", "Sci-Fi")));
+            //cp2077.setTags(new ArrayList<>(Arrays.asList("Cyberpunk", "Role-Playing", "Open-World", "Singleplayer", "Sci-Fi")));
             cp2077.setDiscount(15);
             cp2077.setReleaseDate(LocalDate.of(2020,12,9));
             cp2077.setRecommended(true);
@@ -140,11 +140,11 @@ public class Main
             dtda.setPictures(dtda_promos);
             dtda.setPublisher(new Publisher("Bethesda Softworks"));
             dtda.setPrice(49.99);
-            dtda.setReviews(100);
+            //dtda.setReviews(100);
             dtda.setPositiveReviews(95);
             dtda.setNegativeReviews(5);
             dtda.setDescription("DOOM: The Dark Ages is the prequel to the critically acclaimed DOOM (2016) and DOOM Eternal that tells an epic cinematic story worthy of the DOOM Slayer’s legend. Players will step into the blood-stained boots of the DOOM Slayer, in this never-before-seen dark and sinister medieval war against");
-            dtda.setTags(new ArrayList<>(Arrays.asList("Action", "Demons", "FPS", "Sci-Fi", "Singleplayer")));
+            //dtda.setTags(new ArrayList<>(Arrays.asList("Action", "Demons", "FPS", "Sci-Fi", "Singleplayer")));
             dtda.setDiscount(0);
             dtda.setReleaseDate(LocalDate.of(2025,5,14));
             dtda.setRecommended(true);
@@ -161,11 +161,11 @@ public class Main
             hk.setPictures(hk_promos);
             hk.setPublisher(new Publisher("Team Cherry"));
             hk.setPrice(4.99);
-            hk.setReviews(100);
+            //hk.setReviews(100);
             hk.setPositiveReviews(95);
             hk.setNegativeReviews(5);
             hk.setDescription("Forge your own path in Hollow Knight! An epic action adventure through a vast ruined kingdom of insects and heroes. Explore twisting caverns, battle tainted creatures and befriend bizarre bugs, all in a classic, hand-drawn 2D style.");
-            hk.setTags(new ArrayList<>(Arrays.asList("Metdon", "Souls-like", "Platformer", "Singleplayer", "Diffucult")));
+            //hk.setTags(new ArrayList<>(Arrays.asList("Metdon", "Souls-like", "Platformer", "Singleplayer", "Diffucult")));
             hk.setDiscount(0); 
             hk.setReleaseDate(LocalDate.of(2017,2,24));
             hk.setRecommended(true);
@@ -181,11 +181,11 @@ public class Main
             hl2.setPictures(hl2_promos);
             hl2.setPublisher(new Publisher("Valve"));
             hl2.setPrice(5.79);
-            hl2.setReviews(100);
+            //hl2.setReviews(100);
             hl2.setPositiveReviews(95);
             hl2.setNegativeReviews(5);
             hl2.setDescription("Reawakened from stasis in the occupied metropolis of City 17, Gordon Freeman is joined by Alyx Vance as he leads a desperate human resistance. Experience the landmark first-person shooter packed with immersive world-building, boundary-pushing physics, and exhilarating combat.");
-            hl2.setTags(new ArrayList<>(Arrays.asList("FPS", "Action", "Singleplayer", "Classic")));
+            //hl2.setTags(new ArrayList<>(Arrays.asList("FPS", "Action", "Singleplayer", "Classic")));
             hl2.setDiscount(0);
             hl2.setReleaseDate(LocalDate.of(2004,11,16));
             hl2.setRecommended(true);
@@ -202,11 +202,11 @@ public class Main
             R6S.setPictures(R6S_promos);
             R6S.setPublisher(new Publisher("Ubisoft"));
             R6S.setPrice(15.99);
-            R6S.setReviews(100);
+            //R6S.setReviews(100);
             R6S.setPositiveReviews(95);
             R6S.setNegativeReviews(5);
             R6S.setDescription("Tom Clancy's Rainbow Six® Siege is an elite, tactical team-based shooter where superior planning and execution triumph.");
-            R6S.setTags(new ArrayList<>(Arrays.asList("FPS", "Shooter", "Multiplayer", "Action", "Competitive")));
+            //R6S.setTags(new ArrayList<>(Arrays.asList("FPS", "Shooter", "Multiplayer", "Action", "Competitive")));
             R6S.setDiscount(15);
             R6S.setReleaseDate(LocalDate.of(2015,12,1));
             R6S.setRecommended(true);
@@ -223,11 +223,11 @@ public class Main
             repo.setPictures(repo_promos);
             repo.setPublisher(new Publisher("semiwork"));
             repo.setPrice(5.79);
-            repo.setReviews(100);
+            //repo.setReviews(100);
             repo.setPositiveReviews(95);
             repo.setNegativeReviews(5);
             repo.setDescription("An online co-op horror game with up to 6 players. Locate valuable, fully physics-based objects and handle them with care as you retrieve and extract to satisfy your creator's desires.");
-            repo.setTags(new ArrayList<>(Arrays.asList("Horror", "Co-Op", "Multiplayer", "Comedy", "3D")));
+            //repo.setTags(new ArrayList<>(Arrays.asList("Horror", "Co-Op", "Multiplayer", "Comedy", "3D")));
             repo.setDiscount(10);
             repo.setReleaseDate(LocalDate.of(2025,2,26));
             repo.setRecommended(true);
@@ -247,12 +247,12 @@ public class Main
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
         recommendedGames.add(cp2077);
-        */
+        
 
-        for(int i = 0; i < 5; i++) {
+        /*for(int i = 0; i < 5; i++) {
             games.add(new Game("DOOM: The Dark Ages"));
             recommendedGames.add(new Game("DOOM: The Dark Ages"));
-        }
+        }*/
 
         Player player = new Player("Pancake99");
         player.setLibrary(recommendedGames);
@@ -264,8 +264,8 @@ public class Main
 
         player.setFriends(friends);
 
-        //new LoginWindow(games, recommendedGames);
-        MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
+        new LoginWindow(games, recommendedGames);
+        //MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
         //mainWindow.goGame(balatro);
 
         //temporary frame to test the showcase
