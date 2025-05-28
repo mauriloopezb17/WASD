@@ -67,12 +67,11 @@ public class Requirement implements Serializable {
 
     @Override
     public String toString() {
-        return "Requirement:" +
-                "\nmemory=" + memory +
-                "\nprocessor=" + processor +
-                "\ngraphics=" + graphics + 
-                "\nstorage=" + storage +
-                "\naditionalNotes=" + descripcion;
+        return  "\nMemory: " + memory +
+                "\nProcessor: " + processor +
+                "\nGraphics: " + graphics + 
+                "\nStorage: " + storage +
+                "\nNotes: " + descripcion;
     }
 
     public void addComponent(SystemComponent c) {

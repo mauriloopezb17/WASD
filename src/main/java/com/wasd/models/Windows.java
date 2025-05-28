@@ -24,7 +24,7 @@ public class Windows extends Requirement {
     @Override
     public String toString() {
         return super.toString() +
-                "\nosVersion=" + osVersion;
+                "\nOS Version: " + osVersion;
     }
 
     @Override

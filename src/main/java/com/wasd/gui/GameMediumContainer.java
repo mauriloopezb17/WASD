@@ -1,5 +1,6 @@
 package com.wasd.gui;
 import com.wasd.models.Game;
+import com.wasd.models.Tag;
 
 import javax.swing.*;
 
@@ -54,8 +55,8 @@ public class GameMediumContainer extends PanelRound implements StyleConfig {
             tagsPanel.setOpaque(false);
             tagsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
             {
-                for (String tag : game.getTags()) {
-                    JLabel tagLabel = new JLabel(tag + "    ");
+                for (Tag tag : game.getTags()) {
+                    JLabel tagLabel = new JLabel(tag.getNameTag() + "    ");
                     tagLabel.setFont(SECONDARY_DESCRIPTION_FONT);
                     tagLabel.setForeground(SECONDARY_TEXT_COLOR);
                     tagsPanel.add(tagLabel);

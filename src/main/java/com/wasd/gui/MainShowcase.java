@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 
 import javax.swing.border.LineBorder;
 import javax.swing.border.AbstractBorder;
+import javax.swing.border.Border;
 
 import com.wasd.models.Game;
 
@@ -17,13 +18,14 @@ public class MainShowcase extends JPanel implements StyleConfig {
     
     int width = 640;
     int height = 360;
-    int rad = 10;
+    int rad = 30;
     int imageIndex = 0;
 
     JLabel bigImageLabel;
 
     public MainShowcase(Game game) {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout(8,0));
+        this.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
         this.setOpaque(false);
 
         //big image container
@@ -128,13 +130,13 @@ public class MainShowcase extends JPanel implements StyleConfig {
             });
             lowerSelectorContainer.add(nextButton, BorderLayout.EAST);
 
-        this.add(bigImageContainer);
+        this.add(bigImageContainer, BorderLayout.NORTH);
         //small spaecer
         JPanel spacer = new JPanel();
         spacer.setPreferredSize(new Dimension(0,4));
         spacer.setOpaque(false);
-        this.add(spacer);
-        this.add(lowerSelectorContainer);
+        //this.add(spacer);
+        this.add(lowerSelectorContainer, BorderLayout.SOUTH);
     }
 
     public class SmallImageContainer extends PanelRound implements StyleConfig {

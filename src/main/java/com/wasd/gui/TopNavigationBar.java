@@ -40,7 +40,6 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             WindowButton resizeButton = new WindowButton("/images/maximize.png", HIGHLIGHT_COLOR);
             final boolean[] isMaximized = {false};
             final Dimension defaultSize = new Dimension(1280, 720);
-
             resizeButton.addActionListener(e -> {
                 GraphicsConfiguration config = frame.getGraphicsConfiguration();
                 Rectangle screenBounds = config.getBounds();
@@ -69,7 +68,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 frame.revalidate();
                 frame.repaint();
             });
-            buttonPanel.add(resizeButton);
+            //buttonPanel.add(resizeButton);
 
             WindowButton closeButton = new WindowButton("/images/close.png", CLOSE_COLOR);
             closeButton.addActionListener(e -> frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));

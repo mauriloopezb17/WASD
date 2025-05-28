@@ -1,6 +1,7 @@
 package com.wasd.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.*;
 import java.time.LocalDate;
 
@@ -44,8 +45,12 @@ public class Game implements Serializable {
         this.price = 59.99;
         this.positiveReviews = 94;
         this.negativeReviews = 6;
-        this.description = "No description available.";
+        this.description = "DOOM: The Dark Ages is the prequel to the critically acclaimed DOOM (2016) and DOOM Eternal that tells an epic cinematic story worthy of the DOOM Slayer’s legend. Players will step into the blood-stained boots of the DOOM Slayer, in this never-before-seen dark and sinister medieval war against";
         this.tags = new ArrayList<>();
+
+        this.tags.add(new Tag(1, "Action"));
+        this.tags.add(new Tag(2, "Adventure"));
+        this.tags.add(new Tag(3, "RPG"));
 
         this.discount = 10;
         this.releaseDate = LocalDate.of(2025,5,14);
