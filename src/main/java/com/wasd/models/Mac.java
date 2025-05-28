@@ -38,4 +38,8 @@ public class Mac extends Requirement {
                 "\narchitecture=" + architecture;
     }
 
+    @Override
+    public String getPlatform() {
+        return "Mac";
+    }
 }

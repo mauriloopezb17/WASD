@@ -8,6 +8,9 @@ public class ComponentDAO {
 
     // Busca un componente por nombre y tipo. Si no existe, lo inserta.
     public int searchComponent(String name, String type) {
+        if (name == null || name.isBlank() || type == null || type.isBlank()) {
+            return -1;
+        }
         int id = -1;
 
         String selectSQL = "SELECT idComponent FROM COMPONENTS WHERE nameComponent = ? AND type = ?";

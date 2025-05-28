@@ -82,5 +82,24 @@ public class TagDAO {
         return tags;
     }
 
+    public void insertGame_Tags(int idGame, ArrayList<Tag> tags) {
+        for (Tag tag : tags) {
+            insertGame_idTag(idGame, tag.getIdTag());
+        }
+    }
+
+    public void insertGame_idTag(int idGame, int idTag) {
+        String sql = "INSERT INTO GAME_TAGS(idGame, idTag) VALUES (?, ?)";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idGame);
+            stmt.setInt(2, idTag);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 

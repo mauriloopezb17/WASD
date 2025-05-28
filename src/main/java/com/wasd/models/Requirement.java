@@ -84,7 +84,7 @@ public class Requirement implements Serializable {
     }
 
     public String getPlatform(){
-        return " ";
+        return "";
     }
 
     public String getFormattedText(){

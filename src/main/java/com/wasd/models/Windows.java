@@ -26,4 +26,9 @@ public class Windows extends Requirement {
         return super.toString() +
                 "\nosVersion=" + osVersion;
     }
+
+    @Override
+    public String getPlatform() {
+        return "Windows";
+    }
 }

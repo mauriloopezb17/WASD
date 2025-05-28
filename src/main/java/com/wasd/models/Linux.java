@@ -38,4 +38,9 @@ public class Linux extends Requirement {
                 "\nkernelVersion=" + kernelVersion;
     }
 
+    @Override
+    public String getPlatform() {
+        return "Linux";
+    }
+
 } 
