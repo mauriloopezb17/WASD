@@ -1,20 +1,23 @@
 package com.wasd.database;
 
+import com.wasd.database.LibraryDAO;
 import com.wasd.models.Game;
-import com.wasd.database.ConnectionDB;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LibraryDAO {
+import com.wasd.database.ConnectionDB;
 
-    // Agregar un juego en la librería, siempre y cuando no lo tenga ya
-    public boolean addLibrary(int idUser, int idGame) {
+public class WishlistDAO {
 
-        if (isOwned(idUser, idGame)) {
+    // Anadir un juego a la wishlist
+    public boolean addWishlist(int idUser, int idGame) {
+
+        if (inWishlist(idUser, idGame)){
             return false;
         }
 
-        String sql = "INSERT INTO LIBRARIES(idPlayer, idGame) VALUES (?, ?)";
+        String sql = "INSERT INTO WISHLISTS(idPlayer, idGame) VALUES (?, ?)";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -30,11 +33,11 @@ public class LibraryDAO {
         }
     }
 
-    // Verificacion si tienes ya el juego
-    public boolean isOwned(int idUser, int idGame) {
+    // Verificacion si tienes ya el juego en tu wishlist
+    public boolean inWishlist(int idUser, int idGame) {
 
-        String sql = "SELECT 1 FROM LIBRARIES WHERE idPlayer = ? AND idGame = ?";
-
+        String sql = "SELECT 1 FROM WISHLISTS WHERE idPlayer = ? AND idGame = ?";
+        
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -50,11 +53,11 @@ public class LibraryDAO {
         }
     }
 
-    // Consulta toda la libreria de juegos que tienes
-    public ArrayList<Game> searchAllLibrary(int idUser) {
+    // Consulta toda la wishlist de juegos que tienes
+    public ArrayList<Game> searchAllWishlist(int idUser) {
 
-        ArrayList<Game> games = new ArrayList<>();
-        String sql = "SELECT idGame FROM LIBRARIES WHERE idPlayer = ?";
+        ArrayList<Game> wishlist = new ArrayList<>();
+        String sql = "SELECT idGame FROM WISHLISTS WHERE idPlayer = ?";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -67,8 +70,8 @@ public class LibraryDAO {
             while (rs.next()) {
                 int idGame = rs.getInt("idGame");
                 Game game = gameDAO.getGameXId(idGame);
-                if (game != null) {
-                    games.add(game);
+                if (game != null){
+                    wishlist.add(game);
                 }
             }
 
@@ -76,14 +79,14 @@ public class LibraryDAO {
             e.printStackTrace();
         }
 
-        return games;
+        return wishlist;
     }
 
-    // Eliminar un juego de tu libreria
-    public boolean removeLibrary(int idUser, int idGame) {
+    // Elimina un juego de la wishlist
+    public boolean removeWishlist(int idUser, int idGame) {
 
-        String sql = "DELETE FROM LIBRARIES WHERE idPlayer = ? AND idGame = ?";
-
+        String sql = "DELETE FROM WISHLISTS WHERE idPlayer = ? AND idGame = ?";
+        
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -99,31 +102,11 @@ public class LibraryDAO {
         }
     }
 
-    // Cuantos juegos tienes en tu libreria
-    public int countLibrary(int idUser) {
-
-        String sql = "SELECT COUNT(*) FROM LIBRARIES WHERE idPlayer = ?";
-        try (Connection con = ConnectionDB.connect();
-            PreparedStatement stmt = con.prepareStatement(sql)) {
-
-            stmt.setInt(1, idUser);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    // ArrayList de idGame que almacena todos estos de un usuario
+    // Funcion para obtener todos los ids que estan en la wishlist
     public ArrayList<Integer> searchAllIdGames(int idUser) {
-
+        
         ArrayList<Integer> ids = new ArrayList<>();
-
-        String sql = "SELECT idGame FROM LIBRARIES WHERE idPlayer = ?";
+        String sql = "SELECT idGame FROM WISHLISTS WHERE idPlayer = ?";
 
         try (Connection con = ConnectionDB.connect();
             PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -133,10 +116,13 @@ public class LibraryDAO {
             while (rs.next()) {
                 ids.add(rs.getInt("idGame"));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return ids;
     }
+
 
 }
