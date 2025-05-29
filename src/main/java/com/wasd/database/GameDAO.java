@@ -48,7 +48,13 @@ public class GameDAO {
                 // El publisher
                 PublisherDAO pubDAO = new PublisherDAO();
                 Publisher publisher = pubDAO.searchPublisher(rs.getInt("idPublisher"));
-                game.setPublisher(publisher);
+                System.out.println(publisher);
+                if(publisher != null) {
+                    game.setPublisher(publisher);
+                }
+                else {
+                    game.setPublisher(new Publisher("Unknown"));
+                }
 
                 // TAAAAAAGS
                 TagDAO tagDAO = new TagDAO();
@@ -281,7 +287,6 @@ public class GameDAO {
 
         return games;
     }
-
     // Funcion para buscar todos los juegos recomendados
     public ArrayList<Game> searchRecomendedGames() {
 
@@ -306,6 +311,5 @@ public class GameDAO {
 
         return games;
     }
-
 }
 

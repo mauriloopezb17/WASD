@@ -158,6 +158,50 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             });
             centerPanel.add(bellButton);
 
+            //wishlist button
+            PanelRound wishlistButton = new PanelRound();
+            wishlistButton.setRoundTopLeft(br);
+            wishlistButton.setRoundTopRight(br);
+            wishlistButton.setRoundBottomRight(br);
+            wishlistButton.setRoundBottomLeft(br);
+
+            wishlistButton.setBackground(TOP_BAR_COLOR);
+            wishlistButton.setPreferredSize(new Dimension(32,32));
+            wishlistButton.setLayout(new BorderLayout());
+            wishlistButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            wishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            wishlistButton.setBorder(null);
+            //wishlistButton.setOpaque(false);
+
+                JLabel wishlistIcon = new JLabel();
+                wishlistIcon.setIcon(AssetLoader.loadIcon("/images/star_inactive.png", 32,32));
+                wishlistIcon.setPreferredSize(new Dimension(25, 25));
+                wishlistIcon.setOpaque(false);
+                wishlistIcon.setHorizontalAlignment(SwingConstants.CENTER);
+                wishlistIcon.setVerticalAlignment(SwingConstants.CENTER);
+                wishlistIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                wishlistButton.add(wishlistIcon, BorderLayout.CENTER);
+
+            wishlistButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    wishlistButton.setBackground(HIGHLIGHT_COLOR);
+                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/star_active.png", 32,32));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    wishlistButton.setBackground(TOP_BAR_COLOR);
+                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/star_inactive.png", 32,32));
+                }
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //TODO
+                    new WishlistWindow(player, frame);
+                }
+            });
+            centerPanel.add(wishlistButton);
+
             PanelRound profileButton = new PanelRound();
             int rad = 18;
             profileButton.setRoundTopLeft(rad);
