@@ -5,18 +5,19 @@ import java.util.ArrayList;
 public class Publisher extends User {
     
     private int idPublisher;
-    private ArrayList<Game> publishedGames;
+    private int publishedGames;
+    private ArrayList<Game> gamesPublished;
 
     public Publisher(String name){
         super(name);
         this.idPublisher = -1;
-        this.publishedGames = new ArrayList<>();
+        this.gamesPublished = new ArrayList<>();
     }
 
     public Publisher(int idUser, int idPublisher, String name, String lastName, String username, String email, String country, String password, String avatar) {
         super(idUser, name, lastName, username, email, country, password, avatar, Role.PUBLISHER);
         this.idPublisher = idPublisher;
-        this.publishedGames = new ArrayList<>();
+        this.gamesPublished = new ArrayList<>();
     }
 
     public int getIdPublisher() {
@@ -26,11 +27,18 @@ public class Publisher extends User {
         this.idPublisher = idPublisher;
     }
 
-    public ArrayList<Game> getPublishedGames() {
+    public int getPublishedGames() {
         return publishedGames;
     }
-    public void setPublishedGames(ArrayList<Game> publishedGames) {
+    public void setPublishedGames(int publishedGames){
         this.publishedGames = publishedGames;
+    }
+
+    public ArrayList<Game> getGamesPublished() {
+        return gamesPublished;
+    }
+    public void setGamesPublished(ArrayList<Game> gamesPublished) {
+        this.gamesPublished = gamesPublished;
     }
 
     @Override

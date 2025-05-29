@@ -28,6 +28,7 @@ public class Main
     {
         System.out.println( "Testing WASD" );
         ArrayList<Game> games = new ArrayList<>();
+        ArrayList<Game> games = new ArrayList<>();
         /*
         games.add(new Game("Counter-Strike 2"));
         games.get(0).setPrice(0);
@@ -258,7 +259,7 @@ public class Main
 
         //
         GameDAO gameDAO = new GameDAO();
-        //ArrayList<Game> games = gameDAO.searchAllGames();
+        ArrayList<Game> games = gameDAO.searchAllGames();
 
         Player player = new Player("Pancake99");
         //player.setLibrary(recommendedGames);

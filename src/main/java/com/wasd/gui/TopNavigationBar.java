@@ -180,7 +180,7 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
                 profileButton.add(profileLabel, BorderLayout.CENTER);
 
                 JLabel profileIcon = new JLabel();
-                profileIcon.setIcon(AssetLoader.loadCircularIcon(player.getAvatar(), 30));
+                profileIcon.setIcon(AssetLoader.loadCircularIconFromUrl(player.getAvatar(), 30));
                 profileIcon.setPreferredSize(new Dimension(35,30));
                 profileIcon.setOpaque(false);
                 profileIcon.setHorizontalAlignment(SwingConstants.RIGHT);

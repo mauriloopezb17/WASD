@@ -37,7 +37,7 @@ public class ProfileSmallContainer extends PanelRound implements StyleConfig {
         avatarPanel.setPreferredSize(new Dimension(height-5, height-5));
 
         JLabel avatarImage = new JLabel();
-        avatarImage.setIcon(AssetLoader.loadIcon(player.getAvatar(), height-5, height-5));
+        avatarImage.setIcon(AssetLoader.loadIconFromUrl(player.getAvatar(), height-5, height-5));
         avatarPanel.add(avatarImage, BorderLayout.CENTER);
         this.add(avatarPanel, BorderLayout.WEST);
 
