@@ -36,7 +36,7 @@ public class ProfileWindow extends SecondaryWindow{
             avatarPanel.setPreferredSize(new Dimension(avatarSize, avatarSize));
 
             JLabel avatarImage = new JLabel();
-            avatarImage.setIcon(AssetLoader.loadIcon(player.getAvatar(), avatarSize, avatarSize));
+            avatarImage.setIcon(AssetLoader.loadIconFromUrl(player.getAvatar(), avatarSize, avatarSize));
             avatarPanel.add(avatarImage, BorderLayout.CENTER);
             upperPanel.add(avatarPanel, BorderLayout.WEST);
 

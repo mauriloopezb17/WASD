@@ -35,7 +35,7 @@ public class GameDAO {
                 game.setStatus(rs.getInt("status"));
                 game.setDeveloper(rs.getString("developer"));
 
-                Date sqlDate = rs.getDate("releaseDate");
+                Date sqlDate = rs.getDate("relaseDate");
                 if (sqlDate != null) {
                     game.setReleaseDate(sqlDate.toLocalDate());
                 }
