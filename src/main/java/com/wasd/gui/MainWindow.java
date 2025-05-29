@@ -26,6 +26,8 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
     int requirement = 0; //0 windows, 1 linux, 2 mac
 
+    String wishlistIconPath = "/images/add";
+
     public MainWindow(ArrayList<Game> allGames, ArrayList<Game> recommendedGames, Player player) {
 
         wSpacer = new JLabel();
@@ -827,6 +829,12 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         buyButton.add(buyLabel, BorderLayout.CENTER);
                     
                         buyButton.addMouseListener(new MouseAdapter() {
+                            @Override public void mouseEntered(MouseEvent e) {
+                                buyLabel.setForeground(TEXT_COLOR);
+                            }
+                            @Override public void mouseExited(MouseEvent e) {
+                                buyLabel.setForeground(TOP_BAR_COLOR);
+                            }
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 //TODO
@@ -870,7 +878,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         wishlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                         wishlistButton.setBorder(null);
                         //wishlistButton.setOpaque(false);
-                        
+
                             JLabel wishlistIcon = new JLabel();
                             wishlistIcon.setIcon(AssetLoader.loadIcon("/images/add.png", 32,32));
                             wishlistIcon.setPreferredSize(new Dimension(25, 25));
@@ -881,9 +889,16 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             wishlistButton.add(wishlistIcon, BorderLayout.CENTER);
                         
                         wishlistButton.addMouseListener(new MouseAdapter() {
+                            @Override public void mouseEntered(MouseEvent e) {
+                                wishlistIcon.setIcon(AssetLoader.loadIcon(wishlistIconPath+"_hover.png", 32,32));
+                            }
+                            @Override public void mouseExited(MouseEvent e) {
+                                wishlistIcon.setIcon(AssetLoader.loadIcon(wishlistIconPath+".png", 32,32));
+                            }
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 //TODO
+                                wishlistIconPath = "check";
                             }
                         });
                         wishlistContainer.add(wishlistButton);

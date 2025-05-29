@@ -232,5 +232,4 @@ public class ProfileWindow extends SecondaryWindow{
         this.setLocation(MouseInfo.getPointerInfo().getLocation());
         this.setVisible(true);
     }
-    
 }

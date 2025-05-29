@@ -27,7 +27,7 @@ public class Main
     public static void main( String[] args )
     {
         System.out.println( "Testing WASD" );
-        //ArrayList<Game> games = new ArrayList<>();
+        ArrayList<Game> games = new ArrayList<>();
         /*
         games.add(new Game("Counter-Strike 2"));
         games.get(0).setPrice(0);
@@ -235,7 +235,7 @@ public class Main
             repo.setRecommended(true);
             repo.setStatus(1);
         }
-        /*
+        
         games.add(cs2);
         games.add(balatro);
         games.add(cp2077);
@@ -248,7 +248,7 @@ public class Main
         recommendedGames.add(cs2);
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
-        recommendedGames.add(cp2077);*/
+        recommendedGames.add(cp2077);
         
 
         /*for(int i = 0; i < 5; i++) {
@@ -258,10 +258,10 @@ public class Main
 
         //
         GameDAO gameDAO = new GameDAO();
-        ArrayList<Game> games = gameDAO.searchAllGames();
+        //ArrayList<Game> games = gameDAO.searchAllGames();
 
         Player player = new Player("Pancake99");
-        player.setLibrary(recommendedGames);
+        //player.setLibrary(recommendedGames);
         
         ArrayList<Player> friends = new ArrayList<>();
         friends.add(new Player("CoBine17"));
@@ -270,8 +270,8 @@ public class Main
 
         player.setFriends(friends);
 
-        new LoginWindow(games, recommendedGames);
-        //MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
+        //new LoginWindow(games, recommendedGames);
+        MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
         //mainWindow.goGame(balatro);
 
         //temporary frame to test the showcase
