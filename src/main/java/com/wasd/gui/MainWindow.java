@@ -3,6 +3,7 @@ import com.wasd.Main;
 import com.wasd.models.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +20,11 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
     TopNavigationBar topBar;
 
     JLabel wSpacer, eSpacer;
+
+    boolean liked;
+    boolean disliked;
+
+    int requirement = 0; //0 windows, 1 linux, 2 mac
 
     public MainWindow(ArrayList<Game> allGames, ArrayList<Game> recommendedGames, Player player) {
 
@@ -105,10 +111,28 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         centralPanel.add(recommendedLabel);
 
         // Gallery Panel
-        Showcase galleryPanel = new Showcase(recommendedGames);
+        Showcase galleryPanel = new Showcase(recommendedGames, this);
         galleryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         centralPanel.add(Box.createVerticalStrut(10));
+
         centralPanel.add(galleryPanel);
+
+        //strut
+        centralPanel.add(Box.createVerticalStrut(14));
+
+        //detail line
+        PanelRound detailLine = new PanelRound();
+        int dlr = 1;
+        detailLine.setRoundTopLeft(dlr);
+        detailLine.setRoundTopRight(dlr);
+        detailLine.setRoundBottomRight(dlr);
+        detailLine.setRoundBottomLeft(dlr);
+        
+        detailLine.setBackground(DETAILS_COLOR);
+        detailLine.setPreferredSize(new Dimension(galleryPanel.getWidth(), 2));
+        detailLine.setAlignmentX(CENTER_ALIGNMENT);
+        detailLine.setBorder(BorderFactory.createEmptyBorder(15,0,5,0));
+        centralPanel.add(detailLine);
 
         // ComboBox Filter UI
         Set<String> allTags = new HashSet<>();
@@ -219,11 +243,17 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
 
     public void goLibrary() {
+
+        //TEMPORAL TEST LIBRARY
+        for (Game game : allGames) {
+            if (player.getLibrary().size()<3) player.getLibrary().add(game);
+        }
+
         Container contentPane = this.getContentPane();
         //Component topbar = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
         System.out.println("removeAll");
         contentPane.removeAll();
-        this.setLayout(new BorderLayout(20, 20));
+        this.setLayout(new BorderLayout(20, 0));
         this.add(topBar, BorderLayout.NORTH);
 
         //temporarily fill the other borders with empty space
@@ -235,8 +265,110 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.add(spacer, BorderLayout.SOUTH);
         this.add(spacer, BorderLayout.CENTER);
 
-        contentPane.revalidate();
-        contentPane.repaint();
+        
+        JPanel centerContainer = new JPanel();
+        centerContainer.setAlignmentY(TOP_ALIGNMENT);
+        centerContainer.setLayout(new BoxLayout(centerContainer, BoxLayout.Y_AXIS));
+        centerContainer.setBackground(DETAILS2_COLOR);
+        centerContainer.setOpaque(false);
+
+        centerContainer.add(Box.createRigidArea(new Dimension(0, 10)));
+        
+            PanelRound actualContent = new PanelRound();
+
+            actualContent.setRoundTopLeft(15);
+            actualContent.setRoundTopRight(15);
+            actualContent.setRoundBottomRight(15);
+            actualContent.setRoundBottomLeft(15);
+
+            actualContent.setBackground(PANEL_COLOR);
+            actualContent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            actualContent.setLayout(new BoxLayout(actualContent, BoxLayout.Y_AXIS));
+            actualContent.setAlignmentX(Component.LEFT_ALIGNMENT);
+            //actualContent.setAlignmentY(Component.TOP_ALIGNMENT);
+            //actualContent.setPreferredSize(new Dimension((int) (this.getWidth()*0.8), 900));
+
+                //library label
+                JLabel libraryLabel = new JLabel("LIBRARY" + " (" + player.getLibrary().size() + ")");
+                libraryLabel.setFont(TITLE_FONT);
+                libraryLabel.setForeground(TEXT_COLOR);
+                libraryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                actualContent.add(libraryLabel);
+
+                actualContent.add(Box.createRigidArea(new Dimension(0, 7)));
+
+                //detail line
+                PanelRound detailLine = new PanelRound();
+                int dlr = 1;
+                detailLine.setRoundTopLeft(dlr);
+                detailLine.setRoundTopRight(dlr);
+                detailLine.setRoundBottomRight(dlr);
+                detailLine.setRoundBottomLeft(dlr);
+                
+                detailLine.setBackground(DETAILS_COLOR);
+                detailLine.setPreferredSize(new Dimension(actualContent.getWidth(), 2));
+                detailLine.setAlignmentX(CENTER_ALIGNMENT);
+                actualContent.add(detailLine);
+
+                actualContent.add(Box.createRigidArea(new Dimension(0, 7)));
+
+                //library container
+                JPanel libraryContainer = new JPanel();
+                libraryContainer.setOpaque(false);
+                libraryContainer.setLayout(new BorderLayout(0,4));
+                libraryContainer.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                libraryContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                    //library
+                    JPanel libraryPanel = new JPanel();
+                    libraryPanel.setOpaque(false);
+                    libraryPanel.setLayout(new GridLayout(0, 4, 10, 10));
+                    libraryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    libraryPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                    
+                    if(player.getLibrary().size() == 0) {
+                        //no games label
+                        JLabel noGamesLabel = new JLabel("No games yet...");
+                        noGamesLabel.setFont(DESCRPTION_FONT);
+                        noGamesLabel.setForeground(TEXT_COLOR);
+                        libraryPanel.add(noGamesLabel);
+                    }
+                    else {
+                        //build rows that each contain 4 games
+                        for(Game game : player.getLibrary()) {
+                            GameBigContainer mediumContainer = new GameBigContainer(game);
+                            mediumContainer.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    MainWindow.this.goGame(game);
+                                }
+                            });
+                            libraryPanel.add(mediumContainer);
+                        }
+                    }
+
+                    libraryContainer.add(libraryPanel, BorderLayout.CENTER);
+
+                actualContent.add(libraryContainer);
+
+                actualContent.add(Box.createRigidArea(new Dimension(0, 500)));
+            
+            //scrollpane
+            ScrollPaneRound scrollPane = new ScrollPaneRound(actualContent);
+            int rad = 15;
+            scrollPane.setRoundTopLeft(rad);
+            scrollPane.setRoundTopRight(rad);
+            scrollPane.setRoundBottomRight(rad);
+            scrollPane.setRoundBottomLeft(rad);
+
+            scrollPane.setBackground(PANEL_COLOR);
+            scrollPane.setOpaque(false);
+            scrollPane.getViewport().setOpaque(false);
+            scrollPane.setBorder(null);
+
+        centerContainer.add(scrollPane);
+
+        this.add(centerContainer, BorderLayout.CENTER);
     }
 
     public void goGame(Game game) {
@@ -247,6 +379,8 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         topBar.tabsToInactive();
         this.setLayout(new BorderLayout(20, 20));
         this.add(topBar, BorderLayout.NORTH);
+
+        JTextArea requirementsTextArea;
 
         //center container (left images and description, right banner, price and everything else)
         JPanel centerContainer = new JPanel();
@@ -270,6 +404,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                 titleLabel.setFont(TITLE_FONT);
                 titleLabel.setForeground(TEXT_COLOR);
                 titleLabel.setAlignmentX(LEFT_ALIGNMENT);
+                titleLabel.setBorder(BorderFactory.createEmptyBorder(6,0,2,0));
                 leftContainer.add(titleLabel, BorderLayout.NORTH);
 
                 JPanel content = new JPanel();
@@ -301,7 +436,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     descriptionTextArea.setLineWrap(true);
                     descriptionTextArea.setWrapStyleWord(true);
                     descriptionTextArea.setEditable(false);
-                    descriptionTextArea.setRows(4); //important?
+                    descriptionTextArea.setRows(3); //important?
                     descriptionTextArea.setBackground(PANEL_COLOR);
                     descriptionTextArea.setOpaque(false);
                     descriptionTextArea.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -314,7 +449,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     scrollPane.setOpaque(false);
                     scrollPane.getViewport().setOpaque(false);
 
-                    int prefH = scrollPane.getPreferredSize().height;  // this comes from the 4 rows we set
+                    int prefH = scrollPane.getPreferredSize().height;  //3 rows
                     scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, prefH));
 
                     content.add(scrollPane);
@@ -334,9 +469,10 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     JPanel row = new JPanel();
                     row.setOpaque(false);
                     row.setLayout(new GridLayout(1, 4));
+                    row.setBorder(BorderFactory.createEmptyBorder(7,0,7,0));
                     row.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                        // --- Publisher Container ---
+                        // publisher
                         JPanel publisherContainer = new JPanel();
                         publisherContainer.setOpaque(false);
                         publisherContainer.setLayout(new BoxLayout(publisherContainer, BoxLayout.Y_AXIS));
@@ -356,7 +492,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
                         row.add(publisherContainer);
 
-                        // --- Developer Container ---
+                        //dev
                         JPanel developerContainer = new JPanel();
                         developerContainer.setOpaque(false);
                         developerContainer.setLayout(new BoxLayout(developerContainer, BoxLayout.Y_AXIS));
@@ -376,7 +512,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
                         row.add(developerContainer);
 
-                        // --- Rating Panel ---
+                        // rating
                         JPanel ratingPanel = new JPanel();
                         ratingPanel.setOpaque(false);
                         ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.Y_AXIS));
@@ -393,7 +529,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
                         row.add(ratingPanel);
 
-                        // --- Release Date Container ---
+                        //release date
                         JPanel releaseDateContainer = new JPanel();
                         releaseDateContainer.setOpaque(false);
                         releaseDateContainer.setLayout(new BoxLayout(releaseDateContainer, BoxLayout.Y_AXIS));
@@ -566,7 +702,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             recommendedButton.setOpaque(false);
 
                             JLabel recommendedIcon = new JLabel();
-                            recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like.png", 25, 25));
+                            recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_inactive.png", 25, 25));
                             recommendedIcon.setPreferredSize(new Dimension(15, 15));
                             recommendedIcon.setOpaque(false);
                             recommendedIcon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -574,13 +710,6 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             recommendedIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                             recommendedButton.add(recommendedIcon, BorderLayout.CENTER);
                             
-                            recommendedButton.addMouseListener(new MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    //TODO
-                                }
-                            });
-                        recommendedButtonContainer.add(recommendedButton);
 
                         //dislike button
                         PanelRound dislikeButton = new PanelRound();
@@ -598,18 +727,47 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             dislikeButton.setOpaque(false);
 
                             JLabel dislikeIcon = new JLabel();
-                            dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike.png", 25, 25));
+                            dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike_inactive.png", 25, 25));
                             dislikeIcon.setPreferredSize(new Dimension(15, 15));
                             dislikeIcon.setOpaque(false);
                             dislikeIcon.setHorizontalAlignment(SwingConstants.CENTER);
                             dislikeIcon.setVerticalAlignment(SwingConstants.CENTER);
                             dislikeIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                             dislikeButton.add(dislikeIcon, BorderLayout.CENTER);
-                        
-                            dislikeButton.addMouseListener(new MouseAdapter() {
+
+                            recommendedButton.addMouseListener(new MouseAdapter() {
+                                @Override public void mouseEntered(MouseEvent e) {
+                                    recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_active.png", 25, 25));
+                                }
+                                @Override public void mouseExited(MouseEvent e) {
+                                    if (!liked) {
+                                        recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_inactive.png", 25, 25));
+                                    }
+                                    else {
+                                        recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_active.png", 25, 25));
+                                    }
+                                }
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
-                                    //TODO
+                                    recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_active.png", 25, 25));
+                                    liked = true;
+                                    dislikeButton.setVisible(false);
+                                }
+                            });
+                            recommendedButtonContainer.add(recommendedButton);
+                        
+                            dislikeButton.addMouseListener(new MouseAdapter() {
+                                @Override public void mouseEntered(MouseEvent e) {
+                                    dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike_active.png", 25, 25));
+                                }
+                                @Override public void mouseExited(MouseEvent e) {
+                                    dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike_inactive.png", 25, 25));
+                                }
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike_active.png", 25, 25));
+                                    disliked = true;
+                                    recommendedButton.setVisible(false);
                                 }
                             });
                             recommendedButtonContainer.add(dislikeButton);
@@ -620,7 +778,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                 JPanel priceContainer = new JPanel();
                 priceContainer.setOpaque(false);
                 priceContainer.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
-                priceContainer.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                priceContainer.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
                 priceContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
 
                     //price label
@@ -654,7 +812,13 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         buyButton.setBorder(null);
                         buyButton.setOpaque(false);
 
-                        JLabel buyLabel = new JLabel("BUY");
+                        JLabel buyLabel = new JLabel();
+                        if(game.getPrice() != 0) {
+                            buyLabel.setText("BUY");
+                        }
+                        else {
+                            buyLabel.setText("GET");
+                        }
                         buyLabel.setFont(SUBTITLE_FONT);
                         buyLabel.setForeground(TOP_BAR_COLOR);
                         buyLabel.setPreferredSize(new Dimension(150, 50));
@@ -755,6 +919,19 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         requirementLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                         labelAndButtonsRow.add(requirementLabel);
 
+                        //actual system requirements NOT ADDED TO PANEL YET
+
+                        requirementsTextArea = new JTextArea(game.getWindowsRequirement().toString());
+                        requirementsTextArea.setFont(DESCRPTION_FONT_PLAIN);
+                        requirementsTextArea.setForeground(TEXT_COLOR);
+                        requirementsTextArea.setLineWrap(true);
+                        requirementsTextArea.setWrapStyleWord(true);
+                        requirementsTextArea.setEditable(false);
+                        //requirementsTextArea.setRows(4); //important?
+                        requirementsTextArea.setBackground(PANEL_COLOR);
+                        requirementsTextArea.setOpaque(false);
+                        requirementsTextArea.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
                         //button panel
                         JPanel buttonPanel = new JPanel();
                         buttonPanel.setOpaque(false);
@@ -776,21 +953,13 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             //windowsButton.setOpaque(false);
                             
                                 JLabel windowsIcon = new JLabel();
-                                windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows.png", 25,25));
+                                windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_active.png", 25,25)); //windows is selected by default
                                 windowsIcon.setPreferredSize(new Dimension(25, 25));
                                 windowsIcon.setOpaque(false);
                                 windowsIcon.setHorizontalAlignment(SwingConstants.CENTER);
                                 windowsIcon.setVerticalAlignment(SwingConstants.CENTER);
                                 windowsIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                                 windowsButton.add(windowsIcon, BorderLayout.CENTER);
-
-                                windowsButton.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                        //TODO
-                                    }
-                                });
-                                buttonPanel.add(windowsButton);
 
                                 //linux button
                                 PanelRound linuxButton = new PanelRound();
@@ -808,21 +977,13 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                                 //linuxButton.setOpaque(false);
                                 
                                     JLabel linuxIcon = new JLabel();
-                                    linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux.png", 25,25));
+                                    linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_inactive.png", 25,25));
                                     linuxIcon.setPreferredSize(new Dimension(25, 25));
                                     linuxIcon.setOpaque(false);
                                     linuxIcon.setHorizontalAlignment(SwingConstants.CENTER);
                                     linuxIcon.setVerticalAlignment(SwingConstants.CENTER);
                                     linuxIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                                     linuxButton.add(linuxIcon, BorderLayout.CENTER);
-                                
-                                    linuxButton.addMouseListener(new MouseAdapter() {
-                                        @Override
-                                        public void mouseClicked(MouseEvent e) {
-                                            //TODO
-                                        }
-                                    });
-                                buttonPanel.add(linuxButton);
 
                                 //mac button
                                 PanelRound macButton = new PanelRound();
@@ -847,30 +1008,82 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                                     macIcon.setVerticalAlignment(SwingConstants.CENTER);
                                     macIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                                     macButton.add(macIcon, BorderLayout.CENTER);
+
+                                    windowsButton.addMouseListener(new MouseAdapter() {
+                                    @Override public void mouseEntered(MouseEvent e) {
+                                        windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_active.png", 25,25));
+                                    }
+                                    @Override public void mouseExited(MouseEvent e) {
+                                        if (requirement == 0) {
+                                            windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_active.png", 25,25));
+                                        }
+                                        else {
+                                            windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_inactive.png", 25,25));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void mouseClicked(MouseEvent e) {
+                                        windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_active.png", 25,25));
+                                        linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_inactive.png", 25,25));
+                                        macIcon.setIcon(AssetLoader.loadIcon("/images/mac_inactive.png", 25,25));
+                                        requirement = 0;
+                                        requirementsTextArea.setText(game.getWindowsRequirement().toString());
+                                    }
+                                });
+                                buttonPanel.add(windowsButton);
+                                
+                                    linuxButton.addMouseListener(new MouseAdapter() {
+                                        @Override
+                                        public void mouseEntered(MouseEvent e) {
+                                            linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_active.png", 25,25));
+                                        }
+                                        @Override public void mouseExited(MouseEvent e) {
+                                            if (requirement == 1) {
+                                                linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_active.png", 25,25));
+                                            }
+                                            else {
+                                                linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_inactive.png", 25,25));
+                                            }
+                                        }
+                                        @Override
+                                        public void mouseClicked(MouseEvent e) {
+                                            linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_active.png", 25,25));
+                                            windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_inactive.png", 25,25));
+                                            macIcon.setIcon(AssetLoader.loadIcon("/images/mac_inactive.png", 25,25));
+                                            requirement = 1;
+                                            requirementsTextArea.setText(game.getLinuxRequirement().toString());
+                                        }
+                                    });
+                                buttonPanel.add(linuxButton);
                                 
                                     macButton.addMouseListener(new MouseAdapter() {
                                         @Override
+                                        public void mouseEntered(MouseEvent e) {
+                                            macIcon.setIcon(AssetLoader.loadIcon("/images/mac_active.png", 25,25));
+                                        }
+                                        @Override
+                                        public void mouseExited(MouseEvent e) {
+                                            if (requirement == 2) {
+                                                macIcon.setIcon(AssetLoader.loadIcon("/images/mac_active.png", 25,25));
+                                            }
+                                            else {
+                                                macIcon.setIcon(AssetLoader.loadIcon("/images/mac_inactive.png", 25,25));
+                                            }
+                                        }
+                                        @Override
                                         public void mouseClicked(MouseEvent e) {
-                                            //TODO
+                                            macIcon.setIcon(AssetLoader.loadIcon("/images/mac_active.png", 25,25));
+                                            windowsIcon.setIcon(AssetLoader.loadIcon("/images/windows_inactive.png", 25,25));
+                                            linuxIcon.setIcon(AssetLoader.loadIcon("/images/linux_inactive.png", 25,25));
+                                            requirement = 2;
+                                            requirementsTextArea.setText(game.getMacRequirement().toString());
                                         }
                                     });
                                 buttonPanel.add(macButton);
                             
                             labelAndButtonsRow.add(buttonPanel);
                     systemRequirementsContainer.add(labelAndButtonsRow, BorderLayout.NORTH);
-
-                    //actual system requirements
-
-                    JTextArea requirementsTextArea = new JTextArea(game.getWindowsRequirement().toString());
-                    requirementsTextArea.setFont(DESCRPTION_FONT_PLAIN);
-                    requirementsTextArea.setForeground(TEXT_COLOR);
-                    requirementsTextArea.setLineWrap(true);
-                    requirementsTextArea.setWrapStyleWord(true);
-                    requirementsTextArea.setEditable(false);
-                    //requirementsTextArea.setRows(4); //important?
-                    requirementsTextArea.setBackground(PANEL_COLOR);
-                    requirementsTextArea.setOpaque(false);
-                    requirementsTextArea.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
                     ScrollPaneRound requirementsScrollPane = new ScrollPaneRound(requirementsTextArea);
                     requirementsScrollPane.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
