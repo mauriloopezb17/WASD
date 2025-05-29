@@ -15,7 +15,7 @@ public class PublisherDAO {
         String sqlCheckCountry = "SELECT idCountry FROM countries WHERE countryName = ?";
         String sqlInsertCountry = "INSERT INTO countries(countryName) VALUES (?) RETURNING idCountry";
         String sqlInsertUser ="INSERT INTO users(name, lastName, userName, email, password, avatar, active, role, description, idCountry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING idUser";
-        String sqlInsertPublisher = "INSERT INTO publishers(idPublisher) VALUES (?) RETURNING idPublisher";
+        String sqlInsertPublisher = "INSERT INTO publishers(idUser, publishedGames) VALUES (?, ?) RETURNING idPublisher";
 
         try (Connection con = ConnectionDB.connect()){
 
@@ -66,6 +66,7 @@ public class PublisherDAO {
 
             try (PreparedStatement insertPublisherStmt = con.prepareStatement(sqlInsertPublisher)) {
                 insertPublisherStmt.setInt(1, idUser);
+                insertPublisherStmt.setInt(2, publisher.getPublishedGames());
                 ResultSet rs = insertPublisherStmt.executeQuery();
                 if (rs.next()) {
                     int idPublisher = rs.getInt("idPublisher");
