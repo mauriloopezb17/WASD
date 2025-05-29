@@ -222,5 +222,39 @@ public class GameDAO {
         return false;
     }
 
+    // Funcion para actualizar el like de los juegos
+    public boolean like(int idGame) {
+
+        String sql = "UPDATE GAMES SET positiveReviews = positiveReviews + 1 WHERE idGame = ?";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idGame);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Funcion para actualizar el dislike de los juegos
+    public boolean dislike(int idGame) {
+        
+        String sql = "UPDATE GAMES SET negativeReviews = negativeReviews + 1 WHERE idGame = ?";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idGame);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
 
