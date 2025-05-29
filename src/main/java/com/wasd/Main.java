@@ -1,14 +1,5 @@
 package com.wasd;
 
-<<<<<<< HEAD
-import com.wasd.database.*;
-import com.wasd.models.*;
-import com.wasd.utils.*;
-
-public class Main 
-{
-    public static void main(String[] args) {
-=======
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +27,7 @@ public class Main
     public static void main( String[] args )
     {
         System.out.println( "Testing WASD" );
-        //ArrayList<Game> games = new ArrayList<>();
+        ArrayList<Game> games = new ArrayList<>();
         /*
         games.add(new Game("Counter-Strike 2"));
         games.get(0).setPrice(0);
@@ -77,31 +68,27 @@ public class Main
         this.linuxRequirement = linuxRequirement;
         this.macRequirement = macRequirement;*/
 
->>>>>>> 15f19cef0fee669c3c6ccfc44f4f20e51d8eea95
         
-        PublisherDAO publisherDAO = new PublisherDAO();
-        Publisher newPublisher = new Publisher("Riot Games");
-        PasswordHashUtil passwordHashUtil = new PasswordHashUtil();
-
-        newPublisher.setName("Brandon");
-        newPublisher.setLastName("Beck");
-        newPublisher.setUsername("Riot Games");
-        newPublisher.setEmail("brandon.beck@gmail.com");
-        newPublisher.setCountry("USA");
-        newPublisher.setPassword(passwordHashUtil.hashPassword("Admin"));
-        newPublisher.setAvatar("https://100.76.173.106:8443/resources/avatars/riot.jpg");
-        newPublisher.setActive(true);
-        newPublisher.setRole(Role.PUBLISHER);
-        newPublisher.setDescription("CEO of Riot Games");
-
-        boolean created = publisherDAO.createPublisher(newPublisher);
-        if (created) {
-            System.out.println("Publisher creado exitosamente con ID: " + newPublisher.getIdPublisher());
-        } else {
-            System.out.println("Error al crear el Publisher.");
+        Game cs2 = new Game("Counter-Strike 2"); {
+            cs2.setIdGame(0);
+            cs2.setBanner("https://100.76.173.106:8443/resources/banners/cs2.jpg");
+            ArrayList<String> cs2_promos = new ArrayList<>();
+            for(int i = 0; i < 5; i++) {
+                cs2_promos.add("https://100.76.173.106:8443/resources/promos/cs2_" + i + ".jpg");
+            }
+            cs2.setPictures(cs2_promos);
+            cs2.setPublisher(new Publisher("Valve"));
+            cs2.setPrice(0);
+            //cs2.setReviews(100);
+            cs2.setPositiveReviews(95);
+            cs2.setNegativeReviews(5);
+            cs2.setDescription("For over two decades, Counter-Strike has offered an elite competitive experience, one shaped by millions of players from across the globe. And now the next chapter in the CS story is about to begin. This is Counter-Strike 2.");
+            //cs2.setTags(new ArrayList<>(Arrays.asList("FPS", "Shooter", "Multiplayer", "Competitive", "Action")));
+            cs2.setDiscount(0);
+            cs2.setReleaseDate(LocalDate.of(2012,8,21));
+            cs2.setRecommended(true);
+            cs2.setStatus(1);
         }
-<<<<<<< HEAD
-=======
 
         Game balatro = new Game("Balatro"); {
             balatro.setIdGame(1);
@@ -248,7 +235,7 @@ public class Main
             repo.setRecommended(true);
             repo.setStatus(1);
         }
-        /*
+        
         games.add(cs2);
         games.add(balatro);
         games.add(cp2077);
@@ -261,17 +248,13 @@ public class Main
         recommendedGames.add(cs2);
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
-        recommendedGames.add(cp2077);*/
+        recommendedGames.add(cp2077);
         
 
         /*for(int i = 0; i < 5; i++) {
             games.add(new Game("DOOM: The Dark Ages"));
             recommendedGames.add(new Game("DOOM: The Dark Ages"));
         }*/
-
-        //
-        GameDAO gameDAO = new GameDAO();
-        ArrayList<Game> games = gameDAO.searchAllGames();
 
         Player player = new Player("Pancake99");
         player.setLibrary(recommendedGames);
@@ -300,6 +283,5 @@ public class Main
         myFrame.setVisible(true);
         */
 
->>>>>>> 15f19cef0fee669c3c6ccfc44f4f20e51d8eea95
     }
 }
