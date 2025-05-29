@@ -126,6 +126,7 @@ public class ProfileWindow extends SecondaryWindow{
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     frame.dispose();
+                    ProfileWindow.this.dispose();
                     new LoginWindow(frame.getGames(), frame.getRecommendedGames());
                 }
             });
