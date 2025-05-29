@@ -86,7 +86,50 @@ public class ProfileWindow extends SecondaryWindow{
                         new NoBudget();
                     }
                 });
-            buttonPanel.add(friendButton);
+            //buttonPanel.add(friendButton);
+
+            //log out button
+            PanelRound logoutButton = new PanelRound();
+            int rl = 12;
+            logoutButton.setRoundTopLeft(rl);
+            logoutButton.setRoundTopRight(rl);
+            logoutButton.setRoundBottomRight(rl);
+            logoutButton.setRoundBottomLeft(rl);
+
+            logoutButton.setBackground(PANEL_COLOR);
+            logoutButton.setPreferredSize(new Dimension(35, 35));
+            logoutButton.setLayout(new BorderLayout());
+            logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                //logout icon
+                JLabel logoutIcon = new JLabel();
+                logoutIcon.setIcon(AssetLoader.loadIcon("/images/logout.png", 35, 35));
+                logoutIcon.setPreferredSize(new Dimension(25, 25));
+                logoutIcon.setOpaque(false);
+                logoutIcon.setHorizontalAlignment(SwingConstants.CENTER);
+                logoutIcon.setVerticalAlignment(SwingConstants.CENTER);
+                logoutIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                logoutButton.add(logoutIcon, BorderLayout.CENTER);
+
+            logoutButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    logoutButton.setBackground(HIGHLIGHT_COLOR);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    logoutButton.setBackground(PANEL_COLOR);
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    frame.dispose();
+                    new LoginWindow(frame.getGames(), frame.getRecommendedGames());
+                }
+            });
+            buttonPanel.add(logoutButton);
 
             upperPanel.add(buttonPanel, BorderLayout.EAST);
 

@@ -48,7 +48,13 @@ public class GameDAO {
                 // El publisher
                 PublisherDAO pubDAO = new PublisherDAO();
                 Publisher publisher = pubDAO.searchPublisher(rs.getInt("idPublisher"));
-                game.setPublisher(publisher);
+                System.out.println(publisher);
+                if(publisher != null) {
+                    game.setPublisher(publisher);
+                }
+                else {
+                    game.setPublisher(new Publisher("Unknown"));
+                }
 
                 // TAAAAAAGS
                 TagDAO tagDAO = new TagDAO();
@@ -281,6 +287,29 @@ public class GameDAO {
 
         return games;
     }
+    // Funcion para buscar todos los juegos recomendados
+    public ArrayList<Game> searchRecomendedGames() {
 
+        ArrayList<Game> games = new ArrayList<>();
+        String sql = "SELECT idGame FROM GAMES WHERE recommended = true";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int idGame = rs.getInt("idGame");
+                Game game = getGameXId(idGame);
+                if (game != null) {
+                    games.add(game);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return games;
+    }
 }
 

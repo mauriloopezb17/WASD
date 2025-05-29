@@ -34,8 +34,8 @@ public class Linux extends Requirement {
     @Override
     public String toString() {
         return super.toString() +
-                "\ndistro=" + distro +
-                "\nkernelVersion=" + kernelVersion;
+                "\nDistro: " + distro +
+                "\nKernel Version: " + kernelVersion;
     }
 
     @Override

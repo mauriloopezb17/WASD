@@ -27,9 +27,8 @@ public class Main
     public static void main( String[] args )
     {
         System.out.println( "Testing WASD" );
-        ArrayList<Game> games = new ArrayList<>();
-        ArrayList<Game> games = new ArrayList<>();
-        /*
+
+        /* 
         games.add(new Game("Counter-Strike 2"));
         games.get(0).setPrice(0);
         games.add(new Game("Half-Life"));
@@ -37,7 +36,6 @@ public class Main
         games.add(new Game("Doom Eternal"));
         games.add(new Game("The Witcher 3"));
         */
-        ArrayList<Game> recommendedGames = new ArrayList<>();
         /*
         recommendedGames.add(new Game("Counter-Strike 2"));
         recommendedGames.add(new Game("Half-Life"));
@@ -237,6 +235,7 @@ public class Main
             repo.setStatus(1);
         }
         
+        /*
         games.add(cs2);
         games.add(balatro);
         games.add(cp2077);
@@ -250,7 +249,7 @@ public class Main
         recommendedGames.add(dtda);
         recommendedGames.add(balatro);
         recommendedGames.add(cp2077);
-        
+        */
 
         /*for(int i = 0; i < 5; i++) {
             games.add(new Game("DOOM: The Dark Ages"));
@@ -260,6 +259,9 @@ public class Main
         //
         GameDAO gameDAO = new GameDAO();
         ArrayList<Game> games = gameDAO.searchAllGames();
+        ArrayList<Game> recommendedGames = gameDAO.searchRecomendedGames();
+
+
 
         Player player = new Player("Pancake99");
         //player.setLibrary(recommendedGames);
@@ -271,8 +273,8 @@ public class Main
 
         player.setFriends(friends);
 
-        //new LoginWindow(games, recommendedGames);
-        MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
+        new LoginWindow(games, recommendedGames);
+        //MainWindow mainWindow = new MainWindow(games, recommendedGames, player);
         //mainWindow.goGame(balatro);
 
         //temporary frame to test the showcase

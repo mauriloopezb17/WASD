@@ -19,7 +19,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.border.LineBorder;
 import javax.swing.border.AbstractBorder;
 
-import com.wasd.SessionManager;
+import com.wasd.database.LibraryDAO;
+import com.wasd.database.WishlistDAO;
 
 public class LoginWindow extends SecondaryWindow implements StyleConfig {
 
@@ -213,6 +214,13 @@ public class LoginWindow extends SecondaryWindow implements StyleConfig {
                 User user = userService.login(username, password);
                 if (user != null && user.getRole() == Role.PLAYER) {
                     Player player = userService.loginPlayer(username, password);
+
+                    LibraryDAO libraryDAO = new LibraryDAO();
+                    player.setLibrary(libraryDAO.searchAllLibrary(player.getIdPlayer()));
+
+                    WishlistDAO wishlistDAO = new WishlistDAO();
+                    player.setWishlist(wishlistDAO.searchAllWishlist(player.getIdPlayer()));
+
                     new MainWindow(games, recommendedGames, player);
                     LoginWindow.this.dispose();
                 } else {

@@ -1,6 +1,7 @@
 package com.wasd.gui;
 import com.wasd.Main;
 import com.wasd.models.*;
+import com.wasd.database.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -28,6 +29,10 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
     String wishlistIconPath = "/images/add";
 
+    LibraryDAO libraryDAO;
+    WishlistDAO wishlistDAO;
+    GameDAO gameDAO;
+
     public MainWindow(ArrayList<Game> allGames, ArrayList<Game> recommendedGames, Player player) {
 
         wSpacer = new JLabel();
@@ -40,6 +45,10 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         this.allGames = allGames;
         this.recommendedGames = recommendedGames;
         this.player = player;
+
+        this.libraryDAO = new LibraryDAO();
+        this.wishlistDAO = new WishlistDAO();
+        this.gameDAO = new GameDAO();
 
 
         this.setTitle("WASD");
@@ -196,6 +205,31 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
             String selectedTag = (String) tagComboBox.getSelectedItem();
 
             for (Game game : allGames) {
+                if ("All".equals(selectedTag)) {
+                    GameMediumContainer mediumContainer = new GameMediumContainer(game);
+                    mediumContainer.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            MainWindow.this.goGame(game);
+                        }
+                    });
+                    byTagPanel.add(mediumContainer);
+
+                } else{
+                    for (Tag tag : game.getTags()){
+                        if (tag.getNameTag().equals(selectedTag)) {
+                            GameMediumContainer mediumContainer = new GameMediumContainer(game);
+                            mediumContainer.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    MainWindow.this.goGame(game);
+                                }
+                            });
+                            byTagPanel.add(mediumContainer);
+                        }
+                    }
+                }
+                /*
                 if ("All".equals(selectedTag) || game.getTags().contains(selectedTag)) {
                     GameMediumContainer mediumContainer = new GameMediumContainer(game);
                     mediumContainer.addMouseListener(new MouseAdapter() {
@@ -205,7 +239,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         }
                     });
                     byTagPanel.add(mediumContainer);
-                }
+                }*/
             }
 
             byTagPanel.revalidate();
@@ -248,7 +282,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
 
         //TEMPORAL TEST LIBRARY
         for (Game game : allGames) {
-            if (player.getLibrary().size()<3) player.getLibrary().add(game);
+            //if (player.getLibrary().size()<3) player.getLibrary().add(game);
         }
 
         Container contentPane = this.getContentPane();
@@ -331,7 +365,7 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                     if(player.getLibrary().size() == 0) {
                         //no games label
                         JLabel noGamesLabel = new JLabel("No games yet...");
-                        noGamesLabel.setFont(DESCRPTION_FONT);
+                        noGamesLabel.setFont(SUBTITLE_FONT);
                         noGamesLabel.setForeground(TEXT_COLOR);
                         libraryPanel.add(noGamesLabel);
                     }
@@ -754,6 +788,10 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                                     recommendedIcon.setIcon(AssetLoader.loadIcon("/images/like_active.png", 25, 25));
                                     liked = true;
                                     dislikeButton.setVisible(false);
+                                    if(!liked) {
+                                        gameDAO.like(game.getIdGame());
+                                    }
+                                    System.out.println(game.getPositiveReviews());
                                 }
                             });
                             recommendedButtonContainer.add(recommendedButton);
@@ -770,6 +808,10 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                                     dislikeIcon.setIcon(AssetLoader.loadIcon("/images/dislike_active.png", 25, 25));
                                     disliked = true;
                                     recommendedButton.setVisible(false);
+                                    if(!disliked) {
+                                        gameDAO.dislike(game.getIdGame());
+                                    }
+                                    System.out.println(game.getNegativeReviews());
                                 }
                             });
                             recommendedButtonContainer.add(dislikeButton);
@@ -821,23 +863,51 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                         else {
                             buyLabel.setText("GET");
                         }
+
                         buyLabel.setFont(SUBTITLE_FONT);
                         buyLabel.setForeground(TOP_BAR_COLOR);
                         buyLabel.setPreferredSize(new Dimension(150, 50));
                         buyLabel.setHorizontalAlignment(SwingConstants.CENTER);
                         buyLabel.setVerticalAlignment(SwingConstants.CENTER); 
                         buyButton.add(buyLabel, BorderLayout.CENTER);
+
+                        if(libraryDAO.isOwned(player.getIdPlayer(), game.getIdGame())) {
+                            buyLabel.setText("ADDED");
+                            buyLabel.setForeground(DETAILS_COLOR);
+                            buyButton.setBackground(PANEL_COLOR);
+                        }
                     
                         buyButton.addMouseListener(new MouseAdapter() {
                             @Override public void mouseEntered(MouseEvent e) {
-                                buyLabel.setForeground(TEXT_COLOR);
+                                if(!libraryDAO.isOwned(player.getIdPlayer(), game.getIdGame())) {
+                                    buyLabel.setForeground(TEXT_COLOR);
+                                }
                             }
                             @Override public void mouseExited(MouseEvent e) {
-                                buyLabel.setForeground(TOP_BAR_COLOR);
+                                if(!libraryDAO.isOwned(player.getIdPlayer(), game.getIdGame())) {
+                                    buyLabel.setForeground(TOP_BAR_COLOR);
+                                }
                             }
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                //TODO
+                                if(libraryDAO.addLibrary(player.getIdPlayer(), game.getIdGame())){
+                                    if(wishlistDAO.inWishlist(player.getIdPlayer(), game.getIdGame())) {
+                                        ArrayList<Game> tempwishlist = new ArrayList<>();
+                                        for(Game g : player.getWishlist()) {
+                                            if(g.getIdGame() != game.getIdGame()) {
+                                                tempwishlist.add(g);
+                                            }
+                                        }
+                                        player.setWishlist(tempwishlist);
+
+                                        wishlistDAO.removeWishlist(player.getIdPlayer(), game.getIdGame());
+                                    }
+
+                                    player.getLibrary().add(game);
+                                    buyLabel.setText("ADDED");
+                                    buyLabel.setForeground(DETAILS_COLOR);
+                                    buyButton.setBackground(PANEL_COLOR);
+                                }
                             }
                         });
                     priceContainer.add(buyButton);
@@ -887,18 +957,47 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
                             wishlistIcon.setVerticalAlignment(SwingConstants.CENTER);
                             wishlistIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                             wishlistButton.add(wishlistIcon, BorderLayout.CENTER);
+
+                            if(wishlistDAO.inWishlist(player.getIdPlayer(), game.getIdGame())) {
+                                wishlistIcon.setIcon(AssetLoader.loadIcon("/images/check.png", 32,32));
+                            }
                         
                         wishlistButton.addMouseListener(new MouseAdapter() {
                             @Override public void mouseEntered(MouseEvent e) {
-                                wishlistIcon.setIcon(AssetLoader.loadIcon(wishlistIconPath+"_hover.png", 32,32));
+                                if(wishlistDAO.inWishlist(player.getIdPlayer(), game.getIdGame())) {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/check_hover.png", 32,32));
+                                }
+                                else {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/add_hover.png", 32,32));
+                                }
                             }
                             @Override public void mouseExited(MouseEvent e) {
-                                wishlistIcon.setIcon(AssetLoader.loadIcon(wishlistIconPath+".png", 32,32));
+                                if(wishlistDAO.inWishlist(player.getIdPlayer(), game.getIdGame())) {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/check.png", 32,32));
+                                }
+                                else {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/add.png", 32,32));
+                                }
                             }
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                //TODO
-                                wishlistIconPath = "check";
+                                ArrayList<Game> tempwishlist = new ArrayList<>();
+                                for(Game g : player.getWishlist()) {
+                                    if(g.getIdGame() != game.getIdGame()) {
+                                        tempwishlist.add(g);
+                                    }
+                                }
+                                player.setWishlist(tempwishlist);
+
+                                if(wishlistDAO.inWishlist(player.getIdPlayer(), game.getIdGame())) {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/add.png", 32,32));
+                                    wishlistDAO.removeWishlist(player.getIdPlayer(), game.getIdGame());
+                                }
+                                else {
+                                    wishlistIcon.setIcon(AssetLoader.loadIcon("/images/check.png", 32,32));
+                                    wishlistDAO.addWishlist(player.getIdPlayer(), game.getIdGame());
+                                    player.getWishlist().add(game);
+                                }
                             }
                         });
                         wishlistContainer.add(wishlistButton);
@@ -1162,5 +1261,13 @@ public class MainWindow extends JFrame implements ActionListener, StyleConfig {
         if (e.getSource() == this.getContentPane()) {
             this.dispose();
         }
+    }
+
+    public ArrayList<Game> getGames() {
+        return allGames;
+    }
+
+    public ArrayList<Game> getRecommendedGames() {
+        return recommendedGames;
     }
 }

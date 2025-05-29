@@ -34,8 +34,8 @@ public class Mac extends Requirement {
     @Override
     public String toString() {
         return super.toString() +
-                "\nmacOsVersion=" + macOsVersion +
-                "\narchitecture=" + architecture;
+                "\nMac OS Version: " + macOsVersion +
+                "\nArchitecture: " + architecture;
     }
 
     @Override
