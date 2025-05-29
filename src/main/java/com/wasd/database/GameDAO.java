@@ -282,5 +282,30 @@ public class GameDAO {
         return games;
     }
 
+    // Funcion para buscar todos los juegos recomendados
+    public ArrayList<Game> searchRecomendedGames() {
+
+        ArrayList<Game> games = new ArrayList<>();
+        String sql = "SELECT idGame FROM GAMES WHERE recommended = true";
+
+        try (Connection con = ConnectionDB.connect();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int idGame = rs.getInt("idGame");
+                Game game = getGameXId(idGame);
+                if (game != null) {
+                    games.add(game);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return games;
+    }
+
 }
 
