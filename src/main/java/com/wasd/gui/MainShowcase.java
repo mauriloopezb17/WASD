@@ -130,6 +130,16 @@ public class MainShowcase extends JPanel implements StyleConfig {
             });
             lowerSelectorContainer.add(nextButton, BorderLayout.EAST);
 
+            //timer for automatic scrolling
+            Timer timer = new Timer(2500, e -> {
+                imageIndex++;
+                if (imageIndex > game.getPictures().size()-1) imageIndex = 0;
+
+                bigImageLabel.setIcon(bigImages.get((imageIndex)%game.getPictures().size()));
+            });
+            timer.setRepeats(true);
+            timer.start();
+
         this.add(bigImageContainer, BorderLayout.NORTH);
         //small spaecer
         JPanel spacer = new JPanel();

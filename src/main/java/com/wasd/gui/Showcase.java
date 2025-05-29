@@ -8,12 +8,10 @@ import javax.swing.border.*;
 import java.awt.geom.*;
 import java.lang.reflect.Array;
 
-import org.w3c.dom.events.MouseEvent;
-
 import com.wasd.models.Game;
 
 public class Showcase extends JPanel implements StyleConfig {
-    ArrayList<Game> Games = new ArrayList<>();
+    ArrayList<Game> games = new ArrayList<>();
     int i;
     int slideshowIndex = 0;
     JLabel priceLabel;
@@ -22,7 +20,8 @@ public class Showcase extends JPanel implements StyleConfig {
     JLabel discountLabel;
     PanelRound discountContainer;
 
-    public Showcase(ArrayList<Game> games) {
+    public Showcase(ArrayList<Game> games, MainWindow frame) {
+        this.games = games;
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         this.setOpaque(false);
         this.i = 0;
@@ -136,10 +135,10 @@ public class Showcase extends JPanel implements StyleConfig {
 
             //button like
             gameCard.addMouseListener(new MouseAdapter() {
-                //@Override
-                //public void mouseClicked(MouseEvent e) { //what's wrong here?       
-                    // do something, like open the game's page
-                //}
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    frame.goGame(games.get(i%games.size()));
+                }
             });
 
             //right arrow button
@@ -206,5 +205,10 @@ public class Showcase extends JPanel implements StyleConfig {
             this.add(gameCard);
             this.add(nextButton);
         }
+    }
+
+    public Game getGame() {
+        //return game currently shown
+        return games.get(i%games.size());
     }
 }

@@ -83,6 +83,7 @@ public class ProfileWindow extends SecondaryWindow{
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         //TODO
+                        new NoBudget();
                     }
                 });
             buttonPanel.add(friendButton);
@@ -188,7 +189,14 @@ public class ProfileWindow extends SecondaryWindow{
                 try{
                     int minFriends = Math.min(5, player.getFriends().size());
                     for(int i = 0; i < minFriends; i++) {
-                        friendsContainer.add(new ProfileSmallContainer(player.getFriends().get(i)));
+                        ProfileSmallContainer friend = new ProfileSmallContainer(player.getFriends().get(i));
+                        friend.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                new ProfileWindow(frame, friend.getPlayer());
+                            }
+                        });
+                        friendsContainer.add(friend);
                         //add gap
                         friendsContainer.add(Box.createRigidArea(new Dimension(0, 5)));
                     }

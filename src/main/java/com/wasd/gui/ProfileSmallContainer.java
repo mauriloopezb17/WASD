@@ -7,9 +7,12 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class ProfileSmallContainer extends PanelRound implements StyleConfig {
+
+    Player player;
     
     ProfileSmallContainer(Player player) {
         super();
+        this.player = player;
         int width = 280;
         int height = 40;
         int rad = 6;
@@ -61,5 +64,9 @@ public class ProfileSmallContainer extends PanelRound implements StyleConfig {
                 //TODO
             }
         });
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

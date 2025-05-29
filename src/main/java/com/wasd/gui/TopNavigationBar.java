@@ -97,15 +97,15 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
             homeButton.addActionListener(e -> {
                 if (!homeButton.isCurrentTab) {
                     frame.goHome();
-                    homeButton.toggleActive();
-                    libraryButton.toggleActive();
+                    homeButton.setActive(true);
+                    libraryButton.setActive(false);
                 }
             });
             libraryButton.addActionListener(e -> {
                 if (!libraryButton.isCurrentTab) {
                     frame.goLibrary();
-                    homeButton.toggleActive();
-                    libraryButton.toggleActive();
+                    homeButton.setActive(false);
+                    libraryButton.setActive(true);
                 }
             });
         }
@@ -115,19 +115,47 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         centerPanel.setBackground(TOP_BAR_COLOR);
         centerPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         {
-            JButton bellButton = new JButton();
-            bellButton.setPreferredSize(new Dimension(60, 30));
-            bellButton.setIcon(AssetLoader.loadIcon("/images/bell.png", 30, 30));
+            PanelRound bellButton = new PanelRound();
+            int br = 5;
+            bellButton.setRoundTopLeft(br);
+            bellButton.setRoundTopRight(br);
+            bellButton.setRoundBottomRight(br);
+            bellButton.setRoundBottomLeft(br);
+
+            bellButton.setPreferredSize(new Dimension(30, 30));
+            bellButton.setLayout(new BorderLayout());
             bellButton.setBorder(null);
-            bellButton.setFocusable(false);
+            //bellButton.setFocusable(false);
             bellButton.setOpaque(false);
             bellButton.setBackground(TOP_BAR_COLOR);
             bellButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            bellButton.addActionListener(e -> System.out.println("Bell"));
             bellButton.setFocusable(false);
-            bellButton.setContentAreaFilled(false);
-            bellButton.setFocusPainted(false);
-            bellButton.setBorderPainted(false);
+
+                //bell icon
+                JLabel bellIcon = new JLabel();
+                bellIcon.setIcon(AssetLoader.loadIcon("/images/bell.png", 30, 30));
+                bellIcon.setOpaque(false);
+                bellIcon.setHorizontalAlignment(SwingConstants.CENTER);
+                bellIcon.setVerticalAlignment(SwingConstants.CENTER);
+                bellIcon.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                bellButton.add(bellIcon, BorderLayout.CENTER);
+
+            bellButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    bellButton.setBackground(HIGHLIGHT_COLOR);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    bellButton.setBackground(TOP_BAR_COLOR);
+                }
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    System.out.println("Bell");
+                    new NotificationWindow(player);
+                }
+            });
             centerPanel.add(bellButton);
 
             PanelRound profileButton = new PanelRound();
@@ -235,5 +263,12 @@ public class TopNavigationBar extends JPanel implements StyleConfig {
         homeButton.setActive(false);
         libraryButton.setActive(false);
         System.out.println("Tabs to inactive");
+    }
+
+    public void setToHome() {
+        homeButton.setActive(true);
+    }
+    public void setToLibrary() {
+        libraryButton.setActive(true);
     }
 }
