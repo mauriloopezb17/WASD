@@ -4,17 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Path2D;
 
-/**
- * A JPanel with individually-rounded corners and optional border,
- * including true clipping so all child components stay inside.
- *
- * Example:
- *     PanelRound p = new PanelRound();
- *     p.setRoundTopLeft(30);
- *     p.setRoundBottomRight(60);
- *     p.setBackground(new Color(84,137,242));
- *     p.setBorderColor(Color.WHITE);
- */
 public class PanelRound extends JPanel {
 
     private int roundTopLeft     = 0;
