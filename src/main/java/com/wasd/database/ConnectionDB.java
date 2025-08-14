@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionDB {
     
-    private static final String URL = "jdbc:postgresql://100.76.173.106:5432/wasd";
+    private static final String URL = "jdbc:postgresql://100.113.154.56:5432/postgres";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "ZTERRTHJ945";
+    private static final String PASSWORD = "Copomau*1995";
 
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

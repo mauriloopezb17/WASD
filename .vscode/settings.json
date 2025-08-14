@@ -4,12 +4,13 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "server": "100.76.173.106",
+            "server": "100.113.154.56",
             "port": 5432,
+            "askForPassword": true,
             "driver": "PostgreSQL",
             "name": "WASD server",
-            "database": "wasd",
-            "username": "postgres"
+            "username": "postgres",
+            "database": "postgres"
         }
     ]
 }
