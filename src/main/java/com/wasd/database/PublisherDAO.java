@@ -6,6 +6,7 @@ import com.wasd.database.ConnectionDB;
 import com.wasd.models.Player;
 import com.wasd.models.Publisher;
 import com.wasd.models.Role;
+import com.wasd.utils.PasswordHashUtil;
 
 public class PublisherDAO {
 
@@ -224,4 +225,34 @@ public class PublisherDAO {
         }
     }
 
+    public static void main(String[] args) {
+        PublisherDAO publisherDAO = new PublisherDAO();
+
+        // Crear publisher de ejemplo
+        Publisher newPublisher = new Publisher("Gabe");
+
+        newPublisher.setName("Gabe");
+        newPublisher.setLastName("Newell");
+        newPublisher.setUsername("Valve");
+        newPublisher.setEmail("valve@gmail.com");
+
+        // Hasheo de contraseña
+        String rawPassword = "supersecure123";
+        PasswordHashUtil passwordHashUtil = new PasswordHashUtil();
+
+        newPublisher.setPassword(passwordHashUtil.hashPassword(rawPassword));
+
+        newPublisher.setCountry("USA");
+        newPublisher.setAvatar("https://100.76.173.106:8443/resources/default_avatar.jpg");
+        newPublisher.setActive(true);
+        newPublisher.setRole(Role.PUBLISHER);
+        newPublisher.setDescription("Founder and CEO of Epic Games");
+
+        boolean created = publisherDAO.createPublisher(newPublisher);
+        if (created) {
+            System.out.println("Publisher creado exitosamente con ID: " + newPublisher.getIdPublisher());
+        } else {
+            System.out.println("Error al crear el Publisher.");
+        }
+    }
 }
