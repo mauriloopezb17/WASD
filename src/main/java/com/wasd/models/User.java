@@ -56,7 +56,7 @@ public abstract class User implements Serializable {
         this.email = email;
         this.country = country;
         this.password = password;
-        this.avatar = "https://100.76.173.106:8443/resources/default.jpg";
+        this.avatar = "https://100.113.154.56:8443/resources/default.jpg";
         this.active = true; // por defecto el usuario estara activo
         this.role = role;
         this.description = "No description provided";

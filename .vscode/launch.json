@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PublisherDAO",
+            "request": "launch",
+            "mainClass": "com.wasd.database.PublisherDAO",
+            "projectName": "wasd"
+        },
+        {
+            "type": "java",
             "name": "ConnectionDB",
             "request": "launch",
             "mainClass": "com.wasd.database.ConnectionDB",

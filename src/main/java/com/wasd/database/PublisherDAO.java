@@ -53,7 +53,7 @@ public class PublisherDAO {
                 insertUserStmt.setString(5, publisher.getPassword());
                 insertUserStmt.setString(6, publisher.getAvatar());
                 insertUserStmt.setBoolean(7, publisher.isActive());
-                insertUserStmt.setString(8, publisher.getRole().name());
+                insertUserStmt.setObject(8, publisher.getRole().name(), java.sql.Types.OTHER);
                 insertUserStmt.setString(9, publisher.getDescription());
                 insertUserStmt.setInt(10, idCountry);
                 
@@ -225,28 +225,28 @@ public class PublisherDAO {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         PublisherDAO publisherDAO = new PublisherDAO();
 
         // Crear publisher de ejemplo
-        Publisher newPublisher = new Publisher("Gabe");
+        Publisher newPublisher = new Publisher("Dylan");
 
-        newPublisher.setName("Gabe");
-        newPublisher.setLastName("Newell");
-        newPublisher.setUsername("Valve");
-        newPublisher.setEmail("valve@gmail.com");
+        newPublisher.setName("Dylan");
+        newPublisher.setLastName("Jadeja");
+        newPublisher.setUsername("Riot Games");
+        newPublisher.setEmail("riotgames@gmail.com");
 
         // Hasheo de contraseña
-        String rawPassword = "supersecure123";
+        String rawPassword = "admin123";
         PasswordHashUtil passwordHashUtil = new PasswordHashUtil();
 
         newPublisher.setPassword(passwordHashUtil.hashPassword(rawPassword));
 
-        newPublisher.setCountry("USA");
-        newPublisher.setAvatar("https://100.76.173.106:8443/resources/default_avatar.jpg");
+        newPublisher.setCountry("Estados Unidos");
+        newPublisher.setAvatar("https://100.113.154.56:8443/resources/default.jpg");
         newPublisher.setActive(true);
         newPublisher.setRole(Role.PUBLISHER);
-        newPublisher.setDescription("Founder and CEO of Epic Games");
+        newPublisher.setDescription("Everything we do is in service of players. This continuous focus inspires the most meaningful and lasting game experiences.");
 
         boolean created = publisherDAO.createPublisher(newPublisher);
         if (created) {
@@ -254,5 +254,5 @@ public class PublisherDAO {
         } else {
             System.out.println("Error al crear el Publisher.");
         }
-    }
+    }*/
 }

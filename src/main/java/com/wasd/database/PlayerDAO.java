@@ -54,7 +54,7 @@ public class PlayerDAO {
                 insertUserStmt.setString(5, player.getPassword());
                 insertUserStmt.setString(6, player.getAvatar());
                 insertUserStmt.setBoolean(7, player.isActive());
-                insertUserStmt.setString(8, player.getRole().name());
+                insertUserStmt.setObject(8, player.getRole().name(), java.sql.Types.OTHER);
                 insertUserStmt.setString(9, player.getDescription());
                 insertUserStmt.setInt(10, idCountry);
                 ResultSet rs = insertUserStmt.executeQuery();
